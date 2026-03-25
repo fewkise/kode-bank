@@ -1,0 +1,4 @@
+<resources>
+    <string name="launch_logo_description">KodeBank application logo</string>
+    <string name="launch_bg_description">Gradient background for launch screen</string>
+</resources>

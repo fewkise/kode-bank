@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "7.8.0",
+    "generators": {
+      "v1.0": {
+        "generatorName": "typescript-axios",
+        "output": "#{cwd}/src/shared/api/client",
+        "skipValidateSpec": true,
+        "inputSpec": "#{cwd}/api.json",
+        "typeMappings": "set=Array,object=any",
+        "reservedWordsMappings": "class=class",
+        "additionalProperties": {
+          "supportsES6": true,
+          "useSingleRequestParameter": true
+        }
+      }
+    }
+  }
+}
