@@ -1,22 +1,34 @@
-import { View } from 'react-native';
-import { StyleSheet } from 'react-native-unistyles';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import { Typography } from '@shared/ui/atoms';
+import { PaymentCreate, PaymentServices } from '@pages/payment';
+import { HomeTabsNavigation } from '@routing/home-tabs-navigation';
+
+import { rootStackOptions } from './config';
+import { RootStackParamsList } from './types';
+
+const RootStack = createStackNavigator<RootStackParamsList>();
 
 export const AppNavigation = () => {
   return (
-    <View style={styles.root}>
-      <Typography variant="body20" color="secondary">
-        App Navigation
-      </Typography>
-    </View>
+    <RootStack.Navigator
+      initialRouteName="paymentServices"
+      screenOptions={rootStackOptions}
+    >
+      <RootStack.Screen
+        name="HomeTabs"
+        component={HomeTabsNavigation}
+        options={{ headerShown: false }}
+      />
+      <RootStack.Screen
+        name="paymentServices"
+        component={PaymentServices}
+        options={{ headerTitle: 'Мобильная связь' }}
+      />
+      <RootStack.Screen
+        name="paymentCreate"
+        component={PaymentCreate}
+        options={({ route }) => ({ headerTitle: route.params.title })}
+      />
+    </RootStack.Navigator>
   );
 };
-
-const styles = StyleSheet.create(() => ({
-  root: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-}));
