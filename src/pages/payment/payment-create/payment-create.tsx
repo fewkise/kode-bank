@@ -29,7 +29,7 @@ export const PaymentCreate = ({ navigation }: TPaymentCreateProps) => {
     Linking.openSettings();
   };
   const goToConfirm = () => {
-    navigation.navigate('paymentConfirm')
+    navigation.navigate('paymentConfirm');
   };
   const openLink = () => {
     const link = 'https://reactnative.dev/';
@@ -74,11 +74,7 @@ export const PaymentCreate = ({ navigation }: TPaymentCreateProps) => {
       >
         <Text>Открыть настройки</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        onPress={goToConfirm}
-        style={styles.button}
-        hitSlop={8}
-      >
+      <TouchableOpacity onPress={goToConfirm} style={styles.button} hitSlop={8}>
         <Text>Продолжить</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={openLink} style={styles.textButton}>

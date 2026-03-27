@@ -1,25 +1,25 @@
-import React, { useState } from 'react'
+import { StackScreenProps } from '@react-navigation/stack';
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+
+import { RootStackParamsList } from '@routing/app-navigation/types';
 import { darkTheme } from '@shared/ui/theme';
-import { StackScreenProps } from '@react-navigation/stack'
-import { RootStackParamsList } from '@routing/app-navigation/types'
-import { Image, View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-export type PaymentServicesProps = StackScreenProps<
+
+export type PaymentConfirmProps = StackScreenProps<
   RootStackParamsList,
   'paymentConfirm'
->
-export const PaymentConfirm = ({ navigation }: PaymentServicesProps) => {
+>;
+export const PaymentConfirm = ({ navigation }: PaymentConfirmProps) => {
   const goToStatus = () => {
-    navigation.navigate('paymentStatus')
-  }
+    navigation.navigate('paymentStatus');
+  };
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.button} hitSlop={8} onPress={goToStatus}>
         <Text>Подтвердить</Text>
       </TouchableOpacity>
     </View>
-
-  )
-
+  );
 };
 const styles = StyleSheet.create({
   container: {
@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: 'gray',
     padding: 16,
-
   },
   textButton: {
     padding: 16,

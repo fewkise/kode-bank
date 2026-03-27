@@ -1,33 +1,36 @@
-import { DummyScreen } from '@shared/ui/templates';
-import { IconClose, IconCheck } from '@shared/ui/icons'
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+
+import { IconClose, IconCheck } from '@shared/ui/icons';
 import { darkTheme } from '@shared/ui/theme';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
 export const PaymentStatus = () => {
-  const [status, setStatus] = useState(true)
+  const [status, setStatus] = useState(true);
   const ChangeStatus = () => {
-    setStatus(!status)
-  }
+    setStatus(!status);
+  };
   return (
     <View style={styles.container}>
       {status ? (
         <View style={styles.errorBack}>
-          <IconClose size={32} color='white' />
-        </View>) : (
+          <IconClose size={32} color="white" />
+        </View>
+      ) : (
         <View style={styles.successBack}>
-          <IconCheck size={32} color='white' />
+          <IconCheck size={32} color="white" />
         </View>
       )}
-      <View >
-        <TouchableOpacity style={styles.button} hitSlop={8} onPress={ChangeStatus}>
+      <View>
+        <TouchableOpacity
+          style={styles.button}
+          hitSlop={8}
+          onPress={ChangeStatus}
+        >
           <Text>поменять статус</Text>
         </TouchableOpacity>
       </View>
     </View>
-
-  )
-
+  );
 };
 const styles = StyleSheet.create({
   container: {
@@ -40,7 +43,6 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: 'gray',
     padding: 16,
-
   },
   textButton: {
     padding: 16,
@@ -52,15 +54,15 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: '50%'
+    borderRadius: '50%',
   },
-    successBack: {
+  successBack: {
     width: 70,
     height: 70,
     backgroundColor: '#39D052',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: '50%'
-  }
+    borderRadius: '50%',
+  },
 });

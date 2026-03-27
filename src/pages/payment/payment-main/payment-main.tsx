@@ -1,6 +1,4 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { services } from './constants'
-import { TServiceItem } from './types';
 import {
   TouchableOpacity,
   Text,
@@ -10,57 +8,57 @@ import {
   ListRenderItem,
   RefreshControl,
 } from 'react-native';
+
+import { HomeTabsParamsList } from '@routing/home-tabs-navigation';
 import { KeyboardView } from '@shared/ui/templates';
 import { darkTheme } from '@shared/ui/theme';
-import { HomeTabsParamsList } from '@routing/home-tabs-navigation';
+
+import { services } from './constants';
+import { TServiceItem } from './types';
 export type PaymentMainProps = BottomTabScreenProps<
   HomeTabsParamsList,
   'PaymentMain'
->
+>;
 export const PaymentMain = ({ navigation }: PaymentMainProps) => {
-    const onPress = (serviceId: string, title: string) => {
-      navigation.navigate('paymentServices');
-    }
-    
-    const renderItem: ListRenderItem<TServiceItem> = ({
-      item: { serviceId, serviceIcon, serviceName },
-    }) => {
-      const Icon = serviceIcon
-      return (
-        <TouchableOpacity
-          style={styles.serviceWrapper}
-          onPress={() => onPress(serviceId, serviceName)}
-        >
-          <View style={styles.fon}>
-            <Icon size={24} color='white'/>
-          </View>
-          
-          <Text>{serviceName}</Text>
-        </TouchableOpacity>
-      )
-    }
+  const onPress = () => {
+    navigation.navigate('paymentServices');
+  };
+
+  const renderItem: ListRenderItem<TServiceItem> = ({
+    item: { serviceIcon, serviceName },
+  }) => {
+    const Icon = serviceIcon;
+    return (
+      <TouchableOpacity style={styles.serviceWrapper} onPress={onPress}>
+        <View style={styles.fon}>
+          <Icon size={24} color="white" />
+        </View>
+        <Text>{serviceName}</Text>
+      </TouchableOpacity>
+    );
+  };
   return (
-          <KeyboardView>
-            <View style={styles.services}>
-              <FlatList
-                refreshControl={
-                  <RefreshControl
-                    refreshing={false}
-                    onRefresh={() => {}}
-                    tintColor="white"
-                  />
-                }
-                data={services}
-                renderItem={renderItem}
-                keyExtractor={keyExtractor}
-                initialNumToRender={10}
-                ItemSeparatorComponent={ItemSeparatorComponent}
-                keyboardShouldPersistTaps="handled"
-                ListHeaderComponentStyle={styles.header}
-              />
-            </View>
-          </KeyboardView>
-          )
+    <KeyboardView>
+      <View style={styles.services}>
+        <FlatList
+          refreshControl={
+            <RefreshControl
+              refreshing={false}
+              onRefresh={() => {}}
+              tintColor="white"
+            />
+          }
+          data={services}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          initialNumToRender={10}
+          ItemSeparatorComponent={ItemSeparatorComponent}
+          keyboardShouldPersistTaps="handled"
+          ListHeaderComponentStyle={styles.header}
+        />
+      </View>
+    </KeyboardView>
+  );
 };
 const keyExtractor = (item: TServiceItem) => item.serviceId;
 
@@ -85,15 +83,15 @@ const styles = StyleSheet.create({
   divider: {
     width: '100%',
     height: 1,
-    backgroundColor:'#F3F3F3'
+    backgroundColor: '#F3F3F3',
   },
-  fon:{
-    backgroundColor:'#515FE1',
-    width:40, 
-    height:40, 
-    borderRadius:'50%', 
-    display:'flex', 
-    alignItems:'center', 
-    justifyContent:'center'
-  }
+  fon: {
+    backgroundColor: '#515FE1',
+    width: 40,
+    height: 40,
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
