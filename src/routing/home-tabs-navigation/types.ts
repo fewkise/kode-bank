@@ -3,4 +3,5 @@ export type HomeTabsParamsList = {
   PaymentMain: undefined;
   BankMain: undefined;
   ProfileMain: undefined;
+  paymentServices: undefined;
 };
