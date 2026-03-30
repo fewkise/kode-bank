@@ -1,4 +1,6 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { CompositeScreenProps } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import {
   TouchableOpacity,
   Text,
@@ -9,15 +11,17 @@ import {
   RefreshControl,
 } from 'react-native';
 
+import { RootStackParamsList } from '@routing/app-navigation/types';
 import { HomeTabsParamsList } from '@routing/home-tabs-navigation';
 import { KeyboardView } from '@shared/ui/templates';
 import { darkTheme } from '@shared/ui/theme';
 
 import { services } from './constants';
 import { TServiceItem } from './types';
-export type PaymentMainProps = BottomTabScreenProps<
-  HomeTabsParamsList,
-  'PaymentMain'
+
+export type PaymentMainProps = CompositeScreenProps<
+  BottomTabScreenProps<HomeTabsParamsList, 'PaymentMain'>,
+  StackScreenProps<RootStackParamsList>
 >;
 export const PaymentMain = ({ navigation }: PaymentMainProps) => {
   const onPress = () => {

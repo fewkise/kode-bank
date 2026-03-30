@@ -1,10 +1,10 @@
 import { BottomTabNavigationOptions } from '@react-navigation/bottom-tabs';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useSafeAreaInsets as UseSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { darkTheme } from '@shared/ui/theme';
 
 export const homeTabsOptions = (): BottomTabNavigationOptions => {
-  const insets = useSafeAreaInsets();
+  const insets = UseSafeAreaInsets();
 
   return {
     tabBarInactiveTintColor: darkTheme.palette.text.secondary,

@@ -1,1 +1,1 @@
-export { PaymentMain} from './payment-main';
+export { PaymentMain } from './payment-main';
