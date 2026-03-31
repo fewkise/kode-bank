@@ -1,104 +1,129 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import { useState } from 'react';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Text,
-  Linking,
-  Switch,
-  Alert,
-} from 'react-native';
+import { View, Text } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { StyleSheet } from 'react-native-unistyles';
 
 import { RootStackParamsList } from '@routing/app-navigation/types';
-import { darkTheme } from '@shared/ui/theme';
+import { IconCard } from '@shared/ui/icons';
+import {
+  Chip,
+  PhoneInput,
+  PrimaryButton,
+  TextInput,
+  Select,
+} from '@shared/ui/molecules';
+import { KeyboardView } from '@shared/ui/templates';
 
-export type TPaymentCreateProps = StackScreenProps<
+import { paymentPrices } from './constants';
+export type PaymentCreateProps = StackScreenProps<
   RootStackParamsList,
   'paymentCreate'
 >;
 
-export const PaymentCreate = ({ navigation }: TPaymentCreateProps) => {
-  const [switchValue, setSwitchValue] = useState(false);
-
-  const onBack = () => {
-    navigation.goBack();
-  };
-
-  const goToSettings = () => {
-    Linking.openSettings();
+export const PaymentCreate = ({ navigation, route }: PaymentCreateProps) => {
+  const { serviceIcon } = route.params;
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [sum, setSum] = useState('0');
+  const [isSubmited, setSubmited] = useState(false);
+  const sumError = sum === '' || sum === '0';
+  const phoneNumberError = phoneNumber.length < 10;
+  const handleClear = () => {
+    setPhoneNumber('');
   };
   const goToConfirm = () => {
+    setSubmited(true);
+    if (sumError || phoneNumberError) {
+      return;
+    }
     navigation.navigate('paymentConfirm');
   };
-  const openLink = () => {
-    const link = 'https://reactnative.dev/';
-
-    const handleFallback = () => {
-      Alert.alert('Не удалось перейти по ссылке');
-    };
-
-    Linking.openURL(link).catch(handleFallback);
-  };
-
-  const onValueChange = (value: boolean) => {
-    if (value) {
-      Alert.alert('Внимание', 'Спасибо за внимание', [
-        {
-          text: 'OK',
-        },
-        {
-          text: 'Не OK',
-          style: 'destructive',
-          isPreferred: true,
-        },
-      ]);
-    }
-
-    setSwitchValue(value);
-  };
-
   return (
-    <View style={styles.container}>
-      <View>
-        <Text>Карта для оплаты</Text>
+    <KeyboardView>
+      <View style={styles.container}>
+        <View style={styles.containerCard}>
+          <Text style={styles.forText}>Карта для оплаты</Text>
+          <Select
+            cardPhoto={IconCard}
+            cardName="Карта зарплатная"
+            balance="457 334,00"
+          />
+        </View>
+        <View style={styles.containerNumber}>
+          <PhoneInput
+            onClear={handleClear}
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
+            placeholder="Номер телефона"
+            photo={serviceIcon}
+            isError={isSubmited && phoneNumberError}
+          />
+        </View>
+        <View style={styles.textInputContainer}>
+          <Text style={styles.forText}>Сумма</Text>
+          <TextInput
+            isError={isSubmited && sumError}
+            value={sum}
+            onChangeText={setSum}
+          />
+          <ScrollView contentContainerStyle={styles.scrollContainer} horizontal>
+            {paymentPrices.map(item => (
+              <Chip
+                onPress={() => setSum(item.serviceCost)}
+                key={item.serviceId}
+                price={item.serviceCost}
+              />
+            ))}
+          </ScrollView>
+        </View>
+        <View style={styles.buttonContainer}>
+          <PrimaryButton onPress={goToConfirm}>Продолжить</PrimaryButton>
+        </View>
       </View>
-      <TouchableOpacity onPress={onBack} style={styles.button} hitSlop={8}>
-        <Text>Назад</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={goToSettings}
-        style={styles.button}
-        hitSlop={8}
-      >
-        <Text>Открыть настройки</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={goToConfirm} style={styles.button} hitSlop={8}>
-        <Text>Продолжить</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={openLink} style={styles.textButton}>
-        <Text>Перейти по ссылке</Text>
-      </TouchableOpacity>
-
-      <Switch value={switchValue} onValueChange={onValueChange} />
-    </View>
+    </KeyboardView>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create(theme => ({
   container: {
     flex: 1,
-    backgroundColor: darkTheme.palette.background.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 16,
+    backgroundColor: theme.palette.background.primary,
+    justifyContent: 'flex-start',
+    gap: theme.spacing(2),
   },
-  button: {
-    backgroundColor: 'gray',
-    padding: 16,
+  containerNumber: {
+    alignSelf: 'stretch',
+    backgroundColor: theme.palette.background.secondary,
+    paddingVertical: theme.spacing(2),
+    paddingHorizontal: theme.spacing(2),
   },
-  textButton: {
-    padding: 16,
+  containerCard: {
+    width: '100%',
+    paddingVertical: theme.spacing(4),
+    backgroundColor: theme.palette.background.secondary,
   },
-});
+  buttonContainer: {
+    paddingHorizontal: theme.spacing(2),
+  },
+  textInputContainer: {
+    width: '100%',
+    backgroundColor: theme.palette.background.secondary,
+    paddingVertical: theme.spacing(2),
+  },
+  forText: {
+    fontWeight: 600,
+    fontSize: theme.typography.body15Semibold.size,
+    fontFamily: theme.typography.body15Semibold.fontFamily,
+    letterSpacing: theme.typography.body15Semibold.letterSpacing,
+    lineHeight: theme.typography.body15Semibold.lineHeight,
+    color: theme.palette.text.tertiary,
+    paddingHorizontal: theme.spacing(2),
+    paddingVertical: theme.spacing(2),
+  },
+  scrollContainer: {
+    gap: theme.spacing(1),
+    paddingVertical: theme.spacing(1),
+    backgroundColor: theme.palette.background.secondary,
+    paddingHorizontal: theme.spacing(1),
+  },
+}));
