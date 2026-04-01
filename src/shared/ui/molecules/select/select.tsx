@@ -3,7 +3,7 @@ import React, {
   TouchableOpacityProps,
   View,
 } from 'react-native';
-import { StyleSheet } from 'react-native-unistyles';
+import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 
 import { Typography } from '@shared/ui/atoms';
 import { IconChevronDown } from '@shared/ui/icons';
@@ -15,16 +15,17 @@ interface SelectProps extends TouchableOpacityProps {
 type Props = SelectProps;
 export const Select = ({ balance, cardPhoto, cardName, ...rest }: Props) => {
   const Icon = cardPhoto;
+  const { theme } = useUnistyles();
   return (
     <TouchableOpacity style={styles.root} activeOpacity={0.7} {...rest}>
       <View style={styles.cardContainer}>
-        <Icon size={24} color="#706D76" />
+        <Icon size={24} color={theme.palette.text.tertiary} />
         <View style={styles.textContainer}>
           <Typography variant="body15Regular">{cardName}</Typography>
           <Typography variant="body15Regular">{balance} ₽</Typography>
         </View>
       </View>
-      <IconChevronDown size={24} color="#706D76" />
+      <IconChevronDown size={24} color={theme.palette.text.tertiary} />
     </TouchableOpacity>
   );
 };
@@ -37,11 +38,11 @@ const styles = StyleSheet.create(theme => ({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'space-between',
-    rowGap: 10,
+    rowGap: theme.spacing(2),
   },
   cardContainer: {
     flexDirection: 'row',
-    gap: 20,
+    gap: theme.spacing(3),
     alignItems: 'center',
   },
   textContainer: {

@@ -11,7 +11,7 @@ type Props = TextInputI;
 interface TextInputI extends TextInputProps {
   isError: boolean;
 }
-export const TextInput = ({
+export const PriceInput = ({
   isError = false,
   onChangeText,
   value,
@@ -29,7 +29,7 @@ export const TextInput = ({
     <View style={styles.container}>
       <View style={styles.inputWrapper}>
         <View style={styles.displayContainer} pointerEvents="none">
-          <Typography variant="title" style={styles.forText}>
+          <Typography variant="title" color="primary">
             {displayValue}
           </Typography>
           <Typography variant="title"> ₽</Typography>
@@ -39,6 +39,7 @@ export const TextInput = ({
           scrollEnabled={false}
           style={styles.hiddenInput}
           {...rest}
+          keyboardAppearance="dark"
           keyboardType="numeric"
           selectionColor="transparent"
           caretHidden
@@ -76,13 +77,6 @@ const styles = StyleSheet.create(theme => ({
     borderBottomColor: theme.palette.background.primary,
     paddingHorizontal: theme.spacing(2),
     alignSelf: 'flex-start',
-  },
-  forText: {
-    fontSize: theme.typography.title.size,
-    fontFamily: theme.typography.title.fontFamily,
-    letterSpacing: theme.typography.title.letterSpacing,
-    lineHeight: theme.typography.title.lineHeight,
-    color: theme.palette.text.primary,
   },
   underline: {
     height: 1,

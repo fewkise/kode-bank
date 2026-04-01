@@ -6,7 +6,7 @@ import React, {
   TouchableOpacity,
   ImageSourcePropType,
 } from 'react-native';
-import { StyleSheet } from 'react-native-unistyles';
+import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 
 import { IconClose } from '@shared/ui/icons';
 
@@ -24,24 +24,29 @@ export const PhoneInput = ({
   photo,
   ...rest
 }: PhoneInputProps) => {
+  const { theme } = useUnistyles();
+  const isClearButtonVisible = value?.length !== 0 && onClear;
   return (
     <View style={styles.container}>
       {photo && <Image style={styles.forImage} source={photo} />}
       <TextInput
         style={[styles.root, isError && styles.errorText]}
         value={value}
+        keyboardAppearance="dark"
         keyboardType="phone-pad"
         {...rest}
         onChangeText={onChangeText}
-        placeholderTextColor={isError ? '#FB6176' : '#706D76'}
+        placeholderTextColor={
+          isError ? theme.palette.indicator.error : theme.palette.text.tertiary
+        }
       />
-      {value?.length !== 0 && onClear && (
+      {isClearButtonVisible && (
         <TouchableOpacity
           style={styles.closeContainer}
           hitSlop={8}
           onPress={onClear}
         >
-          <IconClose size={24} color="#706D76" />
+          <IconClose size={24} color={theme.palette.text.tertiary} />
         </TouchableOpacity>
       )}
     </View>

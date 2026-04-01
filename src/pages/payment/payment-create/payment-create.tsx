@@ -1,16 +1,17 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native-unistyles';
 
 import { RootStackParamsList } from '@routing/app-navigation/types';
+import { Typography } from '@shared/ui/atoms';
 import { IconCard } from '@shared/ui/icons';
 import {
   Chip,
   PhoneInput,
   PrimaryButton,
-  TextInput,
+  PriceInput,
   Select,
 } from '@shared/ui/molecules';
 import { KeyboardView } from '@shared/ui/templates';
@@ -40,9 +41,14 @@ export const PaymentCreate = ({ navigation, route }: PaymentCreateProps) => {
   };
   return (
     <KeyboardView>
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.containerCard}>
-          <Text style={styles.forText}>Карта для оплаты</Text>
+          <View style={styles.forText}>
+            <Typography color="tertiary" variant="body15Semibold">
+              Карта для оплаты
+            </Typography>
+          </View>
+
           <Select
             cardPhoto={IconCard}
             cardName="Карта зарплатная"
@@ -60,8 +66,13 @@ export const PaymentCreate = ({ navigation, route }: PaymentCreateProps) => {
           />
         </View>
         <View style={styles.textInputContainer}>
-          <Text style={styles.forText}>Сумма</Text>
-          <TextInput
+          <View style={styles.forText}>
+            <Typography color="tertiary" variant="body15Semibold">
+              Сумма
+            </Typography>
+          </View>
+
+          <PriceInput
             isError={isSubmited && sumError}
             value={sum}
             onChangeText={setSum}
@@ -79,7 +90,7 @@ export const PaymentCreate = ({ navigation, route }: PaymentCreateProps) => {
         <View style={styles.buttonContainer}>
           <PrimaryButton onPress={goToConfirm}>Продолжить</PrimaryButton>
         </View>
-      </View>
+      </ScrollView>
     </KeyboardView>
   );
 };
@@ -88,7 +99,6 @@ const styles = StyleSheet.create(theme => ({
   container: {
     flex: 1,
     backgroundColor: theme.palette.background.primary,
-    justifyContent: 'flex-start',
     gap: theme.spacing(2),
   },
   containerNumber: {
@@ -111,12 +121,6 @@ const styles = StyleSheet.create(theme => ({
     paddingVertical: theme.spacing(2),
   },
   forText: {
-    fontWeight: 600,
-    fontSize: theme.typography.body15Semibold.size,
-    fontFamily: theme.typography.body15Semibold.fontFamily,
-    letterSpacing: theme.typography.body15Semibold.letterSpacing,
-    lineHeight: theme.typography.body15Semibold.lineHeight,
-    color: theme.palette.text.tertiary,
     paddingHorizontal: theme.spacing(2),
     paddingVertical: theme.spacing(2),
   },

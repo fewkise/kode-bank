@@ -4,13 +4,15 @@ import { StyleSheet } from 'react-native-unistyles';
 import { Typography } from '@shared/ui/atoms';
 
 interface ChipProps extends TouchableOpacityProps {
-  price: string | number;
+  price?: string | number;
+  text?: string | number;
 }
-export const Chip = ({ price, ...rest }: ChipProps) => {
+export const Chip = ({ price, text, ...rest }: ChipProps) => {
+  const content = price !== undefined ? `${price} ₽ ` : text;
   return (
     <TouchableOpacity style={styles.root} activeOpacity={0.7} {...rest}>
       <Typography variant="caption1" textAlign="center">
-        {price} ₽
+        {content}
       </Typography>
     </TouchableOpacity>
   );
