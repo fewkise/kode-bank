@@ -1,1 +1,1 @@
-export { PaymentMain } from './payment-main';
+export { PaymentMainScreen } from './payment-main-screen';
