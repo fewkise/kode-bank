@@ -1,1 +1,1 @@
-export { PaymentConfirm } from './payment-confirm';
+export { PaymentConfirmScreen } from './payment-confirm-screen';

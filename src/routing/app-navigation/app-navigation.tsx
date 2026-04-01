@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import {
   PaymentCreate,
   PaymentServices,
-  PaymentConfirm,
+  PaymentConfirmScreen,
   PaymentStatus,
 } from '@pages/payment';
 import { HomeTabsNavigation } from '@routing/home-tabs-navigation';
@@ -36,7 +36,7 @@ export const AppNavigation = () => {
       />
       <RootStack.Screen
         name="paymentConfirm"
-        component={PaymentConfirm}
+        component={PaymentConfirmScreen}
         options={{ headerTitle: 'Подтверждение' }}
       />
       <RootStack.Screen
