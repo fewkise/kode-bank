@@ -1,14 +1,10 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {
-  PaymentCreate,
-  PaymentServices,
-  PaymentConfirmScreen,
-  PaymentStatus,
-} from '@pages/payment';
+import { PaymentCreate, PaymentServices, PaymentStatus } from '@pages/payment';
 import { HomeTabsNavigation } from '@routing/home-tabs-navigation';
 
 import { rootStackOptions } from './config';
+import { PaymentConfirmScreen } from './screens/payment-confirm-screen';
 import { RootStackParamsList } from './types';
 
 const RootStack = createStackNavigator<RootStackParamsList>();
