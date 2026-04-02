@@ -6,18 +6,12 @@ import { Typography } from '@shared/ui/atoms';
 import { ServiceWrapper } from '@shared/ui/molecules/service-wrapper';
 import { KeyboardView } from '@shared/ui/templates';
 
-import { services } from './constants';
-import {
-  PaymentMainConnector,
-  PaymentMainProps,
-} from './payment-main-connector';
 import { TServiceItem } from './types';
-
-export const PaymentMainScreen = (props: PaymentMainProps) => {
-  const { onPress } = PaymentMainConnector({
-    navigation: props.navigation,
-    route: props.route,
-  });
+type Props = {
+  data: TServiceItem[];
+  onPress: () => void;
+};
+export const PaymentMain = ({ data, onPress }: Props) => {
   return (
     <SafeAreaView style={styles.forSafe} edges={['top', 'left', 'right']}>
       <KeyboardView>
@@ -34,7 +28,7 @@ export const PaymentMainScreen = (props: PaymentMainProps) => {
                 tintColor="white"
               />
             }
-            data={services}
+            data={data}
             renderItem={({ item }) => (
               <ServiceWrapper
                 iconSize={24}

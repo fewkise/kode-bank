@@ -1,24 +1,23 @@
-import { JSX } from 'react';
-import { Image, ImageSourcePropType } from 'react-native';
+import { StyleProp, ViewStyle } from 'react-native';
 
-interface IconProps {
-  source?: ImageSourcePropType;
-  IconSvg?: JSX.Element;
-  size: number;
+import * as IconsList from '@shared/ui/icons';
+import type { TIconVariant } from '@shared/ui/icons/types';
+import { useTheme } from '@shared/ui/theme/use-theme';
+
+type Props = {
+  name: TIconVariant;
   color?: string;
-}
+  size?: number;
+  style?: StyleProp<ViewStyle>;
+};
 
-export const Icon = ({ source, IconSvg, size = 24, color }: IconProps) => {
-  if (source) {
-    return (
-      <Image
-        style={{ height: size, width: size }}
-        resizeMode="contain"
-        source={source}
-      />
-    );
+export const Icon = ({ name, color, ...rest }: Props) => {
+  const theme = useTheme();
+
+  const Component = IconsList[name];
+  if (!Component) {
+    return null;
   }
-  if (IconSvg) {
-    return <IconSvg color={color} fontSize={size} />;
-  }
+
+  return <Component {...rest} color={color ?? theme.palette.accent.primary} />;
 };

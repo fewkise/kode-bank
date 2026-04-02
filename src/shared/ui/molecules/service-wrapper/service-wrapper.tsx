@@ -3,18 +3,19 @@ import React, {
   TouchableOpacity,
   TouchableOpacityProps,
   View,
+  Image,
 } from 'react-native';
-import { SvgProps } from 'react-native-svg';
 import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 
 import { Typography, Icon } from '@shared/ui/atoms';
+import { TIconVariant } from '@shared/ui/icons/types';
 
 type Props = ServiceWrapperProps;
 interface ServiceWrapperProps extends TouchableOpacityProps {
   serviceName: string;
   onPress: () => void;
   source?: ImageSourcePropType;
-  IconSvg?: any | SvgProps;
+  IconSvg?: TIconVariant;
   iconSize: number;
 }
 export const ServiceWrapper = ({
@@ -31,20 +32,14 @@ export const ServiceWrapper = ({
       {IconSvg && (
         <View style={styles.fon}>
           <Icon
-            IconSvg={IconSvg}
-            source={source}
+            name={IconSvg}
             size={iconSize}
             color={theme.theme.palette.button.primary}
           />
         </View>
       )}
       {source && (
-        <Icon
-          IconSvg={IconSvg}
-          source={source}
-          size={iconSize}
-          color={theme.theme.palette.button.primary}
-        />
+        <Image source={source} style={{ width: iconSize, height: iconSize }} />
       )}
 
       <Typography>{serviceName}</Typography>
