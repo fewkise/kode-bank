@@ -9,12 +9,12 @@ import React, {
 import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 
 import { IconClose } from '@shared/ui/icons';
-
-interface PhoneInputProps extends TextInputProps {
+type Props = PhoneInputProps & TextInputProps;
+type PhoneInputProps = {
   photo?: ImageSourcePropType;
   onClear: () => void;
   isError: boolean;
-}
+};
 
 export const PhoneInput = ({
   value,
@@ -23,7 +23,7 @@ export const PhoneInput = ({
   isError,
   photo,
   ...rest
-}: PhoneInputProps) => {
+}: Props) => {
   const { theme } = useUnistyles();
   const isClearButtonVisible = value?.length !== 0 && onClear;
   return (

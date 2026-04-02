@@ -6,7 +6,6 @@ import { StyleSheet } from 'react-native-unistyles';
 
 import { RootStackParamsList } from '@routing/app-navigation/types';
 import { Typography } from '@shared/ui/atoms';
-import { IconCard } from '@shared/ui/icons';
 import {
   Chip,
   PhoneInput,
@@ -28,6 +27,7 @@ export const PaymentCreate = ({ navigation, route }: PaymentCreateProps) => {
   const [sum, setSum] = useState('0');
   const [isSubmited, setSubmited] = useState(false);
   const sumError = sum === '' || sum === '0';
+  const cardNumber = '1211';
   const phoneNumberError = phoneNumber.length < 10;
   const handleClear = () => {
     setPhoneNumber('');
@@ -50,7 +50,7 @@ export const PaymentCreate = ({ navigation, route }: PaymentCreateProps) => {
           </View>
 
           <Select
-            cardPhoto={IconCard}
+            cardNumber={cardNumber}
             cardName="Карта зарплатная"
             balance="457 334,00"
           />
@@ -82,7 +82,7 @@ export const PaymentCreate = ({ navigation, route }: PaymentCreateProps) => {
               <Chip
                 onPress={() => setSum(item.serviceCost)}
                 key={item.serviceId}
-                price={item.serviceCost}
+                label={`${item.serviceCost} ₽`}
               />
             ))}
           </ScrollView>

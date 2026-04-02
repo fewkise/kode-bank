@@ -7,10 +7,10 @@ import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 import { formatAmount, parseRawAmount } from 'utils/formatter';
 
 import { Typography } from '@shared/ui/atoms';
-type Props = TextInputI;
-interface TextInputI extends TextInputProps {
+type Props = TextInputI & TextInputProps;
+type TextInputI = {
   isError: boolean;
-}
+};
 export const PriceInput = ({
   isError = false,
   onChangeText,

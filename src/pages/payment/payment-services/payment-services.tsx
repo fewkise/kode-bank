@@ -11,6 +11,7 @@ import {
   RefreshControl,
   ActivityIndicator,
   TextInput,
+  ImageSourcePropType,
 } from 'react-native';
 
 import { RootStackParamsList } from '@routing/app-navigation/types';
