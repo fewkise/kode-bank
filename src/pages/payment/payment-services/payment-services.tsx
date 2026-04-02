@@ -30,7 +30,11 @@ export const PaymentServices = ({ navigation }: PaymentServicesProps) => {
 
   const [search, setSearch] = useState('');
 
-  const onPress = (serviceId: string, title: string, serviceIcon: any) => {
+  const onPress = (
+    serviceId: string,
+    title: string,
+    serviceIcon: ImageSourcePropType,
+  ) => {
     navigation.navigate('paymentCreate', { serviceId, title, serviceIcon });
   };
 

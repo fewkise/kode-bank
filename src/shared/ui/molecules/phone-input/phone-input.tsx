@@ -32,7 +32,7 @@ export const PhoneInput = ({
       <TextInput
         style={[styles.root, isError && styles.errorText]}
         value={value}
-        keyboardAppearance="dark"
+        keyboardAppearance={theme.name}
         keyboardType="phone-pad"
         {...rest}
         onChangeText={onChangeText}

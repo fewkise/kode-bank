@@ -3,7 +3,7 @@ import React, {
   TextInputProps,
   View,
 } from 'react-native';
-import { StyleSheet } from 'react-native-unistyles';
+import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 import { formatAmount, parseRawAmount } from 'utils/formatter';
 
 import { Typography } from '@shared/ui/atoms';
@@ -24,6 +24,7 @@ export const PriceInput = ({
       onChangeText(rawFormat);
     }
   };
+  const { theme } = useUnistyles();
   const displayValue = formatAmount(value);
   return (
     <View style={styles.container}>
@@ -39,7 +40,7 @@ export const PriceInput = ({
           scrollEnabled={false}
           style={styles.hiddenInput}
           {...rest}
-          keyboardAppearance="dark"
+          keyboardAppearance={theme.name}
           keyboardType="numeric"
           selectionColor="transparent"
           caretHidden
