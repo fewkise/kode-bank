@@ -8,4 +8,6 @@ export const Images = {
   tele2: require('./tele2.png'),
   tinkoff: require('./tinkoff.png'),
   yota: require('./yota.png'),
+  oval_outer_background: require('./Oval Copy.png'),
+  oval_inner_background: require('./Oval Copy 2.png'),
 };

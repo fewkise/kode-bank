@@ -1,68 +1,47 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet } from 'react-native-unistyles';
 
-import { IconClose, IconCheck } from '@shared/ui/icons';
-import { darkTheme } from '@shared/ui/theme';
-
-export const PaymentStatus = () => {
-  const [status, setStatus] = useState(true);
-  const ChangeStatus = () => {
-    setStatus(!status);
-  };
+import { StatusIndicator, PrimaryButton } from '@shared/ui/molecules';
+type Props = {
+  onPress: () => void;
+  status: 'done' | 'error' | string;
+};
+export const PaymentStatus = ({ onPress, status }: Props) => {
   return (
-    <View style={styles.container}>
-      {status ? (
-        <View style={styles.errorBack}>
-          <IconClose size={32} color="white" />
-        </View>
-      ) : (
-        <View style={styles.successBack}>
-          <IconCheck size={32} color="white" />
-        </View>
-      )}
-      <View>
-        <TouchableOpacity
-          style={styles.button}
-          hitSlop={8}
-          onPress={ChangeStatus}
-        >
-          <Text>поменять статус</Text>
-        </TouchableOpacity>
+    <SafeAreaView style={styles.forSafe}>
+      <View style={styles.spacer} />
+      <View style={styles.centered}>
+        <StatusIndicator sum="12121" status={status} />
       </View>
-    </View>
+      <View style={styles.container}>
+        <View style={styles.buttonContainer}>
+          <PrimaryButton onPress={onPress}>Готово</PrimaryButton>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
-const styles = StyleSheet.create({
+const styles = StyleSheet.create(theme => ({
   container: {
     flex: 1,
-    backgroundColor: darkTheme.palette.background.primary,
-    alignItems: 'center',
+    backgroundColor: theme.palette.background.primary,
+  },
+  forSafe: {
+    flex: 1,
+    backgroundColor: theme.palette.background.primary,
+  },
+  spacer: {
+    flex: 1,
+  },
+  centered: {
     justifyContent: 'center',
-    gap: 16,
-  },
-  button: {
-    backgroundColor: 'gray',
-    padding: 16,
-  },
-  textButton: {
-    padding: 16,
-  },
-  errorBack: {
-    width: 70,
-    height: 70,
-    backgroundColor: '#FB6176',
-    display: 'flex',
+    flex: 2,
     alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: '50%',
   },
-  successBack: {
-    width: 70,
-    height: 70,
-    backgroundColor: '#39D052',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: '50%',
+  buttonContainer: {
+    paddingHorizontal: theme.spacing(2),
+    marginTop: 'auto',
+    paddingBottom: theme.spacing(2),
   },
-});
+}));

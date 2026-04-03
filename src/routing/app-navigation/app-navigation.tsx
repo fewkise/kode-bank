@@ -1,14 +1,10 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
-import {
-  PaymentCreate,
-  PaymentServices,
-  PaymentConfirm,
-  PaymentStatus,
-} from '@pages/payment';
+import { PaymentCreate, PaymentServices, PaymentConfirm } from '@pages/payment';
 import { HomeTabsNavigation } from '@routing/home-tabs-navigation';
 
 import { rootStackOptions } from './config';
+import { PaymentStatusScreen } from './screens/payment-status-screen';
 import { RootStackParamsList } from './types';
 
 const RootStack = createStackNavigator<RootStackParamsList>();
@@ -30,9 +26,9 @@ export const AppNavigation = () => {
         options={{ headerTitle: 'Мобильная связь' }}
       />
       <RootStack.Screen
+        options={{ headerShown: false }}
         name="paymentStatus"
-        component={PaymentStatus}
-        options={{ headerTitle: 'Статус платежа' }}
+        component={PaymentStatusScreen}
       />
       <RootStack.Screen
         name="paymentConfirm"
