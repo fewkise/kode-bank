@@ -1,4 +1,9 @@
-export const paymentPrices = [
+export type TPaymentPrices = {
+  serviceId: string;
+  serviceCost: string;
+};
+
+export const paymentPrices: TPaymentPrices[] = [
   {
     serviceId: '1',
     serviceCost: '100',

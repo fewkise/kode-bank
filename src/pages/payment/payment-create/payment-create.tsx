@@ -1,10 +1,7 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import { useState } from 'react';
-import { View } from 'react-native';
+import { ImageSourcePropType, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native-unistyles';
 
-import { RootStackParamsList } from '@routing/app-navigation/types';
 import { Typography } from '@shared/ui/atoms';
 import {
   Chip,
@@ -13,32 +10,39 @@ import {
   PriceInput,
   Select,
 } from '@shared/ui/molecules';
+import { DigitNumber } from '@shared/ui/molecules/bank-card/bank-card';
 import { KeyboardView } from '@shared/ui/templates';
 
-import { paymentPrices } from './constants';
-export type PaymentCreateProps = StackScreenProps<
-  RootStackParamsList,
-  'paymentCreate'
->;
+import { TPaymentPrices } from './constants';
 
-export const PaymentCreate = ({ navigation, route }: PaymentCreateProps) => {
-  const { serviceIcon } = route.params;
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [sum, setSum] = useState('0');
-  const [isSubmited, setSubmited] = useState(false);
-  const sumError = sum === '' || sum === '0';
-  const cardNumber = '1211';
-  const phoneNumberError = phoneNumber.length < 10;
-  const handleClear = () => {
-    setPhoneNumber('');
-  };
-  const goToConfirm = () => {
-    setSubmited(true);
-    if (sumError || phoneNumberError) {
-      return;
-    }
-    navigation.navigate('paymentConfirm');
-  };
+type PaymentCreateProps = {
+  phoneNumber: string;
+  setPhoneNumber: (text: string) => void;
+  isSubmited: boolean;
+  cardNumber: DigitNumber;
+  handleClear: () => void;
+  onContinue: () => void;
+  sumError: boolean;
+  sum: string;
+  paymentPrices: TPaymentPrices[];
+  setSum: (val: string) => void;
+  phoneNumberError: boolean;
+  serviceIcon: ImageSourcePropType;
+};
+export const PaymentCreate = ({
+  phoneNumber,
+  setPhoneNumber,
+  isSubmited,
+  cardNumber,
+  handleClear,
+  sumError,
+  sum,
+  setSum,
+  phoneNumberError,
+  serviceIcon,
+  onContinue,
+  paymentPrices,
+}: PaymentCreateProps) => {
   return (
     <KeyboardView>
       <ScrollView style={styles.container}>
@@ -88,7 +92,7 @@ export const PaymentCreate = ({ navigation, route }: PaymentCreateProps) => {
           </ScrollView>
         </View>
         <View style={styles.buttonContainer}>
-          <PrimaryButton onPress={goToConfirm}>Продолжить</PrimaryButton>
+          <PrimaryButton onPress={onContinue}>Продолжить</PrimaryButton>
         </View>
       </ScrollView>
     </KeyboardView>
