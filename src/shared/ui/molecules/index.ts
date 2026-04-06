@@ -1,4 +1,5 @@
 export { PrimaryButton } from './primary-button';
+export { StatusIndicator } from './status-indicator';
 export { Search } from './search';
 export { ServiceWrapper } from './service-wrapper';
 export { InputFull } from './input-full';

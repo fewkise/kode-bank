@@ -1,9 +1,10 @@
+import { NavigatorScreenParams } from '@react-navigation/native';
 import { ImageSourcePropType } from 'react-native';
 
 import { HomeTabsParamsList } from '@routing/home-tabs-navigation';
 
 export type RootStackParamsList = {
-  HomeTabs: HomeTabsParamsList;
+  HomeTabs: NavigatorScreenParams<HomeTabsParamsList>;
   paymentServices: undefined;
   paymentCreate: {
     serviceId: string;
