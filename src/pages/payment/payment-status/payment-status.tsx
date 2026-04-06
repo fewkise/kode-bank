@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native-unistyles';
 import { StatusIndicator, PrimaryButton } from '@shared/ui/molecules';
 type Props = {
   onPress: () => void;
-  status: 'done' | 'error' | string;
+  status: 'success' | 'error';
 };
 export const PaymentStatus = ({ onPress, status }: Props) => {
   return (

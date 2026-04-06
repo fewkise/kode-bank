@@ -1,46 +1,26 @@
-import React, { View, Image } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 
-import { IconClose, IconCheck } from '@shared/ui/icons';
-import { Images } from '@shared/ui/images';
+import { Icon } from '@shared/ui/atoms';
 
-type Props = StatusIcon;
-type StatusIcon = {
-  status: 'error' | 'done' | string;
+type StatusIconProps = {
+  status: 'error' | 'success';
 };
-export const StatusIcon = ({ status }: Props) => {
+
+export const StatusIcon = ({ status }: StatusIconProps) => {
   const { theme } = useUnistyles();
+
+  const isError = status === 'error';
+  const IconName = isError ? 'IconClose' : 'IconCheck';
+
   return (
     <View style={styles.root}>
-      {status === 'error' ? (
-        <View style={styles.root}>
-          <Image
-            style={styles.forInner}
-            source={Images.oval_inner_background}
-          />
-          <Image
-            style={styles.forOuter}
-            source={Images.oval_outer_background}
-          />
-          <View style={[styles.container, styles.errorContainer]}>
-            <IconClose size={40} color={theme.palette.text.primary} />
-          </View>
-        </View>
-      ) : (
-        <View style={styles.root}>
-          <Image
-            style={styles.forInner}
-            source={Images.oval_inner_background}
-          />
-          <Image
-            style={styles.forOuter}
-            source={Images.oval_outer_background}
-          />
-          <View style={[styles.container, styles.successContainer]}>
-            <IconCheck size={40} color={theme.palette.text.primary} />
-          </View>
-        </View>
-      )}
+      <View style={styles.forInner} />
+      <View style={styles.forOuter} />
+      <View style={styles.statusContainer(status)}>
+        <Icon name={IconName} size={40} color={theme.palette.text.primary} />
+      </View>
     </View>
   );
 };
@@ -51,26 +31,34 @@ const styles = StyleSheet.create(theme => ({
     justifyContent: 'center',
     position: 'relative',
   },
-  container: {
+  statusContainer: (status: string) => ({
     width: 70,
+    height: 70,
     alignItems: 'center',
     justifyContent: 'center',
-    height: 70,
-    borderRadius: '50%',
+    borderRadius: 35,
     zIndex: 2,
-  },
-  successContainer: {
-    backgroundColor: theme.palette.indicator.done,
-  },
-  errorContainer: {
-    backgroundColor: theme.palette.indicator.error,
-  },
+    backgroundColor:
+      status === 'error'
+        ? theme.palette.indicator.error
+        : theme.palette.indicator.done,
+  }),
   forInner: {
     position: 'absolute',
     zIndex: 1,
+    backgroundColor: theme.palette.content.tertiary,
+    width: 112,
+    height: 112,
+    borderRadius: '50%',
+    opacity: 0.12,
   },
   forOuter: {
     position: 'absolute',
     zIndex: 0,
+    width: 150,
+    height: 150,
+    opacity: 0.05,
+    backgroundColor: theme.palette.content.tertiary,
+    borderRadius: '50%',
   },
 }));

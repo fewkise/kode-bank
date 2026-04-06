@@ -5,8 +5,12 @@ import { Typography, StatusIcon } from '@shared/ui/atoms';
 
 type Props = StatusIndicatorProps;
 type StatusIndicatorProps = {
-  status: 'error' | 'success' | string;
+  status: 'error' | 'success';
   sum: string | number;
+};
+const statusTextMap: Record<string, string> = {
+  success: 'Оплачено',
+  error: 'Платеж отклонен',
 };
 export const StatusIndicator = ({ status, sum }: Props) => {
   return (
@@ -14,7 +18,7 @@ export const StatusIndicator = ({ status, sum }: Props) => {
       <StatusIcon status={status} />
       <View style={styles.container}>
         <Typography color="tertiary" variant="body17Regular">
-          {status === 'done' ? 'Оплачено' : 'Платеж отклонен'}
+          {statusTextMap[status]}
         </Typography>
         <Typography color="primary" variant="title">
           {sum} ₽

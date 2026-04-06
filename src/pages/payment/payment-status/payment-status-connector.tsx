@@ -3,6 +3,6 @@ type Props = {
   onPress: () => void;
 };
 export const PaymentStatusConnector = ({ onPress }: Props) => {
-  const status = 'done';
+  const status = 'success';
   return <PaymentStatus onPress={onPress} status={status} />;
 };
