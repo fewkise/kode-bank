@@ -4,3 +4,5 @@ export { PaymentMain } from './payment-main';
 export { PaymentConfirm } from './payment-confirm';
 export { PaymentStatus } from './payment-status';
 export { PaymentStatusConnector } from './payment-status';
+export { PaymentMainConnector } from './payment-main';
+export { PaymentCreateConnector } from './payment-create';

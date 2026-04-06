@@ -1,53 +1,30 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import { useState } from 'react';
 import {
-  TouchableOpacity,
-  Text,
-  StyleSheet,
   View,
-  Image,
   FlatList,
-  ListRenderItem,
   RefreshControl,
   ActivityIndicator,
-  TextInput,
 } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
-import { RootStackParamsList } from '@routing/app-navigation/types';
+import { Search, ServiceWrapper } from '@shared/ui/molecules';
 import { KeyboardView } from '@shared/ui/templates';
-import { darkTheme } from '@shared/ui/theme';
 
-import { services } from './constants';
 import { TServiceItem } from './types';
 
-export type PaymentServicesProps = StackScreenProps<
-  RootStackParamsList,
-  'paymentServices'
->;
-
-export const PaymentServices = ({ navigation }: PaymentServicesProps) => {
-  const isLoading = false;
-
-  const [search, setSearch] = useState('');
-
-  const onPress = (serviceId: string, title: string) => {
-    navigation.navigate('paymentCreate', { serviceId, title });
-  };
-
-  const renderItem: ListRenderItem<TServiceItem> = ({
-    item: { serviceId, serviceIcon, serviceName },
-  }) => {
-    return (
-      <TouchableOpacity
-        style={styles.serviceWrapper}
-        onPress={() => onPress(serviceId, serviceName)}
-      >
-        <Image source={serviceIcon} />
-        <Text>{serviceName}</Text>
-      </TouchableOpacity>
-    );
-  };
-
+type PaymentServicesProps = {
+  search: string;
+  setSearch: (text: string) => void;
+  isLoading: boolean;
+  services: TServiceItem[];
+  onPress: (serviceId: string, title: string) => void;
+};
+export const PaymentServices = ({
+  search,
+  isLoading,
+  onPress,
+  setSearch,
+  services,
+}: PaymentServicesProps) => {
   if (isLoading) {
     return <ActivityIndicator />;
   }
@@ -64,21 +41,20 @@ export const PaymentServices = ({ navigation }: PaymentServicesProps) => {
             />
           }
           data={services}
-          renderItem={renderItem}
+          renderItem={({ item }) => (
+            <ServiceWrapper
+              iconSize={40}
+              onPress={() => onPress(item.serviceId, item.serviceName)}
+              source={item.serviceIcon}
+              serviceName={item.serviceName}
+            />
+          )}
           ItemSeparatorComponent={ItemSeparatorComponent}
           keyExtractor={keyExtractor}
           initialNumToRender={10}
           keyboardShouldPersistTaps="handled"
           ListHeaderComponent={
-            <TextInput
-              placeholder="Поиск"
-              placeholderTextColor={darkTheme.palette.text.tertiary}
-              style={styles.input}
-              value={search}
-              onChangeText={setSearch}
-              keyboardType="email-address"
-              keyboardAppearance="dark"
-            />
+            <Search value={search} onChangeText={setSearch} />
           }
           ListHeaderComponentStyle={styles.header}
         />
@@ -91,24 +67,14 @@ const keyExtractor = (item: TServiceItem) => item.serviceId;
 
 const ItemSeparatorComponent = () => <View style={styles.divider} />;
 
-const styles = StyleSheet.create({
-  header: { padding: 12 },
-  input: {
-    padding: 16,
-    backgroundColor: darkTheme.palette.content.secondary,
-    color: 'white',
-    borderRadius: 16,
-  },
-  services: { flex: 1, backgroundColor: darkTheme.palette.background.primary },
-  serviceWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 16,
-    backgroundColor: 'grey',
-    padding: 16,
-  },
+const styles = StyleSheet.create(theme => ({
+  header: { padding: theme.spacing(2) },
+  services: { flex: 1, backgroundColor: theme.palette.background.primary },
   divider: {
     width: '100%',
     height: 1,
   },
-});
+  forScroll: {
+    backgroundColor: theme.palette.background.secondary,
+  },
+}));
