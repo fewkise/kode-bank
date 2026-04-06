@@ -11,6 +11,7 @@ import {
   RefreshControl,
   ActivityIndicator,
   TextInput,
+  ImageSourcePropType,
 } from 'react-native';
 
 import { RootStackParamsList } from '@routing/app-navigation/types';
@@ -30,8 +31,12 @@ export const PaymentServices = ({ navigation }: PaymentServicesProps) => {
 
   const [search, setSearch] = useState('');
 
-  const onPress = (serviceId: string, title: string) => {
-    navigation.navigate('paymentCreate', { serviceId, title });
+  const onPress = (
+    serviceId: string,
+    title: string,
+    serviceIcon: ImageSourcePropType,
+  ) => {
+    navigation.navigate('paymentCreate', { serviceId, title, serviceIcon });
   };
 
   const renderItem: ListRenderItem<TServiceItem> = ({
@@ -40,7 +45,7 @@ export const PaymentServices = ({ navigation }: PaymentServicesProps) => {
     return (
       <TouchableOpacity
         style={styles.serviceWrapper}
-        onPress={() => onPress(serviceId, serviceName)}
+        onPress={() => onPress(serviceId, serviceName, serviceIcon)}
       >
         <Image source={serviceIcon} />
         <Text>{serviceName}</Text>

@@ -1,104 +1,137 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import { useState } from 'react';
+import { ImageSourcePropType, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { StyleSheet } from 'react-native-unistyles';
+
+import { Typography } from '@shared/ui/atoms';
 import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Text,
-  Linking,
-  Switch,
-  Alert,
-} from 'react-native';
+  Chip,
+  PhoneInput,
+  PrimaryButton,
+  PriceInput,
+  Select,
+} from '@shared/ui/molecules';
+import { DigitNumber } from '@shared/ui/molecules/bank-card/bank-card';
+import { KeyboardView } from '@shared/ui/templates';
 
-import { RootStackParamsList } from '@routing/app-navigation/types';
-import { darkTheme } from '@shared/ui/theme';
+import { TPaymentPrices } from './constants';
 
-export type TPaymentCreateProps = StackScreenProps<
-  RootStackParamsList,
-  'paymentCreate'
->;
-
-export const PaymentCreate = ({ navigation }: TPaymentCreateProps) => {
-  const [switchValue, setSwitchValue] = useState(false);
-
-  const onBack = () => {
-    navigation.goBack();
-  };
-
-  const goToSettings = () => {
-    Linking.openSettings();
-  };
-  const goToConfirm = () => {
-    navigation.navigate('paymentConfirm');
-  };
-  const openLink = () => {
-    const link = 'https://reactnative.dev/';
-
-    const handleFallback = () => {
-      Alert.alert('Не удалось перейти по ссылке');
-    };
-
-    Linking.openURL(link).catch(handleFallback);
-  };
-
-  const onValueChange = (value: boolean) => {
-    if (value) {
-      Alert.alert('Внимание', 'Спасибо за внимание', [
-        {
-          text: 'OK',
-        },
-        {
-          text: 'Не OK',
-          style: 'destructive',
-          isPreferred: true,
-        },
-      ]);
-    }
-
-    setSwitchValue(value);
-  };
-
+type PaymentCreateProps = {
+  phoneNumber: string;
+  setPhoneNumber: (text: string) => void;
+  isSubmited: boolean;
+  cardNumber: DigitNumber;
+  handleClear: () => void;
+  onContinue: () => void;
+  sumError: boolean;
+  sum: string;
+  paymentPrices: TPaymentPrices[];
+  setSum: (val: string) => void;
+  phoneNumberError: boolean;
+  serviceIcon: ImageSourcePropType;
+};
+export const PaymentCreate = ({
+  phoneNumber,
+  setPhoneNumber,
+  isSubmited,
+  cardNumber,
+  handleClear,
+  sumError,
+  sum,
+  setSum,
+  phoneNumberError,
+  serviceIcon,
+  onContinue,
+  paymentPrices,
+}: PaymentCreateProps) => {
   return (
-    <View style={styles.container}>
-      <View>
-        <Text>Карта для оплаты</Text>
-      </View>
-      <TouchableOpacity onPress={onBack} style={styles.button} hitSlop={8}>
-        <Text>Назад</Text>
-      </TouchableOpacity>
+    <KeyboardView>
+      <ScrollView style={styles.container}>
+        <View style={styles.containerCard}>
+          <View style={styles.forText}>
+            <Typography color="tertiary" variant="body15Semibold">
+              Карта для оплаты
+            </Typography>
+          </View>
 
-      <TouchableOpacity
-        onPress={goToSettings}
-        style={styles.button}
-        hitSlop={8}
-      >
-        <Text>Открыть настройки</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={goToConfirm} style={styles.button} hitSlop={8}>
-        <Text>Продолжить</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={openLink} style={styles.textButton}>
-        <Text>Перейти по ссылке</Text>
-      </TouchableOpacity>
+          <Select
+            cardNumber={cardNumber}
+            cardName="Карта зарплатная"
+            balance="457 334,00"
+          />
+        </View>
+        <View style={styles.containerNumber}>
+          <PhoneInput
+            onClear={handleClear}
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
+            placeholder="Номер телефона"
+            photo={serviceIcon}
+            isError={isSubmited && phoneNumberError}
+          />
+        </View>
+        <View style={styles.textInputContainer}>
+          <View style={styles.forText}>
+            <Typography color="tertiary" variant="body15Semibold">
+              Сумма
+            </Typography>
+          </View>
 
-      <Switch value={switchValue} onValueChange={onValueChange} />
-    </View>
+          <PriceInput
+            isError={isSubmited && sumError}
+            value={sum}
+            onChangeText={setSum}
+          />
+          <ScrollView contentContainerStyle={styles.scrollContainer} horizontal>
+            {paymentPrices.map(item => (
+              <Chip
+                onPress={() => setSum(item.serviceCost)}
+                key={item.serviceId}
+                label={`${item.serviceCost} ₽`}
+              />
+            ))}
+          </ScrollView>
+        </View>
+        <View style={styles.buttonContainer}>
+          <PrimaryButton onPress={onContinue}>Продолжить</PrimaryButton>
+        </View>
+      </ScrollView>
+    </KeyboardView>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create(theme => ({
   container: {
     flex: 1,
-    backgroundColor: darkTheme.palette.background.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 16,
+    backgroundColor: theme.palette.background.primary,
+    gap: theme.spacing(2),
   },
-  button: {
-    backgroundColor: 'gray',
-    padding: 16,
+  containerNumber: {
+    alignSelf: 'stretch',
+    backgroundColor: theme.palette.background.secondary,
+    paddingVertical: theme.spacing(2),
+    paddingHorizontal: theme.spacing(2),
   },
-  textButton: {
-    padding: 16,
+  containerCard: {
+    width: '100%',
+    paddingVertical: theme.spacing(4),
+    backgroundColor: theme.palette.background.secondary,
   },
-});
+  buttonContainer: {
+    paddingHorizontal: theme.spacing(2),
+  },
+  textInputContainer: {
+    width: '100%',
+    backgroundColor: theme.palette.background.secondary,
+    paddingVertical: theme.spacing(2),
+  },
+  forText: {
+    paddingHorizontal: theme.spacing(2),
+    paddingVertical: theme.spacing(2),
+  },
+  scrollContainer: {
+    gap: theme.spacing(1),
+    paddingVertical: theme.spacing(1),
+    backgroundColor: theme.palette.background.secondary,
+    paddingHorizontal: theme.spacing(1),
+  },
+}));
