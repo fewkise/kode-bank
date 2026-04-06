@@ -4,10 +4,10 @@ import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 
 import { Icon } from '@shared/ui/atoms';
 import { TIconVariant } from '@shared/ui/icons/types';
-import { TStatus } from '@shared/ui/molecules/status-indicator/status-indicator';
 
+type TStatus = 'error' | 'success';
 type StatusIconProps = {
-  status: 'error' | 'success';
+  status: TStatus;
 };
 const iconNameMap: Record<TStatus, TIconVariant> = {
   error: 'IconClose',
