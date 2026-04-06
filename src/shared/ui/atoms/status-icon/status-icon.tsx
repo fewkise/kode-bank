@@ -7,12 +7,13 @@ import { Icon } from '@shared/ui/atoms';
 type StatusIconProps = {
   status: 'error' | 'success';
 };
-
+const iconNameMap = {
+  error: 'IconClose',
+  success: 'IconCheck',
+} as const;
 export const StatusIcon = ({ status }: StatusIconProps) => {
   const { theme } = useUnistyles();
-
-  const isError = status === 'error';
-  const IconName = isError ? 'IconClose' : 'IconCheck';
+  const IconName = iconNameMap[status];
 
   return (
     <View style={styles.root}>

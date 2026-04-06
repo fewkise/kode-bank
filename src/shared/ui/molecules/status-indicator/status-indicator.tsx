@@ -2,13 +2,14 @@ import React, { View } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
 import { Typography, StatusIcon } from '@shared/ui/atoms';
-
+type TStatus = 'error' | 'success';
 type Props = StatusIndicatorProps;
 type StatusIndicatorProps = {
-  status: 'error' | 'success';
+  status: TStatus;
   sum: string | number;
 };
-const statusTextMap: Record<string, string> = {
+
+const statusTextMap: Record<TStatus, string> = {
   success: 'Оплачено',
   error: 'Платеж отклонен',
 };
