@@ -1,8 +1,9 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { PaymentCreate, PaymentServices, PaymentConfirm, PaymentStatus } from '@pages/payment';
+import { PaymentStatus } from '@pages/payment';
 import { HomeTabsNavigation } from '@routing/home-tabs-navigation';
 
+import { PaymentServicesScreen } from './screens/payment-services-screen';
 import { rootStackOptions } from './config';
 import { PaymentConfirmScreen } from './screens/payment-confirm-screen';
 import { PaymentCreateScreen } from './screens/payment-create-screen';
@@ -23,7 +24,7 @@ export const AppNavigation = () => {
       />
       <RootStack.Screen
         name="paymentServices"
-        component={PaymentServices}
+        component={PaymentServicesScreen}
         options={{ headerTitle: 'Мобильная связь' }}
       />
       <RootStack.Screen

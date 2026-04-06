@@ -10,14 +10,14 @@ import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 import { Typography, Icon } from '@shared/ui/atoms';
 import { TIconVariant } from '@shared/ui/icons/types';
 
-type Props = ServiceWrapperProps;
-interface ServiceWrapperProps extends TouchableOpacityProps {
+type Props = ServiceWrapperProps & TouchableOpacityProps;
+type ServiceWrapperProps = {
   serviceName: string;
-  onPress: () => void;
+  onPress: (serviceId?: string, title?: string) => void;
   source?: ImageSourcePropType;
   IconSvg?: TIconVariant;
   iconSize: number;
-}
+};
 export const ServiceWrapper = ({
   serviceName,
   IconSvg,
@@ -53,7 +53,7 @@ const styles = StyleSheet.create(theme => ({
     alignItems: 'center',
     gap: theme.spacing(2),
     backgroundColor: theme.palette.background.secondary,
-    paddingVertical: theme.spacing(3),
+    paddingVertical: theme.spacing(2),
     paddingHorizontal: theme.spacing(2),
   },
   fon: {
