@@ -21,7 +21,7 @@ export const Search = ({ value, onChangeText }: Props) => {
         style={styles.input}
         value={value}
         onChangeText={onChangeText}
-        keyboardType="email-address"
+        keyboardType="default"
         keyboardAppearance={theme.name}
       />
     </View>
