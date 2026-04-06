@@ -1,101 +1,75 @@
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { CompositeScreenProps } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
-import {
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  View,
-  FlatList,
-  ListRenderItem,
-  RefreshControl,
-} from 'react-native';
+import { View, FlatList, RefreshControl } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet } from 'react-native-unistyles';
 
-import { RootStackParamsList } from '@routing/app-navigation/types';
-import { HomeTabsParamsList } from '@routing/home-tabs-navigation';
+import { Typography } from '@shared/ui/atoms';
+import { ServiceWrapper } from '@shared/ui/molecules/service-wrapper';
 import { KeyboardView } from '@shared/ui/templates';
-import { darkTheme } from '@shared/ui/theme';
 
-import { services } from './constants';
 import { TServiceItem } from './types';
-
-export type PaymentMainProps = CompositeScreenProps<
-  BottomTabScreenProps<HomeTabsParamsList, 'PaymentMain'>,
-  StackScreenProps<RootStackParamsList>
->;
-export const PaymentMain = ({ navigation }: PaymentMainProps) => {
-  const onPress = () => {
-    navigation.navigate('paymentServices');
-  };
-
-  const renderItem: ListRenderItem<TServiceItem> = ({
-    item: { serviceIcon, serviceName },
-  }) => {
-    const Icon = serviceIcon;
-    return (
-      <TouchableOpacity style={styles.serviceWrapper} onPress={onPress}>
-        <View style={styles.fon}>
-          <Icon size={24} color="white" />
-        </View>
-        <Text>{serviceName}</Text>
-      </TouchableOpacity>
-    );
-  };
+type Props = {
+  data: TServiceItem[];
+  onPress: () => void;
+};
+export const PaymentMain = ({ data, onPress }: Props) => {
   return (
-    <KeyboardView>
-      <View style={styles.services}>
-        <FlatList
-          refreshControl={
-            <RefreshControl
-              refreshing={false}
-              onRefresh={() => {}}
-              tintColor="white"
-            />
-          }
-          data={services}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-          initialNumToRender={10}
-          ItemSeparatorComponent={ItemSeparatorComponent}
-          keyboardShouldPersistTaps="handled"
-          ListHeaderComponentStyle={styles.header}
-        />
-      </View>
-    </KeyboardView>
+    <SafeAreaView style={styles.forSafe} edges={['top', 'left', 'right']}>
+      <KeyboardView>
+        <View style={styles.services}>
+          <View style={styles.forTitle}>
+            <Typography variant="largeTitle">Платежи</Typography>
+          </View>
+
+          <FlatList
+            refreshControl={
+              <RefreshControl
+                refreshing={false}
+                onRefresh={() => {}}
+                tintColor="white"
+              />
+            }
+            data={data}
+            renderItem={({ item }) => (
+              <ServiceWrapper
+                iconSize={24}
+                onPress={onPress}
+                serviceName={item.serviceName}
+                IconSvg={item.serviceIcon}
+              />
+            )}
+            keyExtractor={keyExtractor}
+            initialNumToRender={10}
+            ItemSeparatorComponent={ItemSeparatorComponent}
+            keyboardShouldPersistTaps="handled"
+          />
+        </View>
+      </KeyboardView>
+    </SafeAreaView>
   );
 };
 const keyExtractor = (item: TServiceItem) => item.serviceId;
 
 const ItemSeparatorComponent = () => <View style={styles.divider} />;
 
-const styles = StyleSheet.create({
-  header: { padding: 12 },
-  input: {
-    padding: 16,
-    backgroundColor: darkTheme.palette.content.secondary,
-    color: 'white',
-    borderRadius: 16,
+const styles = StyleSheet.create(theme => ({
+  forSafe: {
+    flex: 1,
+    backgroundColor: theme.palette.background.secondary,
   },
-  services: { flex: 1, backgroundColor: darkTheme.palette.background.primary },
-  serviceWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 16,
-    backgroundColor: 'white',
-    padding: 16,
+  services: {
+    flex: 1,
+    backgroundColor: theme.palette.background.secondary,
+  },
+  forTitle: {
+    paddingTop: theme.spacing(5),
+    paddingBottom: theme.spacing(1),
+    paddingHorizontal: theme.spacing(2),
   },
   divider: {
-    width: '100%',
+    width: '78%',
     height: 1,
-    backgroundColor: '#F3F3F3',
+    marginRight: theme.spacing(2),
+    alignSelf: 'flex-end',
+    backgroundColor: theme.palette.content.secondary,
   },
-  fon: {
-    backgroundColor: '#515FE1',
-    width: 40,
-    height: 40,
-    borderRadius: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+}));

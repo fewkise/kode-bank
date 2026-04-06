@@ -2,8 +2,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { BankMain } from '@pages/bank';
 import { HomeMain } from '@pages/home';
-import { PaymentMain } from '@pages/payment';
 import { ProfileMain } from '@pages/profile';
+import { PaymentMainScreen } from '@routing/app-navigation/screens/payment-main-screen';
 import {
   IconBank,
   IconCamera1,
@@ -34,9 +34,10 @@ export const HomeTabsNavigation = () => {
         options={{
           title: 'Платежи',
           tabBarIcon: IconPayment,
+          headerShown: false,
         }}
         name="PaymentMain"
-        component={PaymentMain}
+        component={PaymentMainScreen}
       />
       <HomeTabs.Screen
         options={{
