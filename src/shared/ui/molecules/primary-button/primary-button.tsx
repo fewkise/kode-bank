@@ -22,6 +22,7 @@ export const PrimaryButton = ({ children, ...rest }: Props) => {
 const styles = StyleSheet.create(theme => ({
   root: {
     borderRadius: 26,
+    alignSelf: 'stretch',
     paddingVertical: theme.spacing(2),
     paddingHorizontal: theme.spacing(4),
     backgroundColor: theme.palette.button.primary,
