@@ -3,14 +3,16 @@ import { View } from 'react-native';
 import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 
 import { Icon } from '@shared/ui/atoms';
+import { TIconVariant } from '@shared/ui/icons/types';
+import { TStatus } from '@shared/ui/molecules/status-indicator/status-indicator';
 
 type StatusIconProps = {
   status: 'error' | 'success';
 };
-const iconNameMap = {
+const iconNameMap: Record<TStatus, TIconVariant> = {
   error: 'IconClose',
   success: 'IconCheck',
-} as const;
+};
 export const StatusIcon = ({ status }: StatusIconProps) => {
   const { theme } = useUnistyles();
   const IconName = iconNameMap[status];
