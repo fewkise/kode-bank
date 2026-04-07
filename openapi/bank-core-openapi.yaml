@@ -1,0 +1,1569 @@
+openapi: 3.0.0
+info:
+  title: Skillbox Core API
+  version: '1.0'
+  description: REST API для сервиса Skillbox
+servers:
+  - url: 'https://stoplight.io/mocks/fake-bank/fake-bank/6096726'
+paths:
+  /api/core/profile:
+    get:
+      summary: GET /api/core/profile
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/UserResponse'
+        '500':
+          description: Internal Server Error
+      operationId: get-api-core-profile
+      description: Получение информации о пользователе
+  /api/core/history:
+    get:
+      summary: GET /api/core/history
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/HistoryResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: get-api-core-history
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+      description: Получение истории аккаунта
+    parameters: []
+    post:
+      summary: POST /api/core/history
+      tags:
+        - payment
+      responses:
+        '200':
+          $ref: '#/components/responses/GeneralSuccessResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: post-api-core-history
+      parameters:
+        - $ref: '#/components/parameters/Auth%20(1)_Authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                card_id:
+                  type: number
+                service_id:
+                  type: string
+                size:
+                  type: number
+                size_cashback:
+                  type: number
+                comment:
+                  type: string
+                period_from:
+                  type: string
+                period_to:
+                  type: string
+              required:
+                - card_id
+                - service_id
+                - size
+                - period_from
+  /api/core/currrency/list:
+    get:
+      summary: GET /api/core/currrency/list
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/CurrencyListResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      operationId: get-api-core-currrency-list
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+  /api/core/account:
+    post:
+      summary: POST /api/core/account
+      operationId: post-api-core-account1
+      responses:
+        '200':
+          $ref: '#/components/responses/CreateAccountResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      description: Создание аккаунта
+      requestBody:
+        $ref: '#/components/requestBodies/AccountRequest'
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+    parameters: []
+  /api/core/account/list:
+    get:
+      summary: GET /api/core/account/list
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/AccountListResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      operationId: get-api-core-account-list
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+      description: Получение списка аккаунтов
+  '/api/core/account/{accountId}':
+    get:
+      summary: 'GET /api/core/account/{accountId}'
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/AccountResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      operationId: get-api-core-account
+      description: Получение информации о аккаунте
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+    parameters:
+      - $ref: '#/components/parameters/AccountID'
+  /api/core/deposit:
+    get:
+      summary: GET /api/core/deposit
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/DepositTypeResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      operationId: get-api-core-deposit
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+    post:
+      summary: POST /api/core/deposit
+      operationId: post-api-core-deposit
+      responses:
+        '200':
+          $ref: '#/components/responses/CreateDepositResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          $ref: '#/components/responses/CheckCodeResponse'
+        '500':
+          description: Internal Server Error
+      description: Создание депозита
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        $ref: '#/components/requestBodies/DepositRequest'
+  /api/core/deposit/list:
+    get:
+      summary: GET /api/core/deposit/list
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/DepositListResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      operationId: get-api-core-deposit-list
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+      description: Получить список депозитов
+  '/api/core/deposit/{depositId}':
+    parameters:
+      - name: depositId
+        in: path
+        required: true
+        schema:
+          type: number
+          example: 1
+        description: Номер депозита
+    get:
+      summary: 'GET /api/core/deposit/{depositId}'
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/DepositInfoResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      operationId: get-api-core-deposit-deposit_id
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+  /api/core/card:
+    post:
+      summary: POST /api/core/card
+      operationId: post-api-core-card
+      responses:
+        '200':
+          $ref: '#/components/responses/CardIDResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      description: Создание карты в аккаунте
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        $ref: '#/components/requestBodies/CardRequest'
+  '/api/core/card/{cardId}':
+    parameters:
+      - in: path
+        required: true
+        schema:
+          type: string
+          example: '2'
+        description: Номер карты в аккаунте
+        name: cardId
+    get:
+      summary: 'GET /api/core/card/{cardId}'
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/CardInfoResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      operationId: get-api-core-card-card_id
+      description: Получение информации об карте
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+    put:
+      summary: 'PUT /api/core/card/{card_id}'
+      operationId: put-api-core-card-card_id
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      description: Редактирование карты
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        $ref: '#/components/requestBodies/CardEditRequest'
+  '/api/core/card/{cardId}/code':
+    parameters:
+      - in: path
+        required: true
+        schema:
+          type: string
+          example: '2'
+        description: Номер карты в аккаунте
+        name: cardId
+    get:
+      summary: 'GET /api/core/card/{cardId}/code'
+      tags: []
+      responses:
+        '200':
+          $ref: '#/components/responses/CardCodeResponse'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      operationId: get-api-core-card-card_id-code
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+      description: Получить пин код
+  /api/core/payment/list:
+    get:
+      summary: GET api/core/payment/list
+      tags:
+        - payment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    category:
+                      - category_id: '1'
+                        category_name: Мобильная связь
+                        serviсes:
+                          - serviсe_id: '11'
+                            serviсe_name: МТС
+                            service_icon: as
+                properties:
+                  category:
+                    type: array
+                    uniqueItems: true
+                    minItems: 1
+                    items:
+                      type: object
+                      properties:
+                        category_id:
+                          type: string
+                          minLength: 1
+                        category_name:
+                          type: string
+                          minLength: 1
+                        services:
+                          type: array
+                          uniqueItems: true
+                          minItems: 1
+                          items:
+                            type: object
+                            properties:
+                              service_id:
+                                type: string
+                                minLength: 1
+                              service_name:
+                                type: string
+                                minLength: 1
+                              service_icon:
+                                type: string
+                                minLength: 1
+                                nullable: true
+                            required:
+                              - service_id
+                              - service_name
+                      required:
+                        - category_id
+                        - category_name
+                required:
+                  - category
+              examples:
+                success:
+                  value:
+                    category:
+                      - category_id: '1'
+                        category_name: Мобильная связь
+                        services:
+                          - service_id: '11'
+                            service_name: МТС
+                            service_icon: 'https://raw.githubusercontent.com/kode-frontend/files/main/MTS.png'
+                          - service_id: '12'
+                            service_name: МегаФон
+                            service_icon: 'https://raw.githubusercontent.com/kode-frontend/files/main/megafon.png'
+                          - service_id: '13'
+                            service_name: Beeline
+                            service_icon: 'https://raw.githubusercontent.com/kode-frontend/files/main/beeline.png'
+                          - service_id: '14'
+                            service_name: Tele2
+                            service_icon: 'https://raw.githubusercontent.com/kode-frontend/files/main/tele2.png'
+                          - service_id: '15'
+                            service_name: Kode Mobile
+                            service_icon: 'https://raw.githubusercontent.com/kode-frontend/files/main/kode.png'
+                          - service_id: '16'
+                            service_name: Тинькофф Mobile
+                            service_icon: null
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      operationId: get-payment-list
+      parameters:
+        - $ref: '#/components/parameters/Auth%20(1)_Authorization'
+    parameters: []
+  '/api/core/payment/{service_id}':
+    parameters:
+      - schema:
+          type: string
+        name: service_id
+        in: path
+        required: true
+    get:
+      summary: 'GET api/core/payment/{service_id}'
+      tags:
+        - payment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    service_id: 1
+                    cashback_percentage: 1750
+                    recipient_mask: 9XX XXX XX XX
+                    comment_mask: ₽
+                properties:
+                  service_id:
+                    type: number
+                  cashback_percentage:
+                    type: number
+                  recipient_mask:
+                    type: string
+                    minLength: 1
+                  comment_mask:
+                    type: string
+                    minLength: 1
+                    nullable: true
+                required:
+                  - service_id
+                  - recipient_mask
+              examples:
+                success:
+                  value:
+                    service_id: 1
+                    cashback_percentage: 1750
+                    recipient_mask: 9XX XXX XX XX
+                    comment_mask: null
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      operationId: get-api-core-payment-service_id
+      parameters:
+        - $ref: '#/components/parameters/Auth%20(1)_Authorization'
+  /api/core/otp:
+    post:
+      summary: ''
+      operationId: post-api-core-otp
+      responses:
+        '200':
+          $ref: '#/components/responses/OtpResponse'
+        '400':
+          description: Bad Request
+        '409':
+          $ref: '#/components/responses/Err409Response'
+      requestBody:
+        $ref: '#/components/requestBodies/OtpRequest'
+  /api/core/otp/resend:
+    post:
+      summary: ''
+      operationId: post-api-core-otp-resend
+      responses:
+        '200':
+          $ref: '#/components/responses/OtpResponse'
+        '409':
+          $ref: '#/components/responses/Err409Response'
+      requestBody:
+        $ref: '#/components/requestBodies/OtpResend'
+  /api/core/otp/confirm:
+    post:
+      summary: ''
+      operationId: post-api-core-otp-confirm
+      responses:
+        '200':
+          $ref: '#/components/responses/OtpConfirm'
+        '400':
+          description: Bad Request
+        '409':
+          $ref: '#/components/responses/Err409Response'
+      requestBody:
+        $ref: '#/components/requestBodies/OtpConfirm'
+components:
+  schemas:
+    User:
+      description: Пользователь
+      type: object
+      x-examples:
+        example-1:
+          id: 1
+          first_name: Иван
+          middle_name: Иванович
+          last_name: Иванов
+          country: Россия
+          phone: '+79123213233'
+      title: User
+      properties:
+        id:
+          type: number
+          description: Номер в бд
+        firstName:
+          type: string
+          minLength: 1
+          description: Имя
+          pattern: '^[A-Za-zА-Яа-я]+$'
+          example: Иван
+        middleName:
+          type: string
+          minLength: 1
+          description: Отчество
+          pattern: '^[A-Za-zА-Яа-я]+$'
+          example: Иванович
+        lastName:
+          type: string
+          minLength: 1
+          description: Фамилия
+          pattern: '^[A-Za-zА-Яа-я]+$'
+          example: Иванов
+        country:
+          type: string
+          minLength: 1
+          description: Страна
+          pattern: '^[A-Za-zА-Яа-я]+$'
+          example: Россия
+        phone:
+          type: string
+          minLength: 1
+          description: Телефон
+          example: '+79123213233'
+      required:
+        - id
+        - firstName
+        - middleName
+        - lastName
+        - country
+        - phone
+    Account:
+      description: Счёт
+      type: object
+      x-examples:
+        example-1:
+          ID: 7
+          Number: '1228568263446708'
+          Balance: 0
+          CurrencyID: 1
+          UserID: 1
+          Status: Активен
+      properties:
+        ID:
+          type: number
+        Number:
+          type: string
+          minLength: 1
+          description: Номер счета
+          example: '1228568263446708'
+        Balance:
+          type: number
+          description: Баланс
+          example: 12
+        CurrencyID:
+          type: number
+          description: Номер валюты
+          example: 1
+        UserID:
+          type: number
+          description: Номер пользователя
+          example: 1
+        Status:
+          type: string
+          minLength: 1
+          description: Статус аккакунта
+      required:
+        - ID
+        - Number
+        - Balance
+        - CurrencyID
+        - UserID
+        - Status
+    Card:
+      description: Карта
+      type: object
+      x-examples:
+        example-1:
+          ID: 3
+          AccountID: 7
+          Number: '2323200814106608'
+          ExpiredAt: '2022-04-21T00:00:00Z'
+          PaymentSystem: VISA
+          Status: Активна
+          Name: test
+      properties:
+        id:
+          type: number
+        accountId:
+          type: number
+          description: Номер аккаунта
+        number:
+          type: string
+          description: Номер карты
+          example: '2323200814106608'
+        expiredAt:
+          type: string
+          minLength: 1
+          description: Время окончания карты
+          example: '2022-04-21T00:00:00Z'
+        paymentSystem:
+          type: string
+          minLength: 1
+          description: Тип карты
+          example: VISA
+        status:
+          type: string
+          minLength: 1
+          description: Статус карты
+          example: Активна
+        name:
+          type: string
+          minLength: 1
+          description: Имя карты
+          example: test
+      required:
+        - id
+        - accountId
+        - number
+        - expiredAt
+        - paymentSystem
+        - status
+        - name
+  responses:
+    CreateAccountResponse:
+      description: Номер аккаунта
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                account_id: 3
+            properties:
+              accountId:
+                type: number
+                description: Номер аккаунта
+                example: 3
+            required:
+              - accountId
+    CurrencyListResponse:
+      description: Список возможных валют
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                currencies:
+                  - ID: 1
+                    Code: RUB
+                  - ID: 2
+                    Code: USD
+                  - ID: 3
+                    Code: EUR
+            properties:
+              currencies:
+                type: array
+                uniqueItems: true
+                minItems: 1
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: number
+                      description: Номер валюты
+                    code:
+                      type: string
+                      minLength: 1
+                      description: Код валюты
+                      example: USD
+                  required:
+                    - id
+                    - code
+            required:
+              - currencies
+    AccountListResponse:
+      description: Список аккаунтов с картами
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                accounts:
+                  - account_id: 1
+                    number: '0467683482412661'
+                    balance: 0
+                    currency_code: RUB
+                    status: Активен
+                    cards:
+                      - card_id: 1
+                        number: '6676886066243473'
+                        status: Активна
+                        name: Для покупок
+                        payment_system: VISA
+                  - account_id: 5
+                    number: '1228344652607103'
+                    balance: 0
+                    currency_code: RUB
+                    status: Активен
+                  - account_id: 6
+                    number: '4640427688277626'
+                    balance: 0
+                    currency_code: RUB
+                    status: Активен
+                  - account_id: 4
+                    number: '7513521600787887'
+                    balance: 0
+                    currency_code: RUB
+                    status: Активен
+                  - account_id: 3
+                    number: '8107413351271413'
+                    balance: 0
+                    currency_code: RUB
+                    status: Активен
+                  - account_id: 7
+                    number: '1228568263446708'
+                    balance: 0
+                    currency_code: RUB
+                    status: Активен
+            properties:
+              accounts:
+                type: array
+                uniqueItems: true
+                minItems: 1
+                items:
+                  type: object
+                  properties:
+                    accountId:
+                      type: number
+                      description: Номер аккаунта
+                    number:
+                      type: string
+                      minLength: 1
+                      description: номер счета
+                      example: '0467683482412661'
+                    balance:
+                      type: number
+                      description: баланс
+                      example: 12
+                    currency:
+                      type: string
+                      minLength: 1
+                      description: Код типа валюты
+                      example: RUB
+                    status:
+                      type: string
+                      minLength: 1
+                      description: Статус
+                      example: Активен
+                    cards:
+                      type: array
+                      uniqueItems: true
+                      minItems: 1
+                      description: Список карт
+                      items:
+                        type: object
+                        properties:
+                          card_id:
+                            type: string
+                            description: id карты
+                            format: uuid
+                          number:
+                            type: string
+                            description: Номер карты
+                            minLength: 16
+                            maxLength: 16
+                            pattern: '^[0-9]+'
+                          status:
+                            type: string
+                            description: Статус карты
+                            enum:
+                              - ACTIVE
+                              - DEACTIVATED
+                          name:
+                            type: string
+                            description: Название карты
+                            example: Дебетовая карта
+                          payment_system:
+                            type: string
+                            description: Платёжная система
+                            enum:
+                              - Visa
+                              - MasterCard
+                          card_type:
+                            type: string
+                            enum:
+                              - physical
+                              - digital
+                            description: Тип карты
+                        required:
+                          - card_id
+                          - number
+                          - status
+                          - name
+                          - payment_system
+                          - card_type
+                  required:
+                    - accountId
+                    - number
+                    - balance
+                    - currency
+                    - status
+            required:
+              - accounts
+          examples:
+            example-1:
+              value:
+                accounts:
+                  - accountId: 0
+                    number: '0467683482412661'
+                    balance: 12
+                    currency: RUB
+                    status: Активен
+                    cards:
+                      - card_id: 66f6e46c-f6a1-4af8-a1bd-49666bc01304
+                        number: '0467683482412662'
+                        status: ACTIVE
+                        name: Дебетовая карта
+                        payment_system: Visa
+                        card_type: physical
+            android:
+              value:
+                accounts:
+                  - accountId: 1
+                    number: '0467683482412661'
+                    balance: 6535
+                    currency: RUB
+                    status: ACTIVE
+                    cards:
+                      - card_id: 66f6e46c-f6a1-4af8-a1bd-49666bc01304
+                        number: '0467683482412662'
+                        status: ACTIVE
+                        name: Дебетовая карта 1
+                        payment_system: Visa
+                        card_type: physical
+                      - card_id: 66f6e46c-f6a1-4af8-a1bd-49666bc01305
+                        number: '0467683482412623'
+                        status: ACTIVE
+                        name: Дебетовая карта 2
+                        payment_system: Visa
+                        card_type: physical
+                  - accountId: 2
+                    number: '0467683482412662'
+                    balance: 4735399
+                    currency: RUB
+                    status: ACTIVE
+                    cards:
+                      - card_id: 66f6e46c-f6a1-4af8-a1bd-49666bc01306
+                        number: '0467683482412628'
+                        status: ACTIVE
+                        name: Дебетовая карта 3
+                        payment_system: Visa
+                        card_type: physical
+                      - card_id: 66f6e46c-f6a1-4af8-a1bd-49666bc01309
+                        number: '0467683482412629'
+                        status: DEACTIVATED
+                        name: Дебетовая карта 4
+                        payment_system: Visa
+                        card_type: physical
+    AccountResponse:
+      description: Информация об аккаунте
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              accountId:
+                type: integer
+                description: Ид аккаунта
+              number:
+                type: string
+                description: Номер аккаунта
+              balance:
+                type: integer
+                description: баланс на аккаунте
+              currency:
+                type: string
+                description: код валюты
+              status:
+                type: string
+                description: Статус аккаунта
+            required:
+              - accountId
+              - number
+              - balance
+              - currency
+              - status
+    UserResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/User'
+    DepositTypeResponse:
+      description: Типы депозитов
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                types:
+                  - Term: 1
+                    Rate: 1
+                    Currency: RUB
+                    MinSize: 1000
+                  - Term: 3
+                    Rate: 2.5
+                    Currency: RUB
+                    MinSize: 10000
+                  - Term: 6
+                    Rate: 5.4
+                    Currency: USD
+                    MinSize: 100000
+            properties:
+              types:
+                type: array
+                uniqueItems: true
+                minItems: 1
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: Имя типа монолита
+                    term:
+                      type: number
+                      description: Срок
+                    rate:
+                      type: number
+                      description: Процент
+                    currency:
+                      type: string
+                      minLength: 1
+                      description: Тип валюты
+                    minSize:
+                      type: number
+                      description: Минимальная сумма
+                  required:
+                    - term
+                    - rate
+                    - currency
+                    - minSize
+            required:
+              - types
+    DepositInfoResponse:
+      description: Информация о депозите
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                Balance: 0
+                Currency: RUB
+                Rate: 2.5
+                Status: Активен
+                CloseDate: '2022-02-08T00:00:00Z'
+            properties:
+              name:
+                type: string
+                description: Имя типа монолита
+              balance:
+                type: number
+                description: Баланс
+              currency:
+                type: string
+                minLength: 1
+                description: Тип валюты
+              rate:
+                type: number
+                description: Процент
+              status:
+                type: string
+                minLength: 1
+                description: Статус
+              closeDate:
+                type: string
+                minLength: 1
+                description: Дата закрытия
+            required:
+              - balance
+              - currency
+              - rate
+              - status
+              - closeDate
+          examples:
+            android-12343:
+              value:
+                name: Выгода
+                balance: 1000
+                currency: RUB
+                rate: 5.99
+                status: ACTIVE
+                closeDate: 12.09.2022
+            android-12344:
+              value:
+                name: Многа денег
+                balance: 3040678
+                currency: RUB
+                rate: 7.5
+                status: ACTIVE
+                closeDate: 12.12.2222
+            android-12345:
+              value:
+                name: Очень многа денег
+                balance: 23070935
+                currency: RUB
+                rate: 18.5
+                status: ACTIVE
+                closeDate: 10.12.2027
+    DepositListResponse:
+      description: Список депозитов
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                deposits:
+                  - DepositID: 1
+                    Balance: 0
+                    Currency: RUB
+                    Status: Активен
+                  - DepositID: 2
+                    Balance: 0
+                    Currency: RUB
+                    Status: Активен
+            properties:
+              deposits:
+                type: array
+                uniqueItems: true
+                minItems: 1
+                items:
+                  type: object
+                  properties:
+                    depositId:
+                      type: number
+                      description: Номер депозита
+                    balance:
+                      type: number
+                      description: Баланс
+                    currency:
+                      type: string
+                      minLength: 1
+                      description: Тип валюты
+                    status:
+                      type: string
+                      minLength: 1
+                      description: Статус
+                    name:
+                      type: string
+                      description: Имя типа депозита
+                  required:
+                    - depositId
+                    - balance
+                    - currency
+                    - status
+            required:
+              - deposits
+          examples:
+            success:
+              value:
+                deposits:
+                  - depositId: 0
+                    balance: 0
+                    currency: string
+                    status: string
+                    name: string
+            android:
+              value:
+                deposits:
+                  - depositId: 12343
+                    balance: 1000
+                    currency: RUB
+                    status: ACTIVE
+                    name: Выгода
+                  - depositId: 12344
+                    balance: 3040678
+                    currency: RUB
+                    status: ACTIVE
+                    name: Многа денег
+                  - depositId: 12345
+                    balance: 23070935
+                    currency: RUB
+                    status: ACTIVE
+                    name: Очень многа денег
+    CreateDepositResponse:
+      description: Номер созданного депозита
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                id: 2
+            properties:
+              id:
+                type: number
+                description: Номер депозита
+            required:
+              - id
+    CardIDResponse:
+      description: Номер созданной карты
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                card_id: 3
+            properties:
+              cardId:
+                type: number
+                description: Номер карты
+            required:
+              - cardId
+    CardInfoResponse:
+      description: Информация о карте
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Card'
+          examples:
+            example-1:
+              value:
+                id: 0
+                accountId: 0
+                number: '2323200814106608'
+                expiredAt: '2022-04-21T00:00:00Z'
+                paymentSystem: VISA
+                status: Активна
+                name: test
+            android-121:
+              value:
+                id: 121
+                accountId: 0
+                number: '2323200814106608'
+                expiredAt: '2022-04-21T00:00:00Z'
+                paymentSystem: VISA
+                status: ACTIVE
+                name: Дебетовая карта 1
+            android-122:
+              value:
+                id: 122
+                accountId: 0
+                number: '2323200814106608'
+                expiredAt: '2022-04-21T00:00:00Z'
+                paymentSystem: VISA
+                status: ACTIVE
+                name: Дебетовая карта 2
+            android-123:
+              value:
+                id: 123
+                accountId: 0
+                number: '2323200814106608'
+                expiredAt: '2022-04-21T00:00:00Z'
+                paymentSystem: VISA
+                status: ACTIVE
+                name: Дебетовая карта 3
+            android-124:
+              value:
+                id: 124
+                accountId: 0
+                number: '2323200814106608'
+                expiredAt: '2022-04-21T00:00:00Z'
+                paymentSystem: VISA
+                status: DEACTIVATED
+                name: Дебетовая карта 2
+    CardCodeResponse:
+      description: Пин код
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                Code: '686'
+            properties:
+              code:
+                type: string
+                minLength: 1
+                description: Пин код карты
+            required:
+              - code
+    HistoryResponse:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              accountId:
+                type: integer
+                description: Номер аккаунта
+              accountNumber:
+                type: string
+                description: Номер аккаунта
+              currency:
+                type: string
+                description: Тип валюты
+              cards:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    cardId:
+                      type: integer
+                    number:
+                      type: string
+                    operations:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          data:
+                            type: string
+                          type:
+                            type: string
+                          size:
+                            type: integer
+                          description:
+                            type: string
+                        required:
+                          - data
+                          - type
+                          - size
+                          - description
+                  required:
+                    - cardId
+                    - number
+            required:
+              - accountId
+              - accountNumber
+              - currency
+    CheckCodeResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                remaining_attempts: 0
+                code: string
+            properties:
+              remaining_attempts:
+                type: number
+                description: Кол-во оставшихся попыток
+              code:
+                type: string
+                minLength: 1
+                description: Введеный код
+            required:
+              - remaining_attempts
+              - code
+    GeneralSuccessResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+          examples:
+            success:
+              value:
+                success: true
+    OtpResponse:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              otpId:
+                type: string
+                x-stoplight:
+                  id: 3o9dj1iwln6ah
+                format: uuid
+                example: 699d9156-bdb1-49bc-abb0-b5b989fc0aee
+              otpLen:
+                type: number
+                x-stoplight:
+                  id: ed9vblu8j6q45
+                default: 6
+              resendIn:
+                type: number
+                x-stoplight:
+                  id: upbzhqutrlgq4
+                default: 60
+                description: количество секунд для перезапроса
+              attemptsLeft:
+                type: number
+                x-stoplight:
+                  id: 4le9qzk3j3kek
+            required:
+              - otpId
+              - otpLen
+              - resendIn
+    OtpResend:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              otpId:
+                type: string
+                x-stoplight:
+                  id: hx99dxkdq2i92
+                format: uuid
+    OtpConfirm:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+                x-stoplight:
+                  id: jjacee811n1b2
+              attemptLeft:
+                type: number
+                x-stoplight:
+                  id: mr3hjsosh1o7b
+    Err409Response:
+      description: Example response
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - code
+            properties:
+              code:
+                type: string
+                x-stoplight:
+                  id: fjw554c71r9bw
+                example: ERR_CONFLICT
+  requestBodies:
+    AccountRequest:
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                otp_id: '{{otp_id}}'
+                otp_code: '{{otp_code}}'
+                currency: RUB
+            properties:
+              otpId:
+                type: string
+                minLength: 1
+                description: Номер смс кода
+                example: 699d9156-bdb1-49bc-abb0-b5b989fc0aee
+              otpCode:
+                type: string
+                minLength: 1
+                description: Одноразовый код в смс для авторизации
+                pattern: '\d{4}'
+                example: '1234'
+              currency:
+                type: string
+                minLength: 1
+                description: Тип валюты
+                example: RUB
+            required:
+              - otpId
+              - otpCode
+              - currency
+      description: Тип открытого счета
+    DepositRequest:
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                type: 1
+                otp_id: '{{otp_id}}'
+                otp_code: '{{otp_code}}'
+            properties:
+              type:
+                type: number
+                description: Тип депозита
+              otpId:
+                type: string
+                minLength: 1
+                description: Номер смс кода
+              otpCode:
+                type: string
+                minLength: 1
+                description: Смс код
+            required:
+              - type
+              - otpId
+              - otpCode
+      description: Запрос  депозита
+    CardRequest:
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                account_id: 1
+                name: test
+                otp_code: '{{otp_code}}'
+                otp_id: '{{otp_id}}'
+            properties:
+              accountId:
+                type: number
+                description: Номер аккаунта пользователя
+              name:
+                type: string
+                minLength: 1
+                description: Имя карты
+              otpCode:
+                type: string
+                minLength: 1
+                description: Номер смс кода
+              otpId:
+                type: string
+                minLength: 1
+                description: Смс код
+            required:
+              - accountId
+              - name
+              - otpCode
+              - otpId
+      description: Создание карты
+    CardEditRequest:
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                new_name: test2
+            properties:
+              newName:
+                type: string
+                minLength: 1
+                description: Новое имя карты
+            required:
+              - newName
+      description: Новое имя карты
+    OtpRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              operation:
+                type: string
+                x-stoplight:
+                  id: a9xi5bbt5i734
+                enum:
+                  - PAYMENT
+    OtpResend:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              otpId:
+                type: string
+                x-stoplight:
+                  id: syeaa1075impl
+                format: uuid
+    OtpConfirm:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              otp:
+                type: string
+                x-stoplight:
+                  id: eo0k13a0r0vci
+              otpId:
+                type: string
+                x-stoplight:
+                  id: 33covgb8ie3o1
+                format: uuid
+            required:
+              - otp
+              - otpId
+  parameters:
+    Authorization:
+      name: Authorization
+      in: header
+      required: false
+      schema:
+        type: string
+        example: Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3YjllOGMwYy1hZGZmLTRkMDItYWI4OC03ZTJhMGQ5OTU4YzYiLCJleHAiOjE2MzY1MzQ3ODQsInVpZCI6MSwicGhuIjoiKzc5MTIzMjEzMjMzIn0.PAjTKTLmd1Axz6gvgQMNcUBTso7JFGwoUL-1B2J9NXpM6XmFS_z46fF70bPjICBYYLy1CMC186mzA7igxDCMVQ
+      description: Access token
+    AccountID:
+      name: accountId
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 2
+      description: Номер аккаунта
+    DepositID:
+      name: depositId
+      in: path
+      required: true
+      schema:
+        type: number
+        example: 1
+      description: Номер депозита
+    CardID:
+      in: path
+      required: true
+      schema:
+        type: string
+        example: '2'
+      description: Номер карты в аккаунте
+      name: cardId
+    Auth (1)_Authorization:
+      name: Authorization
+      in: header
+      required: false
+      schema:
+        type: string
+        example: Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3YjllOGMwYy1hZGZmLTRkMDItYWI4OC03ZTJhMGQ5OTU4YzYiLCJleHAiOjE2MzY1MzQ3ODQsInVpZCI6MSwicGhuIjoiKzc5MTIzMjEzMjMzIn0.PAjTKTLmd1Axz6gvgQMNcUBTso7JFGwoUL-1B2J9NXpM6XmFS_z46fF70bPjICBYYLy1CMC186mzA7igxDCMVQ
+      description: Access token
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+security:
+  - JWT: []

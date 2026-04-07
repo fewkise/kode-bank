@@ -1,0 +1,315 @@
+openapi: 3.0.0
+info:
+  title: Skillbox Auth API
+  version: '1.0'
+  description: REST API для сервиса Skillbox
+servers:
+  - url: 'http://sandbox.kode.ru/fake-bank'
+  - description: ''
+paths:
+  /api/auth/login:
+    post:
+      summary: POST /api/auth/otp_code
+      operationId: post-api-auth-otp_code
+      parameters: []
+      requestBody:
+        $ref: '#/components/requestBodies/OtpCodeRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/OtpCodeResponse'
+        '400':
+          description: Bad Request
+        '403':
+          $ref: '#/components/responses/OtpCode403Response'
+        '500':
+          description: Internal Server Error
+      description: Получение смс кода для авторизации
+    parameters: []
+  /api/auth/confirm:
+    post:
+      summary: POST /api/auth/confirm
+      operationId: post-api-auth-confirm
+      responses:
+        '200':
+          $ref: '#/components/responses/ConfirmResponse'
+        '400':
+          description: Bad Request
+        '403':
+          $ref: '#/components/responses/Confirm403Response'
+      requestBody:
+        $ref: '#/components/requestBodies/ConfirmRequest'
+      description: Подверждние смс кода для авторизации и получение гостевого токена
+  /api/auth/enter:
+    post:
+      summary: POST /api/auth/enter
+      operationId: post-api-auth-enter
+      requestBody:
+        $ref: '#/components/requestBodies/EnterRequest'
+      responses:
+        '200':
+          $ref: '#/components/responses/TokensResponse'
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      description: Вход пользователя по гостевому токену
+  /api/auth/refresh:
+    post:
+      summary: POST /api/auth/refresh
+      operationId: post-api-auth-refresh
+      responses:
+        '200':
+          $ref: '#/components/responses/TokensResponse'
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+      description: Обновление токенов авторизованного пользователя
+      requestBody:
+        $ref: '#/components/requestBodies/RefreshTokenRequest'
+  /api/auth/logout:
+    post:
+      summary: POST /api/auth/logout
+      operationId: post-api-auth-logout
+      responses:
+        '200':
+          description: OK
+      description: Выход пользователя из системы
+      parameters:
+        - $ref: '#/components/parameters/Authorization'
+      requestBody:
+        $ref: '#/components/requestBodies/RefreshTokenRequest'
+components:
+  schemas: {}
+  securitySchemes: {}
+  requestBodies:
+    OtpCodeRequest:
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                phone: '+79115552211'
+            properties:
+              phone:
+                type: string
+                minLength: 1
+                description: Номер телефона для смс с кодом
+                example: '+79115552211'
+                pattern: '^+7[0-9]{10}$'
+            required:
+              - phone
+      description: Номер телефона для смс кода
+    ConfirmRequest:
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                otp_id: 699d9156-bdb1-49bc-abb0-b5b989fc0aee
+                phone: '+79115552211'
+                otp_code: '4562'
+            properties:
+              otpId:
+                type: string
+                minLength: 1
+                description: Номер смс кода из /api/auth/otp_code
+                example: 699d9156-bdb1-49bc-abb0-b5b989fc0aee
+              phone:
+                type: string
+                minLength: 1
+                description: Номер телефона использованный в /api/auth/otp_code
+                pattern: '^+7[0-9]{10}$'
+                example: '+79115552211'
+              otpCode:
+                type: string
+                minLength: 1
+                description: Одноразовый код в смс для авторизации полченный в /api/auth/otp_code
+                example: '1234'
+            required:
+              - otpId
+              - phone
+              - otpCode
+      description: Подтверждение получение смс кода
+    EnterRequest:
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                guest_token: '{{guest_token}}'
+                password: '12345'
+            properties:
+              guestToken:
+                type: string
+                minLength: 1
+                example: eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1YTg0ODQ1ZS01ZDdjLTQzMjEtYWM3Yi1iOTUwYjgwNDk1OTgiLCJleHAiOjE2MzY1MzUzMjIsInBobiI6Iis3OTEyMzIxMzIzMyJ9.vKeq8MRwOD48bxf3Erz5TgE3mnuw20DRyfhOFYiANl6ajslWHhf5kjRjt5nzGkwBQ0fXogWHVS29aTaMcMg
+                description: Гостевой токен
+              password:
+                type: string
+                minLength: 1
+                description: Новый пароль для пользователя по гостевому токену
+                example: 123ewtfgdftge65
+            required:
+              - guestToken
+              - password
+          examples:
+            example-1:
+              guest_token: string
+              password: string
+      description: Гостевой токен и пароль для регистрации
+    RefreshTokenRequest:
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                refresh_token: '{{refresh_token}}'
+            properties:
+              refreshToken:
+                type: string
+                minLength: 1
+                description: Refresh token
+                example: eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzY1MzUzMjQsInVpZCI6MSwicGhuIjoiKzc5MTIzMjEzMjMzIn0.fZqRH_HJ0rLGLXpLLV4l2Ajy_NjTTeWdHwhbifxx4dV9egzs7CuKAqEa-hpiI3ZnXrjPcJtkKpGnJuYZNtZxBg
+            required:
+              - refreshToken
+      description: Отправка refresh token
+  responses:
+    OtpCodeResponse:
+      description: Имитация отправки смс
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                otp_id: 699d9156-bdb1-49bc-abb0-b5b989fc0aee
+                otp_code: '4562'
+            properties:
+              otpId:
+                type: string
+                minLength: 1
+                description: Номер смс кода
+                example: 699d9156-bdb1-49bc-abb0-b5b989fc0aee
+              otpCode:
+                type: string
+                minLength: 1
+                description: Одноразовый код в смс для авторизации
+                pattern: '\d{4}'
+                example: '123456'
+              otpLen:
+                type: integer
+                description: Длина кода
+                example: 6
+            required:
+              - otpId
+              - otpCode
+              - otpLen
+    ConfirmResponse:
+      description: Получение гостевого токена
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                guest_token: eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1YTg0ODQ1ZS01ZDdjLTQzMjEtYWM3Yi1iOTUwYjgwNDk1OTgiLCJleHAiOjE2MzY1MzUzMjIsInBobiI6Iis3OTEyMzIxMzIzMyJ9.vKeq8MRwOD48bxf3Erz5TgE3mnuw20DRyfhOFYiANl6oR4uuKHvMOTVfARjt5nzGkwBQ0fXogWHVS29aTaMcMg
+            properties:
+              guestToken:
+                type: string
+                minLength: 1
+                description: Гостевой токен
+                example: eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI1YTg0ODQ1ZS01ZDdjLTQzMjEtYWM3Yi1iOTUwYjgwNDk1OTgiLCJleHAiOjE2MzY1MzUzMjIsInBobiI6Iis3OTEyMzIxMzIzMyJ9.vKeq8MRwOD48bxf3Erz5TgE3mnuw20DRyfhOFYiANl6ajslWHhf5kjRjt5nzGkwBQ0fXogWHVS29aTaMcMg
+            required:
+              - guestToken
+    TokensResponse:
+      description: Получение токенов для работы
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                access_token: eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3YjllOGMwYy1hZGZmLTRkMDItYWI4OC03ZTJhMGQ5OTU4YzYiLCJleHAiOjE2MzY1MzQ3ODQsInVpZCI6MSwicGhuIjoiKzc5MTIzMjEzMjMzIn0.PAjTKTLmd1Axz6gvgQMNcUBTso7JFGwoUL-1B2J9NXpM6XmFS_z46fF70bPjICBYYLy1CMC186mzA7igxDCMVQ
+                refresh_token: eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzY1MzUzMjQsInVpZCI6MSwicGhuIjoiKzc5MTIzMjEzMjMzIn0.fZqRH_HJ0rLGLXpLLV4l2Ajy_NjTTeWdHwhbifxx4dV9egzs7CuKAqEa-hpiI3ZnXrjPcJtkKpGnJuYZNtZxBg
+            properties:
+              accessToken:
+                type: string
+                minLength: 1
+                description: Access token
+                example: eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3YjllOGMwYy1hZGZmLTRkMDItYWI4OC03ZTJhMGQ5OTU4YzYiLCJleHAiOjE2MzY1MzQ3ODQsInVpZCI6MSwicGhuIjoiKzc5MTIzMjEzMjMzIn0.PAjTKTLmd1Axz6gvgQMNcUBTso7JFGwoUL-1B2J9NXpM6XmFS_z46fF70bPjICBYYLy1CMC186mzA7igxDCMVQ
+              refreshToken:
+                type: string
+                minLength: 1
+                description: Refresh token
+                example: eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzY1MzUzMjQsInVpZCI6MSwicGhuIjoiKzc5MTIzMjEzMjMzIn0.fZqRH_HJ0rLGLXpLLV4l2Ajy_NjTTeWdHwhbifxx4dV9egzs7CuKAqEa-hpiI3ZnXrjPcJtkKpGnJuYZNtZxBg
+            required:
+              - accessToken
+              - refreshToken
+    Confirm403Response:
+      description: Error 403
+      content:
+        application/json:
+          schema:
+            description: ''
+            type: object
+            x-examples:
+              example-1:
+                remaining_attempts: 0
+                code: ''
+            properties:
+              remainingAttempts:
+                type: number
+                description: Кол-во попыток
+              code:
+                type: string
+                description: Полученный код
+            required:
+              - remainingAttempts
+              - code
+          examples:
+            example-1:
+              remaining_attempts: 0
+              code: string
+    OtpCode403Response:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              resendIn:
+                type: integer
+                description: Время задержки повторного запроса
+              code:
+                type: string
+                description: код
+            required:
+              - resendIn
+              - code
+  parameters:
+    Authorization:
+      name: Authorization
+      in: header
+      required: false
+      schema:
+        type: string
+        example: Bearer eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aWQiOiI3YjllOGMwYy1hZGZmLTRkMDItYWI4OC03ZTJhMGQ5OTU4YzYiLCJleHAiOjE2MzY1MzQ3ODQsInVpZCI6MSwicGhuIjoiKzc5MTIzMjEzMjMzIn0.PAjTKTLmd1Axz6gvgQMNcUBTso7JFGwoUL-1B2J9NXpM6XmFS_z46fF70bPjICBYYLy1CMC186mzA7igxDCMVQ
+      description: Access token
