@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "postinstall": "yarn generate-api",
+    "postinstall": "yarn api:update",
     "prepare": "node .husky/install.mjs",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -13,7 +13,7 @@
     "transform-icons": "ts-node-transpile-only --project node.tsconfig.json scripts/transform-svg/transform-svg.ts",
     "start": "react-native start --client-logs",
     "test": "jest --passWithNoTests",
-    "generate-api": "node scripts/transform-api/transform-api.js & openapi-generator-cli generate",
+    "api:update": "rm -rf /src/shared/api/axios-client && openapi-generator-cli generate",
     "storybook-generate": "sb-rn-get-stories"
   },
   "dependencies": {

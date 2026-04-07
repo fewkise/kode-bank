@@ -4,11 +4,23 @@
   "generator-cli": {
     "version": "7.8.0",
     "generators": {
-      "v1.0": {
+      "auth": {
         "generatorName": "typescript-axios",
-        "output": "#{cwd}/src/shared/api/client",
+        "output": "#{cwd}/src/shared/api/auth-axios-client",
         "skipValidateSpec": true,
-        "inputSpec": "#{cwd}/api.json",
+        "inputSpec": "#{cwd}/openapi/bank-auth-openapi.yaml",
+        "typeMappings": "set=Array,object=any",
+        "reservedWordsMappings": "class=class",
+        "additionalProperties": {
+          "supportsES6": true,
+          "useSingleRequestParameter": true
+        }
+      },
+      "core": {
+        "generatorName": "typescript-axios",
+        "output": "#{cwd}/src/shared/api/core-axios-client",
+        "skipValidateSpec": true,
+        "inputSpec": "#{cwd}/openapi/bank-core-openapi.yaml",
         "typeMappings": "set=Array,object=any",
         "reservedWordsMappings": "class=class",
         "additionalProperties": {
