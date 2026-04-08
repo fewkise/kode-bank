@@ -4,14 +4,13 @@ import React, {
   Image,
   View,
   TouchableOpacity,
-  ImageSourcePropType,
 } from 'react-native';
 import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 
 import { IconClose } from '@shared/ui/icons';
 type Props = PhoneInputProps & TextInputProps;
 type PhoneInputProps = {
-  photo?: ImageSourcePropType;
+  photo?: string;
   onClear: () => void;
   isError: boolean;
 };
@@ -28,7 +27,7 @@ export const PhoneInput = ({
   const isClearButtonVisible = value?.length !== 0 && onClear;
   return (
     <View style={styles.container}>
-      {photo && <Image style={styles.forImage} source={photo} />}
+      {photo && <Image style={styles.forImage} source={{ uri: photo }} />}
       <TextInput
         style={[styles.root, isError && styles.errorText]}
         value={value}

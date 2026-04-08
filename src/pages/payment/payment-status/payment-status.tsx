@@ -1,18 +1,30 @@
-import { View } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native-unistyles';
 
 import { StatusIndicator, PrimaryButton } from '@shared/ui/molecules';
+
+import { TStatus } from './types';
 type Props = {
   onPress: () => void;
-  status: 'success' | 'error';
+  status: TStatus;
+  isLoading: boolean;
+  amount: string | number;
 };
-export const PaymentStatus = ({ onPress, status }: Props) => {
+export const PaymentStatus = ({
+  onPress,
+  status,
+  isLoading,
+  amount,
+}: Props) => {
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
   return (
     <SafeAreaView style={styles.forSafe}>
       <View style={styles.spacer} />
       <View style={styles.centered}>
-        <StatusIndicator sum="12121" status={status} />
+        <StatusIndicator sum={amount} status={status} />
       </View>
       <View style={styles.container}>
         <View style={styles.buttonContainer}>

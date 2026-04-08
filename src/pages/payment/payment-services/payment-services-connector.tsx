@@ -1,16 +1,20 @@
 import { useState } from 'react';
 
-import { services } from './constants';
+import { usePaymentList } from '@entities/payments';
+
 import { PaymentServices } from './payment-services';
+import { TServiceItem } from './types';
 type Props = {
-  onPress: (serviceId: string, title: string) => void;
+  onPress: (serviceId: string, title: string, serviceIcon: string) => void;
 };
 export const PaymentServicesConnector = ({ onPress }: Props) => {
-  const isLoading = false;
-
+  const { data, isLoading } = usePaymentList();
   const [search, setSearch] = useState('');
-  const filteredItems = services.filter(item =>
-    item.serviceName.toLowerCase().includes(search.toLowerCase()),
+
+  const allServices = (data?.category?.flatMap(item => item.services) ??
+    []) as TServiceItem[];
+  const filteredItems = allServices.filter(item =>
+    item.service_name?.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (

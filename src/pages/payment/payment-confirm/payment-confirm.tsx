@@ -5,20 +5,23 @@ import { StyleSheet } from 'react-native-unistyles';
 import { InputFull, PrimaryButton } from '@shared/ui/molecules';
 import { KeyboardView } from '@shared/ui/templates';
 
+import { PaymentPayload } from '../payment-create/types';
+
 export type PaymentConfirmProps = {
-  data: Array<{ id: string | number; label: string; value: string }>;
   onConfirm: () => void;
   onLinkPress: () => void;
+  payload: PaymentPayload;
+  mapdata: Array<{ label: string; value: string; id: string }>;
 };
 export const PaymentConfirm = ({
-  data,
   onConfirm,
   onLinkPress,
+  mapdata,
 }: PaymentConfirmProps) => (
   <KeyboardView>
     <View style={styles.container}>
       <View style={styles.containerTwo}>
-        {data.map(item => (
+        {mapdata.map(item => (
           <InputFull key={item.id} label={item.label} value={item.value} />
         ))}
       </View>

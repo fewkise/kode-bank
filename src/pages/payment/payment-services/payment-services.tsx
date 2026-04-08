@@ -16,7 +16,7 @@ type PaymentServicesProps = {
   setSearch: (text: string) => void;
   isLoading: boolean;
   services: TServiceItem[];
-  onPress: (serviceId: string, title: string) => void;
+  onPress: (serviceId: string, title: string, serviceIcon: string) => void;
 };
 export const PaymentServices = ({
   search,
@@ -44,9 +44,15 @@ export const PaymentServices = ({
           renderItem={({ item }) => (
             <ServiceWrapper
               iconSize={40}
-              onPress={() => onPress(item.serviceId, item.serviceName)}
-              source={item.serviceIcon}
-              serviceName={item.serviceName}
+              onPress={() =>
+                onPress(
+                  item.service_id,
+                  item.service_name,
+                  String(item.service_icon),
+                )
+              }
+              source={String(item.service_icon ?? '')}
+              serviceName={item.service_name}
             />
           )}
           ItemSeparatorComponent={ItemSeparatorComponent}
@@ -63,7 +69,7 @@ export const PaymentServices = ({
   );
 };
 
-const keyExtractor = (item: TServiceItem) => item.serviceId;
+const keyExtractor = (item: TServiceItem) => item.service_id;
 
 const ItemSeparatorComponent = () => <View style={styles.divider} />;
 

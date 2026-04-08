@@ -10,8 +10,8 @@ export type PaymentServicesProps = StackScreenProps<
 >;
 
 export const PaymentServicesScreen = ({ navigation }: PaymentServicesProps) => {
-  const onPress = (serviceId: string, title: string) => {
-    navigation.navigate('paymentCreate', { serviceId, title });
+  const onPress = (serviceId: string, title: string, serviceIcon: string) => {
+    navigation.navigate('paymentCreate', { serviceId, title, serviceIcon });
   };
   return <PaymentServicesConnector onPress={onPress} />;
 };

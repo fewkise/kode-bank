@@ -1,5 +1,5 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { CompositeScreenProps } from '@react-navigation/native';
+import { CompositeScreenProps, useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { PaymentStatusConnector } from '@pages/payment';
@@ -11,9 +11,19 @@ export type PaymentStatusProps = CompositeScreenProps<
   BottomTabScreenProps<HomeTabsParamsList>
 >;
 
-export const PaymentStatusScreen = ({ navigation }: PaymentStatusProps) => {
+export const PaymentStatusScreen = ({
+  route,
+}: StackScreenProps<RootStackParamsList, 'paymentStatus'>) => {
+  const navigation = useNavigation<PaymentStatusProps['navigation']>();
+  const { paymentId, amount } = route.params;
   const onPress = () => {
     navigation.navigate('HomeTabs', { screen: 'PaymentMain' });
   };
-  return <PaymentStatusConnector onPress={onPress} />;
+  return (
+    <PaymentStatusConnector
+      amount={amount}
+      paymentId={paymentId}
+      onPress={onPress}
+    />
+  );
 };

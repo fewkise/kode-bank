@@ -1,4 +1,4 @@
-import { ImageSourcePropType, View } from 'react-native';
+import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native-unistyles';
 
@@ -10,16 +10,14 @@ import {
   PriceInput,
   Select,
 } from '@shared/ui/molecules';
-import { DigitNumber } from '@shared/ui/molecules/bank-card/bank-card';
 import { KeyboardView } from '@shared/ui/templates';
 
 import { TPaymentPrices } from './constants';
-
+import { Card } from './types';
 type PaymentCreateProps = {
   phoneNumber: string;
   setPhoneNumber: (text: string) => void;
   isSubmited: boolean;
-  cardNumber: DigitNumber;
   handleClear: () => void;
   onContinue: () => void;
   sumError: boolean;
@@ -27,13 +25,13 @@ type PaymentCreateProps = {
   paymentPrices: TPaymentPrices[];
   setSum: (val: string) => void;
   phoneNumberError: boolean;
-  serviceIcon: ImageSourcePropType;
+  serviceIcon: string;
+  cardData: Card[];
 };
 export const PaymentCreate = ({
   phoneNumber,
   setPhoneNumber,
   isSubmited,
-  cardNumber,
   handleClear,
   sumError,
   sum,
@@ -42,6 +40,7 @@ export const PaymentCreate = ({
   serviceIcon,
   onContinue,
   paymentPrices,
+  cardData,
 }: PaymentCreateProps) => {
   return (
     <KeyboardView>
@@ -52,12 +51,14 @@ export const PaymentCreate = ({
               Карта для оплаты
             </Typography>
           </View>
-
-          <Select
-            cardNumber={cardNumber}
-            cardName="Карта зарплатная"
-            balance="457 334,00"
-          />
+          {cardData.map(item => (
+            <Select
+              cardNumber={item.lastFour}
+              cardName={item.name}
+              balance={item.balance}
+              key={item.id}
+            />
+          ))}
         </View>
         <View style={styles.containerNumber}>
           <PhoneInput
