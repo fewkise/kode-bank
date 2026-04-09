@@ -19,16 +19,19 @@ export const PaymentCreateConnector = ({
   serviceId,
 }: Props) => {
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [sum, setSum] = useState('0');
+  const [sum, setSum] = useState(0);
   const selectedCardId = '1';
   const [isSubmited, setSubmited] = useState(false);
-  const sumError = sum === '' || sum === '0';
+  const sumError = sum === null || sum === 0;
   const { data: cardData = [] } = usePaymentCards();
   const phoneNumberError = phoneNumber.length < 10;
   const handleClear = () => {
     setPhoneNumber('');
   };
   const selectedCard = cardData.filter(item => item.id === selectedCardId);
+  const selectedCardOne = cardData.find(item => item.id === selectedCardId);
+  const cashback = selectedCardOne?.cashback || 0;
+  const finalCashback = cashback * sum;
   const handleContinue = () => {
     const payload: PaymentPayload = {
       phoneNumber,
@@ -50,6 +53,7 @@ export const PaymentCreateConnector = ({
       sumError={sumError}
       phoneNumberError={phoneNumberError}
       sum={sum}
+      cashback={finalCashback}
       cardData={selectedCard}
       serviceIcon={serviceIcon}
       handleClear={handleClear}
