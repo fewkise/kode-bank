@@ -3,11 +3,12 @@ import { Alert, Linking } from 'react-native';
 
 import { useCreatePayment } from '@entities/payments';
 import { PaymentConfirm } from '@pages/payment/payment-confirm';
+import { Card } from '@routing/app-navigation/entities/card/types';
 
-import { Card } from '../payment-create/types';
+import { TStatus } from '../payment-status/types';
 
 export type ConnectorProps = {
-  goToStatus: (paymentId: string) => void;
+  goToStatus: (paymentId: string, status: TStatus) => void;
   payload: {
     cardId: string;
     amount: number | string;
@@ -26,7 +27,7 @@ export const PaymentConfirmConnector = ({
   const onConfirm = () => {
     mutate(payload, {
       onSuccess: data => {
-        goToStatus(data.paymentId);
+        goToStatus(data.paymentId, data.status);
       },
       onError: err => {
         console.log(err);
@@ -34,7 +35,7 @@ export const PaymentConfirmConnector = ({
     });
   };
   const selectedCard = cardData.find(item => item.id === payload.cardId);
-  const map_data = [
+  const mapData = [
     { value: `${selectedCard?.name}`, id: '6', label: 'Карта для оплаты' },
     { value: `${payload.serviceName}`, id: '2', label: 'Мобильный оператор' },
     { value: `${payload.phoneNumber}`, id: '1', label: 'Телефон получателя' },
@@ -50,7 +51,7 @@ export const PaymentConfirmConnector = ({
 
   return (
     <PaymentConfirm
-      mapdata={map_data}
+      data={mapData}
       payload={payload}
       onConfirm={onConfirm}
       onLinkPress={onOpenLink}

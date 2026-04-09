@@ -1,10 +1,11 @@
 import { useState } from 'react';
 
 import { usePaymentCards } from '@entities/payment-card';
+import { PaymentPayload } from '@entities/payments/hooks/use-create-payment';
+import { Card } from '@routing/app-navigation/entities/card/types';
 
 import { paymentPrices } from './constants';
 import { PaymentCreate } from './payment-create';
-import { Card, PaymentPayload } from './types';
 type Props = {
   onSuccess: (payload: PaymentPayload, cardData: Card[]) => void;
   serviceIcon: string;
@@ -19,7 +20,7 @@ export const PaymentCreateConnector = ({
 }: Props) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [sum, setSum] = useState('0');
-
+  const selectedCardId = '1';
   const [isSubmited, setSubmited] = useState(false);
   const sumError = sum === '' || sum === '0';
   const { data: cardData = [] } = usePaymentCards();
@@ -27,14 +28,15 @@ export const PaymentCreateConnector = ({
   const handleClear = () => {
     setPhoneNumber('');
   };
-  const payload: PaymentPayload = {
-    phoneNumber: phoneNumber,
-    amount: sum,
-    serviceName: serviceName,
-    serviceId: serviceId,
-    cardId: '1',
-  };
+  const selectedCard = cardData.filter(item => item.id === selectedCardId);
   const handleContinue = () => {
+    const payload: PaymentPayload = {
+      phoneNumber,
+      amount: sum,
+      serviceName,
+      serviceId,
+      cardId: selectedCardId,
+    };
     setSubmited(true);
     if (!sumError && !phoneNumberError) {
       onSuccess(payload, cardData);
@@ -48,7 +50,7 @@ export const PaymentCreateConnector = ({
       sumError={sumError}
       phoneNumberError={phoneNumberError}
       sum={sum}
-      cardData={cardData}
+      cardData={selectedCard}
       serviceIcon={serviceIcon}
       handleClear={handleClear}
       onContinue={handleContinue}

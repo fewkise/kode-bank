@@ -1,9 +1,10 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 
-import { Card } from '@pages/payment/payment-create/types';
+import { TStatus } from '@pages/payment/payment-status/types';
 import { HomeTabsParamsList } from '@routing/home-tabs-navigation';
-export type Digit = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9';
-export type DigitNumber = `${Digit}${Digit}${Digit}${Digit}`;
+
+import { Card } from './entities/card/types';
+
 export type RootStackParamsList = {
   HomeTabs: NavigatorScreenParams<HomeTabsParamsList>;
   paymentServices: undefined;
@@ -25,5 +26,6 @@ export type RootStackParamsList = {
   paymentStatus: {
     paymentId: string;
     amount: number | string;
+    status: TStatus;
   };
 };

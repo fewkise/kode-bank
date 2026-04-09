@@ -1,4 +1,4 @@
-import { Card } from '@pages/payment/payment-create/types';
+import { Card } from '@routing/app-navigation/entities/card/types';
 
 export const mock_cards: Card[] = [
   {

@@ -1,4 +1,4 @@
-import { usePaymentStatus } from '@entities/payments';
+import { useCreatePayment } from '@entities/payments';
 
 import { PaymentStatus } from './payment-status';
 import { TStatus } from './types';
@@ -6,18 +6,15 @@ type Props = {
   onPress: () => void;
   paymentId: string;
   amount: string | number;
+  status: TStatus;
 };
-export const PaymentStatusConnector = ({
-  onPress,
-  paymentId,
-  amount,
-}: Props) => {
-  const { data, isFetching } = usePaymentStatus(paymentId);
-  const currentStatus: TStatus = data?.status as TStatus;
+export const PaymentStatusConnector = ({ onPress, amount, status }: Props) => {
+  const { isPending } = useCreatePayment();
+  const currentStatus: TStatus = status ?? 'error';
   return (
     <PaymentStatus
       amount={amount}
-      isLoading={isFetching}
+      isLoading={isPending}
       onPress={onPress}
       status={currentStatus}
     />

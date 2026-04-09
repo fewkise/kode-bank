@@ -2,6 +2,7 @@ import { View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native-unistyles';
 
+import { Card } from '@routing/app-navigation/entities/card/types';
 import { Typography } from '@shared/ui/atoms';
 import {
   Chip,
@@ -13,7 +14,6 @@ import {
 import { KeyboardView } from '@shared/ui/templates';
 
 import { TPaymentPrices } from './constants';
-import { Card } from './types';
 type PaymentCreateProps = {
   phoneNumber: string;
   setPhoneNumber: (text: string) => void;
