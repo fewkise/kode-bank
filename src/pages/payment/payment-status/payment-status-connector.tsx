@@ -1,7 +1,7 @@
 import { useCreatePayment } from '@entities/payments';
+import { TStatus } from '@entities/payments/types';
 
 import { PaymentStatus } from './payment-status';
-import { TStatus } from './types';
 type Props = {
   onPress: () => void;
   paymentId: string;

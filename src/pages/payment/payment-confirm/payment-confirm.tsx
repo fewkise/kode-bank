@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-import { PaymentPayload } from '@entities/payments/hooks/use-create-payment';
+import { PaymentPayload } from '@entities/payments/types';
 import { InputFull, PrimaryButton } from '@shared/ui/molecules';
 import { KeyboardView } from '@shared/ui/templates';
 

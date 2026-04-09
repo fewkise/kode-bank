@@ -1,13 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { TStatus } from '@pages/payment/payment-status/types';
-export type PaymentPayload = {
-  amount: number | string;
-  cardId: string;
-  serviceId: string;
-  phoneNumber: string;
-  serviceName: string;
-};
+import { TStatus, PaymentPayload } from '../types';
 
 export const useCreatePayment = () => {
   return useMutation<

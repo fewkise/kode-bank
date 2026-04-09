@@ -1,9 +1,9 @@
 import { StackScreenProps } from '@react-navigation/stack';
 
-import { PaymentPayload } from '@entities/payments/hooks/use-create-payment';
+import { Card } from '@entities/payment-card/types';
+import { PaymentPayload } from '@entities/payments/types';
 import { PaymentCreateConnector } from '@pages/payment';
 
-import { Card } from '../entities/card/types';
 import { RootStackParamsList } from '../types';
 export type PaymentCreateProps = StackScreenProps<
   RootStackParamsList,

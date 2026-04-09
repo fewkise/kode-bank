@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 import { usePaymentCards } from '@entities/payment-card';
-import { PaymentPayload } from '@entities/payments/hooks/use-create-payment';
-import { Card } from '@routing/app-navigation/entities/card/types';
+import { Card } from '@entities/payment-card/types';
+import { PaymentPayload } from '@entities/payments/types';
 
 import { paymentPrices } from './constants';
 import { PaymentCreate } from './payment-create';

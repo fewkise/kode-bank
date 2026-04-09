@@ -1,9 +1,8 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 
-import { TStatus } from '@pages/payment/payment-status/types';
+import { Card } from '@entities/payment-card/types';
+import { TStatus } from '@entities/payments/types';
 import { HomeTabsParamsList } from '@routing/home-tabs-navigation';
-
-import { Card } from './entities/card/types';
 
 export type RootStackParamsList = {
   HomeTabs: NavigatorScreenParams<HomeTabsParamsList>;

@@ -2,9 +2,9 @@ import { View, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native-unistyles';
 
+import { TStatus } from '@entities/payments/types';
 import { StatusIndicator, PrimaryButton } from '@shared/ui/molecules';
 
-import { TStatus } from './types';
 type Props = {
   onPress: () => void;
   status: TStatus;

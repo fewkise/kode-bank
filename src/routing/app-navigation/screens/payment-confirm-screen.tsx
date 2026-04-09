@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 
+import { TStatus } from '@entities/payments/types';
 import { PaymentConfirmConnector } from '@pages/payment/payment-confirm';
-import { TStatus } from '@pages/payment/payment-status/types';
 
 import { RootStackParamsList } from '../types';
 type Props = ConfirmScreenProps;

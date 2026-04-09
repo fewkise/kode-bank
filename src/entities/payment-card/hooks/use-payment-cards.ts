@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { mock_cards } from '@entities/mocks/mock-cards';
-
+import { mock_cards } from '../../mocks/payment-card/mock-cards';
 import { PAYMENT_CARD_QUERY_KEYS } from '../payment-card-query-keys';
 
 export const usePaymentCards = () => {

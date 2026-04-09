@@ -1,11 +1,10 @@
 import React from 'react';
 import { Alert, Linking } from 'react-native';
 
+import { Card } from '@entities/payment-card/types';
 import { useCreatePayment } from '@entities/payments';
+import { TStatus } from '@entities/payments/types';
 import { PaymentConfirm } from '@pages/payment/payment-confirm';
-import { Card } from '@routing/app-navigation/entities/card/types';
-
-import { TStatus } from '../payment-status/types';
 
 export type ConnectorProps = {
   goToStatus: (paymentId: string, status: TStatus) => void;
