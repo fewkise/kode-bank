@@ -24,6 +24,7 @@ const styles = StyleSheet.create(theme => ({
     alignSelf: 'stretch',
     paddingVertical: theme.spacing(2.5),
     paddingHorizontal: theme.spacing(3),
+    gap: theme.spacing(0.5),
     backgroundColor: theme.palette.background.primary,
   },
 }));

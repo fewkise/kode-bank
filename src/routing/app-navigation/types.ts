@@ -1,6 +1,7 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
-import { ImageSourcePropType } from 'react-native';
 
+import { Card } from '@entities/payment-card/types';
+import { TStatus } from '@entities/payments/types';
 import { HomeTabsParamsList } from '@routing/home-tabs-navigation';
 
 export type RootStackParamsList = {
@@ -9,8 +10,21 @@ export type RootStackParamsList = {
   paymentCreate: {
     serviceId: string;
     title: string;
-    serviceIcon: ImageSourcePropType;
+    serviceIcon: string;
   };
-  paymentConfirm: undefined;
-  paymentStatus: undefined;
+  paymentConfirm: {
+    cardData: Card[];
+    payload: {
+      cardId: string;
+      amount: number | string;
+      serviceId: string;
+      phoneNumber: string;
+      serviceName: string;
+    };
+  };
+  paymentStatus: {
+    paymentId: string;
+    amount: number | string;
+    status: TStatus;
+  };
 };

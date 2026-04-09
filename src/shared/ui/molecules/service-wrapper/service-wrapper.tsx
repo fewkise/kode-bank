@@ -1,5 +1,4 @@
 import React, {
-  ImageSourcePropType,
   TouchableOpacity,
   TouchableOpacityProps,
   View,
@@ -14,7 +13,7 @@ type Props = ServiceWrapperProps & TouchableOpacityProps;
 type ServiceWrapperProps = {
   serviceName: string;
   onPress: (serviceId?: string, title?: string) => void;
-  source?: ImageSourcePropType;
+  source?: string;
   IconSvg?: TIconVariant;
   iconSize: number;
 };
@@ -38,9 +37,22 @@ export const ServiceWrapper = ({
           />
         </View>
       )}
-      {source && (
-        <Image source={source} style={{ width: iconSize, height: iconSize }} />
-      )}
+      {!IconSvg &&
+        (source ? (
+          <Image
+            source={{ uri: source }}
+            style={{ width: iconSize, height: iconSize }}
+          />
+        ) : (
+          <View
+            style={[
+              styles.placeholder,
+              { width: iconSize, height: iconSize, borderRadius: iconSize / 2 },
+            ]}
+          >
+            <Typography>{serviceName.charAt(0).toUpperCase()}</Typography>
+          </View>
+        ))}
 
       <Typography>{serviceName}</Typography>
     </TouchableOpacity>
@@ -62,6 +74,11 @@ const styles = StyleSheet.create(theme => ({
     height: 40,
     borderRadius: '50%',
     display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  placeholder: {
+    backgroundColor: theme.palette.content.secondary,
     alignItems: 'center',
     justifyContent: 'center',
   },

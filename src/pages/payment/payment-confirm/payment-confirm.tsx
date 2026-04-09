@@ -2,18 +2,20 @@ import React from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
+import { PaymentPayload } from '@entities/payments/types';
 import { InputFull, PrimaryButton } from '@shared/ui/molecules';
 import { KeyboardView } from '@shared/ui/templates';
 
 export type PaymentConfirmProps = {
-  data: Array<{ id: string | number; label: string; value: string }>;
   onConfirm: () => void;
   onLinkPress: () => void;
+  payload: PaymentPayload;
+  data: Array<{ label: string; value: string; id: string }>;
 };
 export const PaymentConfirm = ({
-  data,
   onConfirm,
   onLinkPress,
+  data,
 }: PaymentConfirmProps) => (
   <KeyboardView>
     <View style={styles.container}>
