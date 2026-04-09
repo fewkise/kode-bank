@@ -10,7 +10,7 @@ export type ConnectorProps = {
   goToStatus: (paymentId: string, status: TStatus) => void;
   payload: {
     cardId: string;
-    amount: number | string;
+    amount: number;
     serviceId: string;
     phoneNumber: string;
     serviceName: string;
@@ -34,13 +34,20 @@ export const PaymentConfirmConnector = ({
     });
   };
   const selectedCard = cardData.find(item => item.id === payload.cardId);
+  const cashback = selectedCard?.cashback || 0;
+  const cashRaw = Number(cashback * payload.amount);
+  const cashResult = Math.round(cashRaw * 100) / 100;
   const mapData = [
     { value: `${selectedCard?.name}`, id: '6', label: 'Карта для оплаты' },
     { value: `${payload.serviceName}`, id: '2', label: 'Мобильный оператор' },
     { value: `${payload.phoneNumber}`, id: '1', label: 'Телефон получателя' },
     { value: 'Виталий Викторович Г.', id: '4', label: 'Имя получателя' },
     { value: `${payload.amount}  ₽`, id: '3', label: 'Сумма платежа' },
-    { value: '403  ₽', id: '5', label: 'Кешбек' },
+    {
+      value: `${cashResult.toFixed(2)}  ₽`,
+      id: '5',
+      label: 'Кешбек',
+    },
   ];
   const onOpenLink = () => {
     Linking.openURL('https://reactnative.dev').catch(() => {

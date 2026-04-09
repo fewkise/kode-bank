@@ -1,27 +1,20 @@
-import React, {
-  TextInput as ReactTextInput,
-  TextInputProps,
-  View,
-} from 'react-native';
+import React, { TextInput as ReactTextInput, View } from 'react-native';
 import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 import { formatAmount, parseRawAmount } from 'utils/formatter';
 
 import { Typography } from '@shared/ui/atoms';
-type Props = TextInputI & TextInputProps;
-type TextInputI = {
+
+type Props = {
   isError: boolean;
+  value: number;
+  onChangeText: (value: number) => void;
 };
-export const PriceInput = ({
-  isError = false,
-  onChangeText,
-  value,
-  ...rest
-}: Props) => {
+export const PriceInput = ({ isError = false, onChangeText, value }: Props) => {
   const handleChange = (text: string) => {
     const formatted = formatAmount(text);
     const rawFormat = parseRawAmount(formatted);
     if (onChangeText) {
-      onChangeText(rawFormat);
+      onChangeText(Number(rawFormat));
     }
   };
   const { theme } = useUnistyles();
@@ -39,13 +32,12 @@ export const PriceInput = ({
           multiline={false}
           scrollEnabled={false}
           style={styles.hiddenInput}
-          {...rest}
           keyboardAppearance={theme.name}
           keyboardType="numeric"
           selectionColor="transparent"
           caretHidden
           maxLength={12}
-          value={displayValue}
+          value={value === 0 ? '' : String(value)}
           onChangeText={handleChange}
           numberOfLines={1}
         />
