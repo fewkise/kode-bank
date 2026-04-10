@@ -15,7 +15,7 @@ export const AppNavigation = () => {
   return (
     <RootStack.Navigator
       initialRouteName="HomeTabs"
-      screenOptions={rootStackOptions}
+      screenOptions={rootStackOptions()}
     >
       <RootStack.Screen
         name="HomeTabs"
@@ -25,7 +25,7 @@ export const AppNavigation = () => {
       <RootStack.Screen
         name="paymentServices"
         component={PaymentServicesScreen}
-        options={{ headerTitle: 'Мобильная связь' }}
+        options={({ route }) => ({ headerTitle: route.params.serviceName })}
       />
       <RootStack.Screen
         options={{ headerShown: false }}

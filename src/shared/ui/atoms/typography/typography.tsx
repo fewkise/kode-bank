@@ -45,6 +45,7 @@ const styles = StyleSheet.create(theme => {
         fontSize: theme.typography[variant].size,
         lineHeight: theme.typography[variant].lineHeight,
         letterSpacing: theme.typography[variant].letterSpacing,
+        fontWeight: theme.typography[variant].fontWeight,
         textAlign,
         color: theme.palette.text[color],
       };
