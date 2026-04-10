@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
 import { usePaymentList } from '@entities/payments';
+import { TServiceItem } from '@entities/payments/types';
 
 import { PaymentServices } from './payment-services';
-import { TServiceItem } from './types';
 type Props = {
   onPress: (serviceId: string, title: string, serviceIcon: string) => void;
 };

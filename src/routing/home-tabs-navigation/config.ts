@@ -8,6 +8,7 @@ export const homeTabsOptions = (): BottomTabNavigationOptions => {
   return {
     tabBarInactiveTintColor: theme.palette.text.secondary,
     tabBarActiveTintColor: theme.palette.accent.secondary,
+    headerTintColor: theme.palette.text.primary,
     tabBarLabelStyle: {
       fontFamily: theme.typography.caption2.fontFamily,
       fontSize: theme.typography.caption2.size,
@@ -16,11 +17,15 @@ export const homeTabsOptions = (): BottomTabNavigationOptions => {
     },
     tabBarStyle: {
       paddingTop: 11,
-      borderTopColor: theme.palette.background.primary,
       paddingBottom: 6 + insets.bottom,
       height: theme.spacing(7) + insets.bottom,
       backgroundColor: theme.palette.background.primary,
     },
-    headerStyle: { backgroundColor: theme.palette.background.primary },
+    headerStyle: {
+      backgroundColor: theme.palette.background.primary,
+      elevation: 0,
+      shadowOpacity: 0,
+      borderBottomWidth: 0,
+    },
   };
 };
