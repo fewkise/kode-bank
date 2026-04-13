@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { usePaymentCards } from '@entities/payment-card';
 import { Card } from '@entities/payment-card/types';
+import { makeCashback } from '@entities/payment-card/utils/cashback';
 import { PaymentPayload } from '@entities/payments/types';
 
 import { paymentPrices } from './constants';
@@ -29,9 +30,7 @@ export const PaymentCreateConnector = ({
     setPhoneNumber('');
   };
   const selectedCard = cardData.filter(item => item.id === selectedCardId);
-  const selectedCardOne = cardData.find(item => item.id === selectedCardId);
-  const cashback = selectedCardOne?.cashback || 0;
-  const finalCashback = cashback * sum;
+  const cashback = makeCashback(cardData, sum, selectedCardId);
   const handleContinue = () => {
     const payload: PaymentPayload = {
       phoneNumber,
@@ -53,7 +52,7 @@ export const PaymentCreateConnector = ({
       sumError={sumError}
       phoneNumberError={phoneNumberError}
       sum={sum}
-      cashback={finalCashback}
+      cashback={cashback}
       cardData={selectedCard}
       serviceIcon={serviceIcon}
       handleClear={handleClear}
