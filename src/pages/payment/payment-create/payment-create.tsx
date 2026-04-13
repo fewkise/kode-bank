@@ -83,35 +83,36 @@ export const PaymentCreate = ({
               </Typography>
             </View>
 
-          <PriceInput
-            isError={isSubmited && sumError}
-            value={sum}
-            onChangeText={setSum}
-          />
-          {sum !== 0 || null ? (
-            <View style={styles.captionContainer}>
-              <Typography color="secondary" variant="caption1">
-                Ваш кешбек составит 10% - {cashback.toFixed(2)} ₽
-              </Typography>
-            </View>
-          ) : (
-            <ScrollView
-              contentContainerStyle={styles.scrollContainer}
-              horizontal
-            >
-              {paymentPrices.map(item => (
-                <Chip
-                  onPress={() => setSum(item.serviceCost)}
-                  key={item.serviceId}
-                  label={`${item.label} ₽`}
-                />
-              ))}
-            </ScrollView>
-          )}
-        </View>
-        <View style={styles.buttonContainer}>
-          <PrimaryButton onPress={onContinue}>Продолжить</PrimaryButton>
-        </View>
+            <PriceInput
+              isError={isSubmited && sumError}
+              value={sum}
+              onChangeText={setSum}
+            />
+            {sum !== 0 || null ? (
+              <View style={styles.captionContainer}>
+                <Typography color="secondary" variant="caption1">
+                  Ваш кешбек составит 10% - {cashback.toFixed(2)} ₽
+                </Typography>
+              </View>
+            ) : (
+              <ScrollView
+                contentContainerStyle={styles.scrollContainer}
+                horizontal
+              >
+                {paymentPrices.map(item => (
+                  <Chip
+                    onPress={() => setSum(item.serviceCost)}
+                    key={item.serviceId}
+                    label={`${item.label} ₽`}
+                  />
+                ))}
+              </ScrollView>
+            )}
+          </View>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={onContinue}>Продолжить</PrimaryButton>
+          </View>
+        </ScrollView>
       </View>
     </KeyboardView>
   );
@@ -163,5 +164,10 @@ const styles = StyleSheet.create(theme => ({
   captionContainer: {
     paddingHorizontal: theme.spacing(2.5),
     paddingVertical: theme.spacing(1),
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingBottom: theme.spacing(2),
+    gap: theme.spacing(3),
   },
 }));
