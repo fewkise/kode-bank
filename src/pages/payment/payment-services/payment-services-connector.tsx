@@ -8,7 +8,7 @@ type Props = {
   onPress: (serviceId: string, title: string, serviceIcon: string) => void;
 };
 export const PaymentServicesConnector = ({ onPress }: Props) => {
-  const { data, isLoading } = usePaymentList();
+  const { data, isLoading, isRefetching, refetch } = usePaymentList();
   const [search, setSearch] = useState('');
 
   const allServices = (data?.category?.flatMap(item => item.services) ??
@@ -22,6 +22,8 @@ export const PaymentServicesConnector = ({ onPress }: Props) => {
       isLoading={isLoading}
       onPress={onPress}
       search={search}
+      isRefreshing={isRefetching}
+      refresh={refetch}
       setSearch={setSearch}
       services={filteredItems}
     />

@@ -13,6 +13,8 @@ type PaymentServicesProps = {
   search: string;
   setSearch: (text: string) => void;
   isLoading: boolean;
+  isRefreshing: boolean;
+  refresh: () => void;
   services: TServiceItem[];
   onPress: (serviceId: string, title: string, serviceIcon: string) => void;
 };
@@ -21,7 +23,9 @@ export const PaymentServices = ({
   isLoading,
   onPress,
   setSearch,
+  isRefreshing,
   services,
+  refresh,
 }: PaymentServicesProps) => {
   if (isLoading) {
     return <ActivityIndicator />;
@@ -36,8 +40,8 @@ export const PaymentServices = ({
         style={styles.forScroll}
         refreshControl={
           <RefreshControl
-            refreshing={false}
-            onRefresh={() => {}}
+            refreshing={isRefreshing}
+            onRefresh={refresh}
             tintColor="white"
           />
         }

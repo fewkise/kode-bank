@@ -5,8 +5,15 @@ type Props = {
   onPress: (serviceName: string) => void;
 };
 export const PaymentMainConnector = ({ onPress }: Props) => {
-  const { data } = usePaymentList();
+  const { data, refetch, isRefetching } = usePaymentList();
 
   const allServices = data?.category ?? [];
-  return <PaymentMain onPress={onPress} data={allServices} />;
+  return (
+    <PaymentMain
+      isRefreshing={isRefetching}
+      refresh={refetch}
+      onPress={onPress}
+      data={allServices}
+    />
+  );
 };

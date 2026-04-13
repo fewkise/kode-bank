@@ -8,9 +8,16 @@ import { ServiceWrapper } from '@shared/ui/molecules';
 import { KeyboardView } from '@shared/ui/templates';
 type Props = {
   data: TCategoryItem[];
+  isRefreshing: boolean;
   onPress: (serviceName: string) => void;
+  refresh: () => void;
 };
-export const PaymentMain = ({ data, onPress }: Props) => {
+export const PaymentMain = ({
+  data,
+  onPress,
+  isRefreshing,
+  refresh,
+}: Props) => {
   return (
     <SafeAreaView style={styles.forSafe} edges={['top', 'left', 'right']}>
       <KeyboardView>
@@ -22,8 +29,8 @@ export const PaymentMain = ({ data, onPress }: Props) => {
           <FlatList
             refreshControl={
               <RefreshControl
-                refreshing={false}
-                onRefresh={() => {}}
+                refreshing={isRefreshing}
+                onRefresh={refresh}
                 tintColor="white"
               />
             }
