@@ -2,13 +2,15 @@ import { NavigatorScreenParams } from '@react-navigation/native';
 
 import { Card } from '@entities/payment-card/types';
 import { TStatus } from '@entities/payments/types';
+import { AuthStackParamsList } from '@routing/auth-navigation/types';
 import { HomeTabsParamsList } from '@routing/home-tabs-navigation';
 
 export type RootStackParamsList = {
   HomeTabs: NavigatorScreenParams<HomeTabsParamsList>;
+  AuthNavigation: NavigatorScreenParams<AuthStackParamsList>;
   paymentServices: {
-    serviceName: string;
-  };
+    serviceName:string
+  },
   paymentCreate: {
     serviceId: string;
     title: string;

@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import { useUnistyles as UseUnistyles } from 'react-native-unistyles';
 
 import { IconBack } from '@shared/ui/icons';
-export const rootStackOptions = (): StackNavigationOptions => {
+export const useDefaultStackScreenOptions = (): StackNavigationOptions => {
   const { theme } = UseUnistyles();
   return {
     headerTitleStyle: {
