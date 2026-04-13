@@ -21,9 +21,10 @@ type PaymentCreateProps = {
   handleClear: () => void;
   onContinue: () => void;
   sumError: boolean;
-  sum: string;
+  sum: number;
+  cashback: number;
   paymentPrices: TPaymentPrices[];
-  setSum: (val: string) => void;
+  setSum: (val: number) => void;
   phoneNumberError: boolean;
   serviceIcon: string;
   cardData: Card[];
@@ -36,6 +37,7 @@ export const PaymentCreate = ({
   sumError,
   sum,
   setSum,
+  cashback,
   phoneNumberError,
   serviceIcon,
   onContinue,
@@ -81,11 +83,18 @@ export const PaymentCreate = ({
               </Typography>
             </View>
 
-            <PriceInput
-              isError={isSubmited && sumError}
-              value={sum}
-              onChangeText={setSum}
-            />
+          <PriceInput
+            isError={isSubmited && sumError}
+            value={sum}
+            onChangeText={setSum}
+          />
+          {sum !== 0 || null ? (
+            <View style={styles.captionContainer}>
+              <Typography color="secondary" variant="caption1">
+                Ваш кешбек составит 10% - {cashback.toFixed(2)} ₽
+              </Typography>
+            </View>
+          ) : (
             <ScrollView
               contentContainerStyle={styles.scrollContainer}
               horizontal
@@ -94,12 +103,12 @@ export const PaymentCreate = ({
                 <Chip
                   onPress={() => setSum(item.serviceCost)}
                   key={item.serviceId}
-                  label={`${item.serviceCost} ₽`}
+                  label={`${item.label} ₽`}
                 />
               ))}
             </ScrollView>
-          </View>
-        </ScrollView>
+          )}
+        </View>
         <View style={styles.buttonContainer}>
           <PrimaryButton onPress={onContinue}>Продолжить</PrimaryButton>
         </View>
@@ -151,9 +160,8 @@ const styles = StyleSheet.create(theme => ({
     backgroundColor: theme.palette.background.secondary,
     paddingHorizontal: theme.spacing(1),
   },
-  scrollContent: {
-    flexGrow: 1,
-    paddingBottom: theme.spacing(2),
-    gap: theme.spacing(3),
+  captionContainer: {
+    paddingHorizontal: theme.spacing(2.5),
+    paddingVertical: theme.spacing(1),
   },
 }));

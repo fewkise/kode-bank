@@ -2,7 +2,7 @@ import { ImageSourcePropType } from 'react-native';
 
 export type TStatus = 'error' | 'success';
 export type PaymentPayload = {
-  amount: number | string;
+  amount: number;
   cardId: string;
   serviceId: string;
   phoneNumber: string;
