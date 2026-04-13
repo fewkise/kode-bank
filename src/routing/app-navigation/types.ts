@@ -6,7 +6,9 @@ import { HomeTabsParamsList } from '@routing/home-tabs-navigation';
 
 export type RootStackParamsList = {
   HomeTabs: NavigatorScreenParams<HomeTabsParamsList>;
-  paymentServices: undefined;
+  paymentServices: {
+    serviceName: string;
+  };
   paymentCreate: {
     serviceId: string;
     title: string;

@@ -1,8 +1,19 @@
-import { services } from './constants';
+import { usePaymentList } from '@entities/payments';
+
 import { PaymentMain } from './payment-main';
 type Props = {
-  onPress: () => void;
+  onPress: (serviceName: string) => void;
 };
 export const PaymentMainConnector = ({ onPress }: Props) => {
-  return <PaymentMain onPress={onPress} data={services} />;
+  const { data, refetch, isRefetching } = usePaymentList();
+
+  const allServices = data?.category ?? [];
+  return (
+    <PaymentMain
+      isRefreshing={isRefetching}
+      refresh={refetch}
+      onPress={onPress}
+      data={allServices}
+    />
+  );
 };
