@@ -21,9 +21,10 @@ type PaymentCreateProps = {
   handleClear: () => void;
   onContinue: () => void;
   sumError: boolean;
-  sum: string;
+  sum: number;
+  cashback: number;
   paymentPrices: TPaymentPrices[];
-  setSum: (val: string) => void;
+  setSum: (val: number) => void;
   phoneNumberError: boolean;
   serviceIcon: string;
   cardData: Card[];
@@ -36,6 +37,7 @@ export const PaymentCreate = ({
   sumError,
   sum,
   setSum,
+  cashback,
   phoneNumberError,
   serviceIcon,
   onContinue,
@@ -82,15 +84,26 @@ export const PaymentCreate = ({
             value={sum}
             onChangeText={setSum}
           />
-          <ScrollView contentContainerStyle={styles.scrollContainer} horizontal>
-            {paymentPrices.map(item => (
-              <Chip
-                onPress={() => setSum(item.serviceCost)}
-                key={item.serviceId}
-                label={`${item.serviceCost} ₽`}
-              />
-            ))}
-          </ScrollView>
+          {sum !== 0 || null ? (
+            <View style={styles.captionContainer}>
+              <Typography color="secondary" variant="caption1">
+                Ваш кешбек составит 10% - {cashback.toFixed(2)} ₽
+              </Typography>
+            </View>
+          ) : (
+            <ScrollView
+              contentContainerStyle={styles.scrollContainer}
+              horizontal
+            >
+              {paymentPrices.map(item => (
+                <Chip
+                  onPress={() => setSum(item.serviceCost)}
+                  key={item.serviceId}
+                  label={`${item.label} ₽`}
+                />
+              ))}
+            </ScrollView>
+          )}
         </View>
         <View style={styles.buttonContainer}>
           <PrimaryButton onPress={onContinue}>Продолжить</PrimaryButton>
@@ -134,5 +147,9 @@ const styles = StyleSheet.create(theme => ({
     paddingVertical: theme.spacing(1),
     backgroundColor: theme.palette.background.secondary,
     paddingHorizontal: theme.spacing(1),
+  },
+  captionContainer: {
+    paddingHorizontal: theme.spacing(2.5),
+    paddingVertical: theme.spacing(1),
   },
 }));

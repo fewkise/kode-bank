@@ -16,7 +16,7 @@ export type RootStackParamsList = {
     cardData: Card[];
     payload: {
       cardId: string;
-      amount: number | string;
+      amount: number;
       serviceId: string;
       phoneNumber: string;
       serviceName: string;

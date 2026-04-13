@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { usePaymentCards } from '@entities/payment-card';
 import { Card } from '@entities/payment-card/types';
+import { makeCashback } from '@entities/payment-card/utils/cashback';
 import { PaymentPayload } from '@entities/payments/types';
 
 import { paymentPrices } from './constants';
@@ -19,16 +20,17 @@ export const PaymentCreateConnector = ({
   serviceId,
 }: Props) => {
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [sum, setSum] = useState('0');
+  const [sum, setSum] = useState(0);
   const selectedCardId = '1';
   const [isSubmited, setSubmited] = useState(false);
-  const sumError = sum === '' || sum === '0';
+  const sumError = sum === null || sum === 0;
   const { data: cardData = [] } = usePaymentCards();
   const phoneNumberError = phoneNumber.length < 10;
   const handleClear = () => {
     setPhoneNumber('');
   };
   const selectedCard = cardData.filter(item => item.id === selectedCardId);
+  const cashback = makeCashback(cardData, sum, selectedCardId);
   const handleContinue = () => {
     const payload: PaymentPayload = {
       phoneNumber,
@@ -50,6 +52,7 @@ export const PaymentCreateConnector = ({
       sumError={sumError}
       phoneNumberError={phoneNumberError}
       sum={sum}
+      cashback={cashback}
       cardData={selectedCard}
       serviceIcon={serviceIcon}
       handleClear={handleClear}
