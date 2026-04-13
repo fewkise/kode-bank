@@ -109,10 +109,10 @@ export const PaymentCreate = ({
               </ScrollView>
             )}
           </View>
-          <View style={styles.buttonContainer}>
-            <PrimaryButton onPress={onContinue}>Продолжить</PrimaryButton>
-          </View>
         </ScrollView>
+        <View style={styles.buttonContainer}>
+          <PrimaryButton onPress={onContinue}>Продолжить</PrimaryButton>
+        </View>
       </View>
     </KeyboardView>
   );
