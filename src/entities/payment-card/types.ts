@@ -6,4 +6,5 @@ export type Card = {
   name: string;
   balance: string;
   brand: string;
+  cashback: number;
 };

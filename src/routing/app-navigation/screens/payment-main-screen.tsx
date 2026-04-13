@@ -11,8 +11,8 @@ export type PaymentMainProps = CompositeScreenProps<
   StackScreenProps<RootStackParamsList>
 >;
 export const PaymentMainScreen = ({ navigation }: PaymentMainProps) => {
-  const onPress = () => {
-    navigation.navigate('paymentServices');
+  const onPress = (serviceName: string) => {
+    navigation.navigate('paymentServices', { serviceName });
   };
   return <PaymentMainConnector onPress={onPress} />;
 };

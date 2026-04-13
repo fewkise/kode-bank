@@ -6,6 +6,7 @@ export const mock_cards: Card[] = [
     brand: 'visa',
     balance: '435 700',
     name: 'Карта зарплатная',
+    cashback: 0.1,
   },
   {
     id: '2',
@@ -13,5 +14,6 @@ export const mock_cards: Card[] = [
     brand: 'visa',
     balance: '435 700',
     name: 'Карта зарплатная',
+    cashback: 0.1,
   },
 ];

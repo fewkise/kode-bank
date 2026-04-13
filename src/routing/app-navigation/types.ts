@@ -8,7 +8,9 @@ import { HomeTabsParamsList } from '@routing/home-tabs-navigation';
 export type RootStackParamsList = {
   HomeTabs: NavigatorScreenParams<HomeTabsParamsList>;
   AuthNavigation: NavigatorScreenParams<AuthStackParamsList>;
-  paymentServices: undefined;
+  paymentServices: {
+    serviceName:string
+  },
   paymentCreate: {
     serviceId: string;
     title: string;
@@ -18,7 +20,7 @@ export type RootStackParamsList = {
     cardData: Card[];
     payload: {
       cardId: string;
-      amount: number | string;
+      amount: number;
       serviceId: string;
       phoneNumber: string;
       serviceName: string;

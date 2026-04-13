@@ -2,16 +2,22 @@ import { View, FlatList, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet } from 'react-native-unistyles';
 
+import { TCategoryItem } from '@entities/payments/types';
 import { Typography } from '@shared/ui/atoms';
-import { ServiceWrapper } from '@shared/ui/molecules/service-wrapper';
+import { ServiceWrapper } from '@shared/ui/molecules';
 import { KeyboardView } from '@shared/ui/templates';
-
-import { TServiceItem } from './types';
 type Props = {
-  data: TServiceItem[];
-  onPress: () => void;
+  data: TCategoryItem[];
+  isRefreshing: boolean;
+  onPress: (serviceName: string) => void;
+  refresh: () => void;
 };
-export const PaymentMain = ({ data, onPress }: Props) => {
+export const PaymentMain = ({
+  data,
+  onPress,
+  isRefreshing,
+  refresh,
+}: Props) => {
   return (
     <SafeAreaView style={styles.forSafe} edges={['top', 'left', 'right']}>
       <KeyboardView>
@@ -23,20 +29,25 @@ export const PaymentMain = ({ data, onPress }: Props) => {
           <FlatList
             refreshControl={
               <RefreshControl
-                refreshing={false}
-                onRefresh={() => {}}
+                refreshing={isRefreshing}
+                onRefresh={refresh}
                 tintColor="white"
               />
             }
             data={data}
-            renderItem={({ item }) => (
-              <ServiceWrapper
-                iconSize={24}
-                onPress={onPress}
-                serviceName={item.serviceName}
-                IconSvg={item.serviceIcon}
-              />
-            )}
+            renderItem={({ item }) => {
+              const IconName = 'Icon1Mobile';
+              return (
+                <ServiceWrapper
+                  iconSize={24}
+                  onPress={() => onPress(item.category_name)}
+                  serviceName={item.category_name}
+                  IconSvg={IconName}
+                />
+              );
+            }}
+            contentContainerStyle={styles.forContent}
+            style={styles.forFlat}
             keyExtractor={keyExtractor}
             initialNumToRender={10}
             ItemSeparatorComponent={ItemSeparatorComponent}
@@ -47,14 +58,14 @@ export const PaymentMain = ({ data, onPress }: Props) => {
     </SafeAreaView>
   );
 };
-const keyExtractor = (item: TServiceItem) => item.serviceId;
+const keyExtractor = (item: TCategoryItem) => item.category_id;
 
 const ItemSeparatorComponent = () => <View style={styles.divider} />;
 
 const styles = StyleSheet.create(theme => ({
   forSafe: {
     flex: 1,
-    backgroundColor: theme.palette.background.secondary,
+    backgroundColor: theme.palette.background.primary,
   },
   services: {
     flex: 1,
@@ -62,8 +73,15 @@ const styles = StyleSheet.create(theme => ({
   },
   forTitle: {
     paddingTop: theme.spacing(5),
-    paddingBottom: theme.spacing(1),
+    paddingBottom: theme.spacing(2),
     paddingHorizontal: theme.spacing(2),
+    backgroundColor: theme.palette.background.primary,
+  },
+  forFlat: {
+    paddingTop: theme.spacing(3),
+  },
+  forContent: {
+    flexGrow: 1,
   },
   divider: {
     width: '78%',
