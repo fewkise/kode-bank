@@ -10,7 +10,7 @@ export type AuthPasswordScreenProps = StackScreenProps<
 >;
 export const AuthPasswordScreen = ({ navigation }: AuthPasswordScreenProps) => {
   const onPress = () => {
-    navigation.navigate('authInstallationPin');
+    navigation.navigate('authPinPreview');
   };
   return <AuthPasswordConnector onPress={onPress} />;
 };

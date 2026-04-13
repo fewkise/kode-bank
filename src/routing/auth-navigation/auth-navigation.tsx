@@ -1,27 +1,34 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { rootStackOptions } from '@routing/app-navigation/config';
+import { useDefaultStackScreenOptions } from '@routing/lib/hooks/use-default-stack-screen-options';
 
-import { AuthInstallationPinScreen } from './screens/auth-installation-pin';
+import { AuthCreatePinScreen } from './screens/auth-create-pin-screen';
 import { AuthOtpScreen } from './screens/auth-otp-screen';
 import { AuthPasswordScreen } from './screens/auth-password-screen';
 import { AuthPhoneNumberScreen } from './screens/auth-phone-number-screen';
+import { AuthPinEnterScreen } from './screens/auth-pin-enter-screen';
+import { AuthPinPreviewScreen } from './screens/auth-pin-preview-screen';
+import { AuthRepeatPinScreen } from './screens/auth-repeat-pin-screen';
 import { AuthSuccessScreen } from './screens/auth-success-screen';
 import { AuthStackParamsList } from './types';
 const AuthStack = createStackNavigator<AuthStackParamsList>();
 export const AuthNavigation = () => {
+  const screenOptions = useDefaultStackScreenOptions();
   return (
     <AuthStack.Navigator
       initialRouteName="authPhoneNumber"
-      screenOptions={rootStackOptions}
+      screenOptions={screenOptions}
     >
       <AuthStack.Screen
         name="authPhoneNumber"
         component={AuthPhoneNumberScreen}
       />
+      <AuthStack.Screen name="authRepeatPin" component={AuthRepeatPinScreen} />
+      <AuthStack.Screen name="authPinEnter" component={AuthPinEnterScreen} />
+      <AuthStack.Screen name="authCreatePin" component={AuthCreatePinScreen} />
       <AuthStack.Screen
-        name="authInstallationPin"
-        component={AuthInstallationPinScreen}
+        name="authPinPreview"
+        component={AuthPinPreviewScreen}
       />
       <AuthStack.Screen name="authPassword" component={AuthPasswordScreen} />
       <AuthStack.Screen name="authSuccess" component={AuthSuccessScreen} />

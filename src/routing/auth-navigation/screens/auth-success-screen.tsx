@@ -1,6 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 
-import { AuthSuccessConnector } from '@pages/authorization/auth-success/auth-success-connector';
+import { AuthSuccessConnector } from '@pages/authorization/auth-success';
 
 import { AuthStackParamsList } from '../types';
 

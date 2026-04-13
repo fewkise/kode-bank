@@ -2,10 +2,10 @@ import { View } from 'react-native';
 
 import { PrimaryButton } from '@shared/ui/molecules';
 import { DummyScreen } from '@shared/ui/templates';
-type AuthInstallationPinProps = {
+type AuthPinEnterProps = {
   onPress: () => void;
 };
-export const AuthInstallationPin = ({ onPress }: AuthInstallationPinProps) => {
+export const AuthPinEnter = ({ onPress }: AuthPinEnterProps) => {
   return (
     <DummyScreen>
       <View>
