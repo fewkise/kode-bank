@@ -9,8 +9,8 @@ export type RootStackParamsList = {
   HomeTabs: NavigatorScreenParams<HomeTabsParamsList>;
   AuthNavigation: NavigatorScreenParams<AuthStackParamsList>;
   paymentServices: {
-    serviceName:string
-  },
+    serviceName: string;
+  };
   paymentCreate: {
     serviceId: string;
     title: string;
