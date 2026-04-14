@@ -70,24 +70,18 @@ export const AuthInput = ({
         />
       )}
 
-      {isPassword &&
-        (isVisible ? (
-          <TouchableOpacity
-            style={styles.closeContainer}
-            hitSlop={8}
-            onPress={() => setVisible(false)}
-          >
-            <Icon color={theme.palette.text.secondary} name="IconEye" />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={styles.closeContainer}
-            hitSlop={8}
-            onPress={() => setVisible(true)}
-          >
-            <Icon color={theme.palette.text.tertiary} name="IconEyeOff" />
-          </TouchableOpacity>
-        ))}
+      {isPassword && (
+        <TouchableOpacity
+          style={styles.closeContainer}
+          hitSlop={8}
+          onPress={() => setVisible(prev => !prev)}
+        >
+          <Icon
+            color={theme.palette.text[isVisible ? 'secondary' : 'tertiary']}
+            name={isVisible ? 'IconEye' : 'IconEyeOff'}
+          />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
