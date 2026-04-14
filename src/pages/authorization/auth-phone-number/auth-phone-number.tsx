@@ -69,6 +69,7 @@ const styles = StyleSheet.create(theme => ({
   },
   logoContainer: {
     alignItems: 'center',
+    marginTop: theme.spacing(2),
     flex: 1,
   },
 }));
