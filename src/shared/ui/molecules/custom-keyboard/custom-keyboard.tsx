@@ -3,6 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
 import { Typography } from '@shared/ui/atoms';
+
 type CustomKeyboardProps = {
   onPress: (val: string) => void;
   canResend: boolean;
@@ -22,23 +23,21 @@ export const CustomKeyboard = ({
     </TouchableOpacity>
   );
 
+  const buttons = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+  ];
+
   return (
     <View style={styles.container}>
-      <View style={styles.row}>
-        {[1, 2, 3].map(n => (
-          <Key key={n} val={n.toString()} />
-        ))}
-      </View>
-      <View style={styles.row}>
-        {[4, 5, 6].map(n => (
-          <Key key={n} val={n.toString()} />
-        ))}
-      </View>
-      <View style={styles.row}>
-        {[7, 8, 9].map(n => (
-          <Key key={n} val={n.toString()} />
-        ))}
-      </View>
+      {buttons.map((row, rowIndex) => (
+        <View key={rowIndex} style={styles.row}>
+          {row.map(n => (
+            <Key key={n} val={n.toString()} />
+          ))}
+        </View>
+      ))}
       <View style={styles.row}>
         <TouchableOpacity
           style={styles.forTimerText}
@@ -67,13 +66,13 @@ const styles = StyleSheet.create(theme => ({
     marginVertical: 10,
   },
   key: {
-    width: 96,
+    width: '30%',
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
   },
   forTimerText: {
-    width: 96,
+    width: '30%',
     height: 60,
     justifyContent: 'center',
     alignItems: 'center',
