@@ -22,6 +22,7 @@ export const AuthNavigation = () => {
       <AuthStack.Screen
         name="authPhoneNumber"
         component={AuthPhoneNumberScreen}
+        options={{ headerShown: false }}
       />
       <AuthStack.Screen name="authRepeatPin" component={AuthRepeatPinScreen} />
       <AuthStack.Screen name="authPinEnter" component={AuthPinEnterScreen} />

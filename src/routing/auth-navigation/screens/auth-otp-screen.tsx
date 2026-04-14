@@ -8,7 +8,8 @@ export type AuthOtpScreenProps = StackScreenProps<
   AuthStackParamsList,
   'authOtp'
 >;
-export const AuthOtpScreen = ({ navigation }: AuthOtpScreenProps) => {
+export const AuthOtpScreen = ({ navigation, route }: AuthOtpScreenProps) => {
+  const { data } = route.params;
   const onPress = () => {
     navigation.navigate('authPassword');
   };
