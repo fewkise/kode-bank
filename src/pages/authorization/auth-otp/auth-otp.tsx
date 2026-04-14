@@ -1,16 +1,89 @@
 import { View } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
-import { PrimaryButton } from '@shared/ui/molecules';
-import { DummyScreen } from '@shared/ui/templates';
+import { Typography } from '@shared/ui/atoms';
+import { CustomKeyboard, OtpInput } from '@shared/ui/molecules';
+import { KeyboardView } from '@shared/ui/templates';
 type AuthOtpProps = {
   onPress: () => void;
+  code: string;
+  setCode: (text: string) => void;
+  errorMessage: string;
+  isError: boolean;
+  onKeyPress: (val: string) => void;
+  timerText: string;
+  onResend: () => void;
+  canResend: boolean;
 };
-export const AuthOtp = ({ onPress }: AuthOtpProps) => {
+export const AuthOtp = ({
+  code,
+  setCode,
+  errorMessage,
+  isError,
+  timerText,
+  onKeyPress,
+  canResend,
+  onResend,
+}: AuthOtpProps) => {
   return (
-    <DummyScreen>
-      <View>
-        <PrimaryButton onPress={onPress}>Дальше</PrimaryButton>
+    <KeyboardView>
+      <View style={styles.container}>
+        <View style={styles.content}>
+          <View style={styles.forText}>
+            <Typography textAlign="center" variant="body15Regular">
+              На ваш номер отправлено SMS с кодом подтверждения.
+            </Typography>
+          </View>
+          <OtpInput
+            isError={isError}
+            code={code}
+            setCode={setCode}
+            length={6}
+          />
+          {isError && (
+            <Typography color="error" variant="caption2">
+              {errorMessage}
+            </Typography>
+          )}
+        </View>
+
+        <View style={styles.footer}>
+          <CustomKeyboard
+            canResend={canResend}
+            onResend={onResend}
+            timerText={timerText}
+            onPress={onKeyPress}
+          />
+        </View>
       </View>
-    </DummyScreen>
+    </KeyboardView>
   );
 };
+const styles = StyleSheet.create(theme => ({
+  forText: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: theme.spacing(3),
+  },
+  container: {
+    flex: 1,
+    backgroundColor: theme.palette.background.primary,
+    gap: theme.spacing(2),
+    flexGrow: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  content: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: theme.spacing(3),
+  },
+  footer: {
+    paddingBottom: theme.spacing(10),
+    paddingHorizontal: theme.spacing(2),
+    alignSelf: 'stretch',
+    backgroundColor: theme.palette.background.primary,
+  },
+}));

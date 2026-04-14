@@ -32,7 +32,11 @@ export const AuthNavigation = () => {
       />
       <AuthStack.Screen name="authPassword" component={AuthPasswordScreen} />
       <AuthStack.Screen name="authSuccess" component={AuthSuccessScreen} />
-      <AuthStack.Screen name="authOtp" component={AuthOtpScreen} />
+      <AuthStack.Screen
+        options={{ headerShown: false }}
+        name="authOtp"
+        component={AuthOtpScreen}
+      />
     </AuthStack.Navigator>
   );
 };

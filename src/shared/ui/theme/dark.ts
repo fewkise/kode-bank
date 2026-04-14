@@ -23,6 +23,7 @@ export const darkTheme: DefaultTheme = {
       primary: '#FFFFFF',
       secondary: '#C2C1C6',
       tertiary: '#706D76',
+      error: '#FB6176',
     },
     indicator: {
       error: '#FB6176',

@@ -12,5 +12,8 @@ export const AuthOtpScreen = ({ navigation }: AuthOtpScreenProps) => {
   const onPress = () => {
     navigation.navigate('authPassword');
   };
-  return <AuthOtpConnector onPress={onPress} />;
+  const goBack = () => {
+    navigation.navigate('authPhoneNumber');
+  };
+  return <AuthOtpConnector goBack={goBack} onPress={onPress} />;
 };

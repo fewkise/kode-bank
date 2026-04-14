@@ -22,6 +22,7 @@ declare module 'react-native-unistyles' {
         primary: string;
         secondary: string;
         tertiary: string;
+        error: string;
       };
       indicator: {
         error: string;
