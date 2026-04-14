@@ -1,19 +1,22 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { QueryClientProvider } from '@tanstack/react-query';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { AppNavigation } from '@routing/app-navigation';
 import { queryClient } from '@shared/api/query-client';
 
-import { Providers } from './providers';
+import { SessionProvider } from './providers';
 
 export const App = () => {
   return (
-    <Providers>
+    <SafeAreaProvider>
       <NavigationContainer>
         <QueryClientProvider client={queryClient}>
-          <AppNavigation />
+          <SessionProvider>
+            <AppNavigation />
+          </SessionProvider>
         </QueryClientProvider>
       </NavigationContainer>
-    </Providers>
+    </SafeAreaProvider>
   );
 };
