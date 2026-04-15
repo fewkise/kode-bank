@@ -1,5 +1,15 @@
-import { DummyScreen } from '@shared/ui/templates';
+import { View } from 'react-native';
 
-export const ProfileMain = () => {
-  return <DummyScreen title="Профиль" />;
+import { PrimaryButton } from '@shared/ui/molecules';
+
+type ProfileMainProps = {
+  onPress: () => void;
+};
+
+export const ProfileMain = ({ onPress }: ProfileMainProps) => {
+  return (
+    <View>
+      <PrimaryButton onPress={onPress}>Выйти</PrimaryButton>
+    </View>
+  );
 };
