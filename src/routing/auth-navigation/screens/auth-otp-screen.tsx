@@ -1,5 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 
+import { AuthConfirmResponse } from '@entities/auth/types';
 import { AuthOtpConnector } from '@pages/authorization/auth-otp';
 
 import { AuthStackParamsList } from '../types';
@@ -9,12 +10,19 @@ export type AuthOtpScreenProps = StackScreenProps<
   'authOtp'
 >;
 export const AuthOtpScreen = ({ navigation, route }: AuthOtpScreenProps) => {
-  const { data } = route.params;
-  const onPress = () => {
-    navigation.navigate('authPassword');
+  const { data, phoneNumber } = route.params;
+  const onPress = (result: AuthConfirmResponse) => {
+    navigation.navigate('authPassword', { result });
   };
   const goBack = () => {
     navigation.navigate('authPhoneNumber');
   };
-  return <AuthOtpConnector goBack={goBack} onPress={onPress} />;
+  return (
+    <AuthOtpConnector
+      data={data}
+      phoneNumber={phoneNumber}
+      goBack={goBack}
+      onPress={onPress}
+    />
+  );
 };

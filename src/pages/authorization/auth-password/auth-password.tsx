@@ -12,6 +12,7 @@ type AuthPasswordProps = {
   setPassword: (text: string) => void;
   passwordError: boolean;
   message: string;
+  isLoading: boolean;
 };
 export const AuthPassword = ({
   onPress,
@@ -19,6 +20,7 @@ export const AuthPassword = ({
   setPassword,
   isSubmitted,
   message,
+  isLoading,
   passwordError,
 }: AuthPasswordProps) => {
   const { theme } = useUnistyles();
@@ -48,7 +50,9 @@ export const AuthPassword = ({
         </ScrollView>
         <View style={styles.forCenter} />
         <View style={styles.buttonContainer}>
-          <PrimaryButton onPress={onPress}>Войти</PrimaryButton>
+          <PrimaryButton disabled={isLoading} onPress={onPress}>
+            Войти
+          </PrimaryButton>
         </View>
       </SafeAreaView>
     </KeyboardView>

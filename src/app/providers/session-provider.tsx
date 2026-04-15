@@ -1,10 +1,12 @@
 import { startHeadersInterceptor } from '@kode-frontend/session-interceptor';
 import { ReactNode, useEffect } from 'react';
 
+import { $authStore } from '@features/auth/model/auth';
 import { apiAxiosInstance } from '@shared/api';
 
 const getHeaders = () => {
-  const currentAccessToken = ''; // TODO: взять accessToken из effector стора
+  const { accessToken } = $authStore.getState();
+  const currentAccessToken = accessToken;
 
   const headers = [];
 
