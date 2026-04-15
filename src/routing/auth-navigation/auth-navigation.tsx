@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { useUnistyles } from 'react-native-unistyles';
 
 import { useDefaultStackScreenOptions } from '@routing/lib/hooks/use-default-stack-screen-options';
-import { Icon } from '@shared/ui/atoms';
+import { Icon, Typography } from '@shared/ui/atoms';
 
 import { AuthCreatePinScreen } from './screens/auth-create-pin-screen';
 import { AuthOtpScreen } from './screens/auth-otp-screen';
@@ -28,11 +28,62 @@ export const AuthNavigation = () => {
         component={AuthPhoneNumberScreen}
         options={{ headerShown: false }}
       />
-      <AuthStack.Screen name="authRepeatPin" component={AuthRepeatPinScreen} />
+      <AuthStack.Screen
+        options={({ navigation }) => ({
+          headerLeftContainerStyle: {
+            paddingLeft: theme.spacing(2),
+          },
+          headerTitle: '',
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('authSuccess')}
+            >
+              <Typography variant="body15Regular" color="secondary">
+                Пропустить
+              </Typography>
+            </TouchableOpacity>
+          ),
+        })}
+        name="authRepeatPin"
+        component={AuthRepeatPinScreen}
+      />
       <AuthStack.Screen name="authPinEnter" component={AuthPinEnterScreen} />
-      <AuthStack.Screen name="authCreatePin" component={AuthCreatePinScreen} />
+      <AuthStack.Screen
+        options={({ navigation }) => ({
+          headerLeftContainerStyle: {
+            paddingLeft: theme.spacing(2),
+          },
+          headerTitle: '',
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('authSuccess')}
+            >
+              <Typography variant="body15Regular" color="secondary">
+                Пропустить
+              </Typography>
+            </TouchableOpacity>
+          ),
+        })}
+        name="authCreatePin"
+        component={AuthCreatePinScreen}
+      />
       <AuthStack.Screen
         name="authPinPreview"
+        options={({ navigation }) => ({
+          headerLeftContainerStyle: {
+            paddingLeft: theme.spacing(2),
+          },
+          headerTitle: '',
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('authSuccess')}
+            >
+              <Typography variant="body15Regular" color="secondary">
+                Пропустить
+              </Typography>
+            </TouchableOpacity>
+          ),
+        })}
         component={AuthPinPreviewScreen}
       />
       <AuthStack.Screen

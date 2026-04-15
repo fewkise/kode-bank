@@ -9,8 +9,8 @@ export type AuthCreatePinProps = StackScreenProps<
   'authCreatePin'
 >;
 export const AuthCreatePinScreen = ({ navigation }: AuthCreatePinProps) => {
-  const onPress = () => {
-    navigation.navigate('authRepeatPin');
+  const onPress = (code: string) => {
+    navigation.navigate('authRepeatPin', { code });
   };
   return <AuthCreatePinConnector onPress={onPress} />;
 };

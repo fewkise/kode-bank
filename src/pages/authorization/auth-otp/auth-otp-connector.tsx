@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import { useTimer } from '@entities/auth/utils/timer';
-import { OtpResponse } from '@entities/auth/types';
 
 import { AuthOtp } from './auth-otp';
 type AuthOtpConnectorProps = {

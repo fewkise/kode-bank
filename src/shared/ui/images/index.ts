@@ -10,4 +10,5 @@ export const Images = {
   yota: require('./yota.png'),
   mastercard: require('./MasterCard.png'),
   bank_card_background: require('./BankCard.png'),
+  pin_code_preview: require('./bigIlustrtionPinCode.png'),
 };

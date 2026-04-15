@@ -12,7 +12,9 @@ export type AuthStackParamsList = {
     data: OtpResponse;
   };
   authPinPreview: undefined;
-  authRepeatPin: undefined;
+  authRepeatPin: {
+    code: string;
+  };
   authPinEnter: undefined;
   HomeTabs: NavigatorScreenParams<HomeTabsParamsList>;
 };

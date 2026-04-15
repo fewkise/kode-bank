@@ -49,6 +49,7 @@ export const AuthOtp = ({
 
         <View style={styles.footer}>
           <CustomKeyboard
+            isPin={false}
             canResend={canResend}
             onResend={onResend}
             timerText={timerText}
