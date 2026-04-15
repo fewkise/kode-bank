@@ -12,8 +12,8 @@ export type AuthPhoneNumberScreenProps = StackScreenProps<
 export const AuthPhoneNumberScreen = ({
   navigation,
 }: AuthPhoneNumberScreenProps) => {
-  const goToOtp = (data: OtpResponse) => {
-    navigation.navigate('authOtp', { data });
+  const goToOtp = (data: OtpResponse, phoneNumber: string) => {
+    navigation.navigate('authOtp', { data, phoneNumber });
   };
   return <AuthPhoneNumberConnector goToOtp={goToOtp} />;
 };

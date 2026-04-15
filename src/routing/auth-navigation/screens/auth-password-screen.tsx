@@ -8,9 +8,15 @@ export type AuthPasswordScreenProps = StackScreenProps<
   AuthStackParamsList,
   'authPassword'
 >;
-export const AuthPasswordScreen = ({ navigation }: AuthPasswordScreenProps) => {
+export const AuthPasswordScreen = ({
+  navigation,
+  route,
+}: AuthPasswordScreenProps) => {
+  const { result } = route.params;
   const onPress = () => {
     navigation.navigate('authPinPreview');
   };
-  return <AuthPasswordConnector onPress={onPress} />;
+  return (
+    <AuthPasswordConnector guestToken={result.guestToken} onPress={onPress} />
+  );
 };

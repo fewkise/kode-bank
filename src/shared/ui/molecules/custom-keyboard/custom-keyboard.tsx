@@ -9,6 +9,7 @@ type CustomKeyboardProps = {
   canResend: boolean;
   onResend: () => void;
   timerText: string;
+  isLoading: boolean;
 };
 
 export const CustomKeyboard = ({
@@ -16,9 +17,14 @@ export const CustomKeyboard = ({
   timerText,
   onResend,
   canResend,
+  isLoading,
 }: CustomKeyboardProps) => {
   const Key = ({ val, label }: { val: string; label?: string }) => (
-    <TouchableOpacity style={styles.key} onPress={() => onPress(val)}>
+    <TouchableOpacity
+      disabled={isLoading}
+      style={styles.key}
+      onPress={() => onPress(val)}
+    >
       <Typography variant="largeTitle">{label || val}</Typography>
     </TouchableOpacity>
   );

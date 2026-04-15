@@ -1,11 +1,12 @@
 import { View } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
+import { AuthConfirmResponse } from '@entities/auth/types';
 import { Typography } from '@shared/ui/atoms';
 import { CustomKeyboard, OtpInput } from '@shared/ui/molecules';
 import { KeyboardView } from '@shared/ui/templates';
 type AuthOtpProps = {
-  onPress: () => void;
+  onPress: (result: AuthConfirmResponse) => void;
   code: string;
   setCode: (text: string) => void;
   errorMessage: string;
@@ -14,6 +15,7 @@ type AuthOtpProps = {
   timerText: string;
   onResend: () => void;
   canResend: boolean;
+  isLoading: boolean;
 };
 export const AuthOtp = ({
   code,
@@ -23,6 +25,7 @@ export const AuthOtp = ({
   timerText,
   onKeyPress,
   canResend,
+  isLoading,
   onResend,
 }: AuthOtpProps) => {
   return (
@@ -49,6 +52,7 @@ export const AuthOtp = ({
 
         <View style={styles.footer}>
           <CustomKeyboard
+            isLoading={isLoading}
             canResend={canResend}
             onResend={onResend}
             timerText={timerText}
