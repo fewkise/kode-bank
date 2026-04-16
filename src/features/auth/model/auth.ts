@@ -11,7 +11,7 @@ const defaultState: TAuthStore = {
 };
 
 export const $authStore = createStore<TAuthStore>(defaultState);
-
+export const logout = createEvent('logout');
 export const updateAuthData = createEvent<TAuthStore>('updateAuthData');
-
+$authStore.reset(logout);
 $authStore.on(updateAuthData, (_, payload) => payload);

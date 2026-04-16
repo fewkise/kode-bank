@@ -1,5 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
+import { useUnit } from 'effector-react';
 
+import { $authStore } from '@features/auth/model/auth';
 import { AuthNavigation } from '@routing/auth-navigation';
 import { HomeTabsNavigation } from '@routing/home-tabs-navigation';
 import { useDefaultStackScreenOptions } from '@routing/lib/hooks/use-default-stack-screen-options';
@@ -14,7 +16,8 @@ const RootStack = createStackNavigator<RootStackParamsList>();
 
 export const AppNavigation = () => {
   const screenOptions = useDefaultStackScreenOptions();
-  const isAuth = false;
+  const { accessToken } = useUnit($authStore);
+  const isAuth = Boolean(accessToken);
   return (
     <RootStack.Navigator
       initialRouteName={isAuth ? 'HomeTabs' : 'AuthNavigation'}
