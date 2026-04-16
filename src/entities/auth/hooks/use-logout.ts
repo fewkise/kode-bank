@@ -13,17 +13,20 @@ export const useLogout = () => {
   const onLogout = useUnit(logout);
   const resetOtp = useUnit(resetOtpData);
   const { refreshToken } = useUnit($authStore);
-  const { mutate } = useAuthLogout();
+  const { mutate, isPending } = useAuthLogout();
   const handleLogout = useCallback(() => {
-    onLogout();
     resetOtp();
-    queryClient.clear();
     const payload: DefaultApiPostApiAuthLogoutRequest = {
       postApiAuthRefreshRequest: {
         refreshToken: refreshToken || '',
       },
     };
-    mutate(payload);
+    mutate(payload, {
+      onSuccess: () => {
+        onLogout();
+        queryClient.clear();
+      },
+    });
   }, [mutate, onLogout, queryClient, refreshToken, resetOtp]);
-  return { logout: handleLogout };
+  return { logout: handleLogout, isPending };
 };
