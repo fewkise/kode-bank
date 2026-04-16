@@ -13,6 +13,7 @@ export const AuthCreatePinConnector = ({
   const onKeyPress = (val: string) => {
     if (val === 'back') {
       setPin(prev => prev.slice(0, -1));
+      return;
     }
     if (pin.length < pinLength) {
       setPin(prev => prev + val);

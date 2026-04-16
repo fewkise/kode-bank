@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { useUnistyles } from 'react-native-unistyles';
 
 import { useDefaultStackScreenOptions } from '@routing/lib/hooks/use-default-stack-screen-options';
-import { HeaderLeft } from '@routing/ui/headerLeft/headerLeft';
+import { HeaderLeft } from '@routing/ui/header-left/header-left';
 import { Icon } from '@shared/ui/atoms';
 
 import { AuthCreatePinScreen } from './screens/auth-create-pin-screen';
