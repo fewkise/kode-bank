@@ -15,7 +15,8 @@ export type AuthStackParamsList = {
     phoneNumber: string;
   };
   authPinPreview: undefined;
-  authRepeatPin: undefined;
-  authPinEnter: undefined;
+  authRepeatPin: {
+    code: string;
+  };
   HomeTabs: NavigatorScreenParams<HomeTabsParamsList>;
 };

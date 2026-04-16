@@ -10,7 +10,6 @@ import {
   updateOtpData,
 } from '@features/otp/model/opt';
 import { DefaultApiPostApiAuthConfirmRequest } from '@shared/api/auth-axios-client';
-import { DefaultApiPostApiAuthOtpCodeRequest } from '@shared/api/auth-axios-client';
 
 import { AuthOtp } from './auth-otp';
 type AuthOtpConnectorProps = {
@@ -58,7 +57,6 @@ export const AuthOtpConnector = ({
         });
       },
     });
-    console.log('повторный запрос отп');
     setTries(5);
     setError(false);
     restart();

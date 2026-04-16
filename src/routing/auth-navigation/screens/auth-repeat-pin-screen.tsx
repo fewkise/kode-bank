@@ -8,9 +8,18 @@ export type AuthRepeatPinProps = StackScreenProps<
   AuthStackParamsList,
   'authRepeatPin'
 >;
-export const AuthRepeatPinScreen = ({ navigation }: AuthRepeatPinProps) => {
-  const onPress = () => {
-    navigation.navigate('authSuccess');
+export const AuthRepeatPinScreen = ({
+  navigation,
+  route,
+}: AuthRepeatPinProps) => {
+  const { code } = route.params;
+  const goBack = () => {
+    navigation.navigate('authCreatePin');
   };
-  return <AuthRepeatPinConnector onPress={onPress} />;
+  const onPress = () => {
+    navigation.navigate('authPinEnter');
+  };
+  return (
+    <AuthRepeatPinConnector goBack={goBack} code={code} onPress={onPress} />
+  );
 };

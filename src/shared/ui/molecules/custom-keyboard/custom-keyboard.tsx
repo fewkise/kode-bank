@@ -6,9 +6,11 @@ import { Typography } from '@shared/ui/atoms';
 
 type CustomKeyboardProps = {
   onPress: (val: string) => void;
-  canResend: boolean;
-  onResend: () => void;
-  timerText: string;
+  canResend?: boolean;
+  onResend?: () => void;
+  timerText?: string;
+  isPin: boolean;
+  onClear?: () => void;
   isLoading: boolean;
 };
 
@@ -17,6 +19,8 @@ export const CustomKeyboard = ({
   timerText,
   onResend,
   canResend,
+  isPin,
+  onClear,
   isLoading,
 }: CustomKeyboardProps) => {
   const Key = ({ val, label }: { val: string; label?: string }) => (
@@ -47,11 +51,11 @@ export const CustomKeyboard = ({
       <View style={styles.row}>
         <TouchableOpacity
           style={styles.forTimerText}
-          disabled={!canResend}
-          onPress={onResend}
+          disabled={isPin ? false : !canResend}
+          onPress={() => (isPin ? onClear?.() : onResend?.())}
         >
           <Typography textAlign="center" color="secondary" variant="caption1">
-            {timerText}
+            {isPin ? 'Сбросить' : timerText}
           </Typography>
         </TouchableOpacity>
         <Key val="0" />

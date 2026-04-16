@@ -11,3 +11,4 @@ export { BankCard } from './bank-card';
 export { OtpInput } from './otp-input';
 export { CustomKeyboard } from './custom-keyboard';
 export { AuthInput } from './auth-input';
+export { PinIndicator } from './pin-indicator';
