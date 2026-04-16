@@ -17,9 +17,13 @@ const RootStack = createStackNavigator<RootStackParamsList>();
 export const AppNavigation = () => {
   const screenOptions = useDefaultStackScreenOptions();
   const { accessToken } = useUnit($authStore);
+  const isAuth = Boolean(accessToken);
   return (
-    <RootStack.Navigator screenOptions={screenOptions}>
-      {accessToken ? (
+    <RootStack.Navigator
+      initialRouteName={isAuth ? 'HomeTabs' : 'AuthNavigation'}
+      screenOptions={screenOptions}
+    >
+      {isAuth ? (
         <>
           <RootStack.Screen
             name="HomeTabs"
