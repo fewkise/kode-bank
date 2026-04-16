@@ -27,7 +27,12 @@ export const AuthCreatePin = ({
           <PinIndicator code={pin} maxLength={length} />
         </View>
         <View style={styles.footer}>
-          <CustomKeyboard onClear={onClear} isPin={true} onPress={onKeyPress} />
+          <CustomKeyboard
+            isLoading={false}
+            onClear={onClear}
+            isPin={true}
+            onPress={onKeyPress}
+          />
         </View>
       </View>
     </KeyboardView>

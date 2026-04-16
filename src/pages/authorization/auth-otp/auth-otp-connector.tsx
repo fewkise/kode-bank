@@ -9,7 +9,10 @@ import {
   resetOtpData,
   updateOtpData,
 } from '@features/otp/model/opt';
-import { DefaultApiPostApiAuthConfirmRequest } from '@shared/api/auth-axios-client';
+import {
+  DefaultApiPostApiAuthConfirmRequest,
+  DefaultApiPostApiAuthOtpCodeRequest,
+} from '@shared/api/auth-axios-client';
 
 import { AuthOtp } from './auth-otp';
 type AuthOtpConnectorProps = {

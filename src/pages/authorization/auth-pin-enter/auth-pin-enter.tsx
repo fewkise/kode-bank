@@ -37,7 +37,12 @@ export const AuthPinEnter = ({
           </View>
         </View>
         <View style={styles.footer}>
-          <CustomKeyboard onClear={onClear} isPin={true} onPress={onKeyPress} />
+          <CustomKeyboard
+            isLoading={false}
+            onClear={onClear}
+            isPin={true}
+            onPress={onKeyPress}
+          />
         </View>
       </View>
     </KeyboardView>

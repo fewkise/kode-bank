@@ -1,8 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { useUnit } from 'effector-react';
 
-import { $pinStore } from '@features/pin/model/pin';
 import { $authStore } from '@features/auth/model/auth';
+import { $pinStore } from '@features/pin/model/pin';
 import { AuthNavigation } from '@routing/auth-navigation';
 import { AuthPinEnterScreen } from '@routing/auth-navigation/screens/auth-pin-enter-screen';
 import { HomeTabsNavigation } from '@routing/home-tabs-navigation';

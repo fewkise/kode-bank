@@ -42,7 +42,12 @@ export const AuthRepeatPin = ({
           </View>
         </View>
         <View style={styles.footer}>
-          <CustomKeyboard isPin={true} onClear={onClear} onPress={onKeyPress} />
+          <CustomKeyboard
+            isLoading={false}
+            isPin={true}
+            onClear={onClear}
+            onPress={onKeyPress}
+          />
         </View>
       </View>
     </KeyboardView>

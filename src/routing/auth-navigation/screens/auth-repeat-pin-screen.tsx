@@ -17,7 +17,7 @@ export const AuthRepeatPinScreen = ({
     navigation.navigate('authCreatePin');
   };
   const onPress = () => {
-    navigation.navigate('authPinEnter');
+    console.log('переход на главный экран');
   };
   return (
     <AuthRepeatPinConnector goBack={goBack} code={code} onPress={onPress} />
