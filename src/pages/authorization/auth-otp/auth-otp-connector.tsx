@@ -1,16 +1,35 @@
+import { useUnit } from 'effector-react';
 import { useEffect, useState } from 'react';
 
+import { useAuthConfirm, useAuthOtp } from '@entities/auth';
+import { AuthConfirmResponse, OtpResponse } from '@entities/auth/types';
 import { useTimer } from '@entities/auth/utils/timer';
+import {
+  $otpStore,
+  resetOtpData,
+  updateOtpData,
+} from '@features/otp/model/opt';
+import { DefaultApiPostApiAuthConfirmRequest } from '@shared/api/auth-axios-client';
 
 import { AuthOtp } from './auth-otp';
 type AuthOtpConnectorProps = {
-  onPress: () => void;
+  onPress: (result: AuthConfirmResponse) => void;
   goBack: () => void;
+  data: OtpResponse;
+  phoneNumber: string;
 };
 export const AuthOtpConnector = ({
   onPress,
   goBack,
+  data,
+  phoneNumber,
 }: AuthOtpConnectorProps) => {
+  const resetOtp = useUnit(resetOtpData);
+  const { mutate, isPending } = useAuthConfirm();
+  const updateOtp = useUnit(updateOtpData);
+  const { sessionId } = useUnit($otpStore);
+  const { resendTimeout } = useUnit($otpStore);
+  const { mutate: resendMutate, isPending: pendingResend } = useAuthOtp();
   const [code, setCode] = useState('');
   const [tries, setTries] = useState(5);
   const errorMessage = `Неверный код. Осталось ${tries} попыток`;
@@ -18,23 +37,38 @@ export const AuthOtpConnector = ({
   const [isLoading, setLoading] = useState(false);
   const otpCode = '123456';
   const codeLength = 6;
-  const { timeLeft, restart, isFinished } = useTimer(180);
+  const { timeLeft, restart, isFinished } = useTimer(resendTimeout || 180);
   const timerText = isFinished
     ? 'Выслать код повторно'
     : `Повторить через ${timeLeft}`;
   const handleResend = () => {
-    console.log('повторный запрос отп');
+    const payloadResend: DefaultApiPostApiAuthOtpCodeRequest = {
+      postApiAuthOtpCodeRequest: {
+        phone: phoneNumber,
+      },
+    };
+    resendMutate(payloadResend, {
+      onSuccess: result => {
+        const newOtp = result.data;
+        updateOtp({
+          sessionId: newOtp.otpId,
+          phoneNumber,
+          resendTimeout: 180,
+        });
+      },
+    });
     setTries(5);
     setError(false);
     restart();
+    resetOtp();
   };
   useEffect(() => {
     if (tries === 0) {
       goBack();
-      restart();
-      setTries(1);
+      setTries(5);
     }
-  }, [tries, goBack, restart]);
+  }, [tries, goBack]);
+
   useEffect(() => {
     const verifyCode = async (currentCode: string) => {
       setLoading(true);
@@ -42,7 +76,23 @@ export const AuthOtpConnector = ({
         if (currentCode !== otpCode) {
           throw new Error();
         }
-        onPress();
+
+        const payload: DefaultApiPostApiAuthConfirmRequest = {
+          postApiAuthConfirmRequest: {
+            phone: phoneNumber,
+            otpId: sessionId || data.otpId,
+            otpCode: currentCode,
+          },
+        };
+        mutate(payload, {
+          onSuccess: response => {
+            const result = response.data;
+            onPress(result);
+          },
+          onError: err => {
+            console.log(err);
+          },
+        });
       } catch {
         setTries(prev => prev - 1);
         setError(true);
@@ -57,7 +107,7 @@ export const AuthOtpConnector = ({
     if (code.length === codeLength) {
       verifyCode(code);
     }
-  }, [code, onPress]);
+  }, [code, onPress, mutate, data.otpCode, data.otpId, phoneNumber, sessionId]);
 
   const onKeyPress = (val: string) => {
     if (isLoading || tries <= 0) {
@@ -77,6 +127,7 @@ export const AuthOtpConnector = ({
       errorMessage={errorMessage}
       setCode={setCode}
       onPress={onPress}
+      isLoading={isLoading || isPending || pendingResend}
       onResend={handleResend}
       onKeyPress={onKeyPress}
       isError={isError}

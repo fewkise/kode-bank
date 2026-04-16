@@ -1,7 +1,9 @@
 import { createStackNavigator } from '@react-navigation/stack';
+import { useUnit } from 'effector-react';
 import { TouchableOpacity } from 'react-native';
 import { useUnistyles } from 'react-native-unistyles';
 
+import { resetOtpData } from '@features/otp/model/opt';
 import { useDefaultStackScreenOptions } from '@routing/lib/hooks/use-default-stack-screen-options';
 import { HeaderLeft } from '@routing/ui/header-left/header-left';
 import { Icon } from '@shared/ui/atoms';
@@ -18,7 +20,7 @@ const AuthStack = createStackNavigator<AuthStackParamsList>();
 export const AuthNavigation = () => {
   const screenOptions = useDefaultStackScreenOptions();
   const { theme } = useUnistyles();
-
+  const resetOtp = useUnit(resetOtpData);
   return (
     <AuthStack.Navigator screenOptions={screenOptions}>
       <AuthStack.Screen
@@ -74,7 +76,10 @@ export const AuthNavigation = () => {
           headerTitle: '',
           headerLeft: () => (
             <TouchableOpacity
-              onPress={() => navigation.navigate('authPhoneNumber')}
+              onPress={() => {
+                resetOtp();
+                navigation.navigate('authPhoneNumber');
+              }}
             >
               <Icon color={theme.palette.text.primary} name="IconClose" />
             </TouchableOpacity>

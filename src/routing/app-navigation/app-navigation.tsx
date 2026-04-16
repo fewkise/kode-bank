@@ -2,6 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { useUnit } from 'effector-react';
 
 import { $pinStore } from '@features/pin/model/pin';
+import { $authStore } from '@features/auth/model/auth';
 import { AuthNavigation } from '@routing/auth-navigation';
 import { AuthPinEnterScreen } from '@routing/auth-navigation/screens/auth-pin-enter-screen';
 import { HomeTabsNavigation } from '@routing/home-tabs-navigation';
@@ -18,7 +19,8 @@ const RootStack = createStackNavigator<RootStackParamsList>();
 export const AppNavigation = () => {
   const screenOptions = useDefaultStackScreenOptions();
   const { pin, isPinConfirmed } = useUnit($pinStore);
-  const isAuth = false;
+  const { accessToken } = useUnit($authStore);
+  const isAuth = Boolean(accessToken);
   return (
     <RootStack.Navigator
       initialRouteName={isAuth ? 'HomeTabs' : 'AuthNavigation'}

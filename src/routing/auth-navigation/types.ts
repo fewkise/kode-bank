@@ -1,15 +1,18 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 
-import { OtpResponse } from '@entities/auth/types';
+import { AuthConfirmResponse, OtpResponse } from '@entities/auth/types';
 import { HomeTabsParamsList } from '@routing/home-tabs-navigation';
 
 export type AuthStackParamsList = {
   authSuccess: undefined;
-  authPassword: undefined;
+  authPassword: {
+    result: AuthConfirmResponse;
+  };
   authCreatePin: undefined;
   authPhoneNumber: undefined;
   authOtp: {
     data: OtpResponse;
+    phoneNumber: string;
   };
   authPinPreview: undefined;
   authRepeatPin: {

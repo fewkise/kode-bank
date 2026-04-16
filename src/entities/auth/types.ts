@@ -3,3 +3,6 @@ export type OtpResponse = {
   otpCode: string;
   otpLen: number;
 };
+export type AuthConfirmResponse = {
+  guestToken: string;
+};

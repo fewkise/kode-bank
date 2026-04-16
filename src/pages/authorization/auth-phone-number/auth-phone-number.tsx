@@ -11,6 +11,7 @@ type AuthPhoneNumberProps = {
   phoneNumberError: boolean;
   isSubmitted: boolean;
   setPhoneNumber: (text: string) => void;
+  isLoading: boolean;
 };
 export const AuthPhoneNumber = ({
   onPress,
@@ -18,6 +19,7 @@ export const AuthPhoneNumber = ({
   setPhoneNumber,
   phoneNumberError,
   isSubmitted,
+  isLoading,
 }: AuthPhoneNumberProps) => {
   const { theme } = useUnistyles();
   return (
@@ -40,7 +42,9 @@ export const AuthPhoneNumber = ({
         </ScrollView>
         <View style={styles.forCenter} />
         <View style={styles.buttonContainer}>
-          <PrimaryButton onPress={onPress}>Войти</PrimaryButton>
+          <PrimaryButton disabled={isLoading} onPress={onPress}>
+            Войти
+          </PrimaryButton>
         </View>
       </SafeAreaView>
     </KeyboardView>

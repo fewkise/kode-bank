@@ -2,8 +2,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import { BankMain } from '@pages/bank';
 import { HomeMain } from '@pages/home';
-import { ProfileMain } from '@pages/profile';
 import { PaymentMainScreen } from '@routing/app-navigation/screens/payment-main-screen';
+import { ProfileMainScreen } from '@routing/app-navigation/screens/profile-main-screen';
 import {
   IconBank,
   IconCamera1,
@@ -53,7 +53,7 @@ export const HomeTabsNavigation = () => {
           tabBarIcon: IconCamera1,
         }}
         name="ProfileMain"
-        component={ProfileMain}
+        component={ProfileMainScreen}
       />
     </HomeTabs.Navigator>
   );
