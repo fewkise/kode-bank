@@ -15,6 +15,5 @@ export type AuthStackParamsList = {
   authRepeatPin: {
     code: string;
   };
-  authPinEnter: undefined;
   HomeTabs: NavigatorScreenParams<HomeTabsParamsList>;
 };

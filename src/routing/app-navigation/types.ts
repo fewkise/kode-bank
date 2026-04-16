@@ -16,6 +16,7 @@ export type RootStackParamsList = {
     title: string;
     serviceIcon: string;
   };
+  authPinEnter: undefined;
   paymentConfirm: {
     cardData: Card[];
     payload: {

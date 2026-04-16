@@ -3,13 +3,13 @@ import { TouchableOpacity } from 'react-native';
 import { useUnistyles } from 'react-native-unistyles';
 
 import { useDefaultStackScreenOptions } from '@routing/lib/hooks/use-default-stack-screen-options';
-import { Icon, Typography } from '@shared/ui/atoms';
+import { HeaderLeft } from '@routing/ui/headerLeft/headerLeft';
+import { Icon } from '@shared/ui/atoms';
 
 import { AuthCreatePinScreen } from './screens/auth-create-pin-screen';
 import { AuthOtpScreen } from './screens/auth-otp-screen';
 import { AuthPasswordScreen } from './screens/auth-password-screen';
 import { AuthPhoneNumberScreen } from './screens/auth-phone-number-screen';
-import { AuthPinEnterScreen } from './screens/auth-pin-enter-screen';
 import { AuthPinPreviewScreen } from './screens/auth-pin-preview-screen';
 import { AuthRepeatPinScreen } from './screens/auth-repeat-pin-screen';
 import { AuthSuccessScreen } from './screens/auth-success-screen';
@@ -18,11 +18,9 @@ const AuthStack = createStackNavigator<AuthStackParamsList>();
 export const AuthNavigation = () => {
   const screenOptions = useDefaultStackScreenOptions();
   const { theme } = useUnistyles();
+
   return (
-    <AuthStack.Navigator
-      initialRouteName="authPhoneNumber"
-      screenOptions={screenOptions}
-    >
+    <AuthStack.Navigator screenOptions={screenOptions}>
       <AuthStack.Screen
         name="authPhoneNumber"
         component={AuthPhoneNumberScreen}
@@ -35,19 +33,13 @@ export const AuthNavigation = () => {
           },
           headerTitle: '',
           headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('authSuccess')}
-            >
-              <Typography variant="body15Regular" color="secondary">
-                Пропустить
-              </Typography>
-            </TouchableOpacity>
+            <HeaderLeft onPress={() => navigation.navigate('authSuccess')} />
           ),
         })}
         name="authRepeatPin"
         component={AuthRepeatPinScreen}
       />
-      <AuthStack.Screen name="authPinEnter" component={AuthPinEnterScreen} />
+
       <AuthStack.Screen
         options={({ navigation }) => ({
           headerLeftContainerStyle: {
@@ -55,13 +47,7 @@ export const AuthNavigation = () => {
           },
           headerTitle: '',
           headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('authSuccess')}
-            >
-              <Typography variant="body15Regular" color="secondary">
-                Пропустить
-              </Typography>
-            </TouchableOpacity>
+            <HeaderLeft onPress={() => navigation.navigate('authSuccess')} />
           ),
         })}
         name="authCreatePin"
@@ -75,13 +61,7 @@ export const AuthNavigation = () => {
           },
           headerTitle: '',
           headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('authSuccess')}
-            >
-              <Typography variant="body15Regular" color="secondary">
-                Пропустить
-              </Typography>
-            </TouchableOpacity>
+            <HeaderLeft onPress={() => navigation.navigate('authSuccess')} />
           ),
         })}
         component={AuthPinPreviewScreen}
@@ -103,11 +83,16 @@ export const AuthNavigation = () => {
         name="authPassword"
         component={AuthPasswordScreen}
       />
-      <AuthStack.Screen name="authSuccess" component={AuthSuccessScreen} />
+
       <AuthStack.Screen
         options={{ headerShown: false }}
         name="authOtp"
         component={AuthOtpScreen}
+      />
+      <AuthStack.Screen
+        options={{ headerShown: false }}
+        name="authSuccess"
+        component={AuthSuccessScreen}
       />
     </AuthStack.Navigator>
   );

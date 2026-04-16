@@ -13,8 +13,13 @@ export const AuthRepeatPinScreen = ({
   route,
 }: AuthRepeatPinProps) => {
   const { code } = route.params;
-  const onPress = () => {
-    navigation.navigate('authSuccess');
+  const goBack = () => {
+    navigation.navigate('authCreatePin');
   };
-  return <AuthRepeatPinConnector code={code} onPress={onPress} />;
+  const onPress = () => {
+    navigation.navigate('authPinEnter');
+  };
+  return (
+    <AuthRepeatPinConnector goBack={goBack} code={code} onPress={onPress} />
+  );
 };

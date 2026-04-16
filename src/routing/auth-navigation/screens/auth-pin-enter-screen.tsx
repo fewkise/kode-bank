@@ -1,16 +1,20 @@
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { AuthPinEnterConnector } from '@pages/authorization/auth-pin-enter';
-
-import { AuthStackParamsList } from '../types';
+import { RootStackParamsList } from '@routing/app-navigation/types';
 
 export type AuthPinEnterProps = StackScreenProps<
-  AuthStackParamsList,
+  RootStackParamsList,
   'authPinEnter'
 >;
-export const AuthPinEnterScreen = ({ navigation }: AuthPinEnterProps) => {
-  const onPress = () => {
-    navigation.navigate('HomeTabs', { screen: 'PaymentMain' });
+export const AuthPinEnterScreen = () => {
+  const resetSession = () => {
+    console.log('Сброс сессии');
   };
-  return <AuthPinEnterConnector onPress={onPress} />;
+  const onPress = () => {
+    console.log('переход на главную страницу');
+  };
+  return (
+    <AuthPinEnterConnector resetSession={resetSession} onPress={onPress} />
+  );
 };
