@@ -42,7 +42,7 @@ export const AuthInput = ({
           value={value}
           secureTextEntry={isVisible}
           keyboardAppearance={theme.name}
-          keyboardType="phone-pad"
+          keyboardType={isPassword ? 'default' : 'phone-pad'}
           {...rest}
           onChangeText={onChangeText}
           placeholderTextColor={

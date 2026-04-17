@@ -1,9 +1,12 @@
+import { useUnit } from 'effector-react';
+
+import { changeAuthState } from '@features/auth/model/auth-state';
+
 import { AuthSuccess } from './auth-success';
-type AuthSuccessConnectorProps = {
-  onPress: () => void;
-};
-export const AuthSuccessConnector = ({
-  onPress,
-}: AuthSuccessConnectorProps) => {
-  return <AuthSuccess onPress={onPress} />;
+export const AuthSuccessConnector = () => {
+  const unlock = useUnit(changeAuthState);
+  const handleConfirmAuth = () => {
+    unlock('unlocked');
+  };
+  return <AuthSuccess onPress={handleConfirmAuth} />;
 };

@@ -8,7 +8,6 @@ import { KeyboardView } from '@shared/ui/templates';
 type AuthOtpProps = {
   onPress: (result: AuthConfirmResponse) => void;
   code: string;
-  setCode: (text: string) => void;
   errorMessage: string;
   isError: boolean;
   onKeyPress: (val: string) => void;
@@ -19,7 +18,6 @@ type AuthOtpProps = {
 };
 export const AuthOtp = ({
   code,
-  setCode,
   errorMessage,
   isError,
   timerText,
@@ -37,17 +35,14 @@ export const AuthOtp = ({
               На ваш номер отправлено SMS с кодом подтверждения.
             </Typography>
           </View>
-          <OtpInput
-            isError={isError}
-            code={code}
-            setCode={setCode}
-            length={6}
-          />
-          {isError && (
-            <Typography color="error" variant="caption2">
-              {errorMessage}
-            </Typography>
-          )}
+          <OtpInput isError={isError} code={code} length={6} />
+          <View style={isError ? styles.forErrorText : styles.forSpace}>
+            {isError && (
+              <Typography color="error" variant="caption2">
+                {errorMessage}
+              </Typography>
+            )}
+          </View>
         </View>
 
         <View style={styles.footer}>
@@ -90,5 +85,13 @@ const styles = StyleSheet.create(theme => ({
     paddingHorizontal: theme.spacing(2),
     alignSelf: 'stretch',
     backgroundColor: theme.palette.background.primary,
+  },
+  forErrorText: {
+    opacity: 1,
+    height: 40,
+  },
+  forSpace: {
+    opacity: 0,
+    height: 40,
   },
 }));

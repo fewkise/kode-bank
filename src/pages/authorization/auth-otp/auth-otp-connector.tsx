@@ -71,55 +71,54 @@ export const AuthOtpConnector = ({
       setTries(5);
     }
   }, [tries, goBack]);
+  const onKeyPress = (val: string) => {
+    if (isLoading || isPending || tries <= 0) {
+      return;
+    }
 
-  useEffect(() => {
-    const verifyCode = async (currentCode: string) => {
-      setLoading(true);
-      try {
-        if (currentCode !== otpCode) {
-          throw new Error();
+    if (val === 'back') {
+      setCode(prev => prev.slice(0, -1));
+      return;
+    }
+
+    if (code.length < codeLength) {
+      const nextCode = code + val;
+      setCode(nextCode);
+
+      if (nextCode.length === codeLength) {
+        setLoading(true);
+
+        if (nextCode !== otpCode) {
+          setTries(prev => prev - 1);
+          setError(true);
+          setTimeout(() => {
+            setCode('');
+            setLoading(false);
+            setError(false);
+          }, 1000);
+          return;
         }
 
         const payload: DefaultApiPostApiAuthConfirmRequest = {
           postApiAuthConfirmRequest: {
             phone: phoneNumber,
             otpId: sessionId || data.otpId,
-            otpCode: currentCode,
+            otpCode: nextCode,
           },
         };
+
         mutate(payload, {
           onSuccess: response => {
-            const result = response.data;
-            onPress(result);
+            onPress(response.data);
           },
-          onError: err => {
-            console.log(err);
+          onError: () => {
+            setTries(prev => prev - 1);
+            setError(true);
+            setCode('');
+            setLoading(false);
           },
         });
-      } catch {
-        setTries(prev => prev - 1);
-        setError(true);
-        setTimeout(() => {
-          setCode('');
-          setError(false);
-        }, 5000);
-      } finally {
-        setLoading(false);
       }
-    };
-    if (code.length === codeLength) {
-      verifyCode(code);
-    }
-  }, [code, onPress, mutate, data.otpCode, data.otpId, phoneNumber, sessionId]);
-
-  const onKeyPress = (val: string) => {
-    if (isLoading || tries <= 0) {
-      return;
-    }
-    if (val === 'back') {
-      setCode(prev => prev.slice(0, -1));
-    } else if (code.length < codeLength) {
-      setCode(prev => prev + val);
     }
   };
   return (
@@ -128,7 +127,6 @@ export const AuthOtpConnector = ({
       code={code}
       timerText={timerText}
       errorMessage={errorMessage}
-      setCode={setCode}
       onPress={onPress}
       isLoading={isLoading || isPending || pendingResend}
       onResend={handleResend}

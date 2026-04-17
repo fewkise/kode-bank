@@ -7611,6 +7611,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"effector-storage@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "effector-storage@npm:8.0.0"
+  peerDependencies:
+    effector: ^23.0.0
+  checksum: 25762171311476245d24e105f4bcb698a1f63a1375984673725fb3aa85d0fe4ae805495665a429f20df6e28434c0eb041c25253aee6062d00d27dfd633888b02
+  languageName: node
+  linkType: hard
+
 "effector@npm:^23.4.4":
   version: 23.4.4
   resolution: "effector@npm:23.4.4"
@@ -10900,6 +10909,7 @@ __metadata:
     commitlint: ^19.8.1
     effector: ^23.4.4
     effector-react: ^23.3.0
+    effector-storage: ^8.0.0
     eslint: ^7.32.0
     eslint-plugin-import: ^2.31.0
     husky: ^9.1.7

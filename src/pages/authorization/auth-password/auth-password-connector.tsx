@@ -7,11 +7,9 @@ import { DefaultApiPostApiAuthEnterRequest } from '@shared/api/auth-axios-client
 
 import { AuthPassword } from './auth-password';
 type AuthPasswordConnectorProps = {
-  onPress: () => void;
   guestToken: string;
 };
 export const AuthPasswordConnector = ({
-  onPress,
   guestToken,
 }: AuthPasswordConnectorProps) => {
   const [password, setPassword] = useState('');
@@ -37,7 +35,6 @@ export const AuthPasswordConnector = ({
             accessToken: result.accessToken,
             refreshToken: result.refreshToken,
           });
-          onPress();
         },
         onError: err => {
           console.log(err);

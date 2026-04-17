@@ -1,5 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 
+import { useLogout } from '@entities/auth/hooks/use-logout';
 import { AuthPinEnterConnector } from '@pages/authorization/auth-pin-enter';
 import { RootStackParamsList } from '@routing/app-navigation/types';
 
@@ -8,13 +9,9 @@ export type AuthPinEnterProps = StackScreenProps<
   'authPinEnter'
 >;
 export const AuthPinEnterScreen = () => {
+  const { logout } = useLogout();
   const resetSession = () => {
-    console.log('Сброс сессии');
+    logout();
   };
-  const onPress = () => {
-    console.log('переход на главную страницу');
-  };
-  return (
-    <AuthPinEnterConnector resetSession={resetSession} onPress={onPress} />
-  );
+  return <AuthPinEnterConnector resetSession={resetSession} />;
 };
