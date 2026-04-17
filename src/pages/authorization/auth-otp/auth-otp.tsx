@@ -15,6 +15,7 @@ type AuthOtpProps = {
   onResend: () => void;
   canResend: boolean;
   isLoading: boolean;
+  length: number;
 };
 export const AuthOtp = ({
   code,
@@ -25,6 +26,7 @@ export const AuthOtp = ({
   canResend,
   isLoading,
   onResend,
+  length,
 }: AuthOtpProps) => {
   return (
     <KeyboardView>
@@ -35,7 +37,7 @@ export const AuthOtp = ({
               На ваш номер отправлено SMS с кодом подтверждения.
             </Typography>
           </View>
-          <OtpInput isError={isError} code={code} length={6} />
+          <OtpInput isError={isError} code={code} length={length} />
           <View style={isError ? styles.forErrorText : styles.forSpace}>
             {isError && (
               <Typography color="error" variant="caption2">

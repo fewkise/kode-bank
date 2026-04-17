@@ -38,8 +38,7 @@ export const AuthOtpConnector = ({
   const errorMessage = `Неверный код. Осталось ${tries} попыток`;
   const [isError, setError] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const otpCode = '123456';
-  const codeLength = 6;
+  const codeLength = data.otpLen;
   const { timeLeft, restart, isFinished } = useTimer(resendTimeout || 180);
   const timerText = isFinished
     ? 'Выслать код повторно'
@@ -88,7 +87,7 @@ export const AuthOtpConnector = ({
       if (nextCode.length === codeLength) {
         setLoading(true);
 
-        if (nextCode !== otpCode) {
+        if (nextCode !== data.otpCode) {
           setTries(prev => prev - 1);
           setError(true);
           setTimeout(() => {
@@ -125,6 +124,7 @@ export const AuthOtpConnector = ({
     <AuthOtp
       canResend={isFinished}
       code={code}
+      length={codeLength}
       timerText={timerText}
       errorMessage={errorMessage}
       onPress={onPress}
