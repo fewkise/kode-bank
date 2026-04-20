@@ -46,6 +46,7 @@ export const AuthPassword = ({
             value={password}
             onChangeText={setPassword}
             isPassword={true}
+            isLoading={isLoading}
           />
         </View>
 

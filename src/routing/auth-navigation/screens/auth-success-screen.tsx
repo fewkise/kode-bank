@@ -8,6 +8,7 @@ export type AuthSuccessScreenProps = StackScreenProps<
   AuthStackParamsList,
   'authSuccess'
 >;
-export const AuthSuccessScreen = () => {
-  return <AuthSuccessConnector />;
+export const AuthSuccessScreen = ({ route }: AuthSuccessScreenProps) => {
+  const { pin } = route.params;
+  return <AuthSuccessConnector pin={pin} />;
 };

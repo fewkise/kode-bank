@@ -18,9 +18,6 @@ export const getAuthNavigatorState = ({
   if (!hasPin) {
     return 'pin-create';
   }
-  if (authState === 'setup') {
-    return 'setup';
-  }
   if (authState === 'locked') {
     return 'pin-auth';
   }

@@ -4,6 +4,7 @@ import React, {
   TextInputProps,
   View,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import { MaskedTextInput } from 'react-native-mask-text';
 import { StyleSheet, useUnistyles } from 'react-native-unistyles';
@@ -13,6 +14,7 @@ type Props = AuthInputProps & TextInputProps;
 type AuthInputProps = {
   isError: boolean;
   isPassword: boolean;
+  isLoading?: boolean;
 };
 
 export const AuthInput = ({
@@ -20,6 +22,7 @@ export const AuthInput = ({
   onChangeText,
   isError,
   isPassword,
+  isLoading,
   ...rest
 }: Props) => {
   const { theme } = useUnistyles();
@@ -69,19 +72,32 @@ export const AuthInput = ({
           }
         />
       )}
-
-      {isPassword && (
-        <TouchableOpacity
-          style={styles.closeContainer}
-          hitSlop={8}
-          onPress={() => setVisible(prev => !prev)}
-        >
-          <Icon
-            color={theme.palette.text[isVisible ? 'secondary' : 'tertiary']}
-            name={isVisible ? 'IconEye' : 'IconEyeOff'}
-          />
-        </TouchableOpacity>
+      {!isPassword && isLoading && (
+        <ActivityIndicator
+          style={styles.forIndicator}
+          size="small"
+          color={theme.palette.indicator.success}
+        />
       )}
+      {isPassword &&
+        (isLoading ? (
+          <ActivityIndicator
+            style={styles.forIndicator}
+            size="small"
+            color={theme.palette.indicator.success}
+          />
+        ) : (
+          <TouchableOpacity
+            style={styles.closeContainer}
+            hitSlop={8}
+            onPress={() => setVisible(prev => !prev)}
+          >
+            <Icon
+              color={theme.palette.text[isVisible ? 'secondary' : 'tertiary']}
+              name={isVisible ? 'IconEye' : 'IconEyeOff'}
+            />
+          </TouchableOpacity>
+        ))}
     </View>
   );
 };
@@ -96,6 +112,9 @@ const styles = StyleSheet.create(theme => ({
     letterSpacing: theme.typography.body20.letterSpacing,
     lineHeight: theme.typography.body20.lineHeight,
     color: theme.palette.text.primary,
+  },
+  forIndicator: {
+    paddingHorizontal: theme.spacing(3),
   },
   forIcon: {
     marginLeft: theme.spacing(2),

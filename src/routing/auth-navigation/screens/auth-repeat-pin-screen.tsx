@@ -16,5 +16,14 @@ export const AuthRepeatPinScreen = ({
   const goBack = () => {
     navigation.navigate('authCreatePin');
   };
-  return <AuthRepeatPinConnector goBack={goBack} code={code} />;
+  const goToSuccess = (pin: string) => {
+    navigation.navigate('authSuccess', { pin });
+  };
+  return (
+    <AuthRepeatPinConnector
+      goToSuccess={goToSuccess}
+      goBack={goBack}
+      code={code}
+    />
+  );
 };

@@ -66,12 +66,6 @@ export const AuthNavigation = () => {
               name="authOtp"
               component={AuthOtpScreen}
             />
-
-            <AuthStack.Screen
-              options={{ headerShown: false }}
-              name="authSuccess"
-              component={AuthSuccessScreen}
-            />
           </>
         );
       case 'pin-create':
@@ -86,7 +80,7 @@ export const AuthNavigation = () => {
                 headerTitle: '',
                 headerLeft: () => (
                   <HeaderLeft
-                    onPress={() => navigation.navigate('authSuccess')}
+                    onPress={() => navigation.navigate('authSuccess', {})}
                   />
                 ),
               })}
@@ -100,7 +94,7 @@ export const AuthNavigation = () => {
                 headerTitle: '',
                 headerLeft: () => (
                   <HeaderLeft
-                    onPress={() => navigation.navigate('authSuccess')}
+                    onPress={() => navigation.navigate('authSuccess', {})}
                   />
                 ),
               })}
@@ -115,7 +109,7 @@ export const AuthNavigation = () => {
                 headerTitle: '',
                 headerLeft: () => (
                   <HeaderLeft
-                    onPress={() => navigation.navigate('authSuccess')}
+                    onPress={() => navigation.navigate('authSuccess', {})}
                   />
                 ),
               })}
@@ -135,14 +129,6 @@ export const AuthNavigation = () => {
             name="authPinEnter"
             options={{ headerShown: false }}
             component={AuthPinEnterScreen}
-          />
-        );
-      case 'setup':
-        return (
-          <AuthStack.Screen
-            options={{ headerShown: false }}
-            name="authSuccess"
-            component={AuthSuccessScreen}
           />
         );
     }

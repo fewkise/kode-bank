@@ -1,14 +1,12 @@
-export const formatAmount = (value: string | number | undefined): string => {
-  const stringValue = typeof value === 'number' ? String(value) : value;
-  if (!stringValue) {
-    return '';
-  }
-  const cleaned = stringValue.replace(/\D/g, '').replace(/^0+/, '') || '0';
-  if (cleaned === '' || cleaned === '0') {
-    return '0';
-  }
-  return cleaned.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+export const formatValue = (val: number) => {
+  return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 };
-export const parseRawAmount = (formattedValue: string): string => {
-  return formattedValue.replace(/\s/g, '');
+export const formatPhone = (phone: string) => {
+  const cleaned = ('' + phone).replace(/\D/g, '');
+  const match = cleaned.match(/^(\d|7|8|)?(\d{3})(\d{3})(\d{2})(\d{2})$/);
+  if (match) {
+    const intl = match[1] ? '+7 ' : '';
+    return `${intl}(${match[2]}) ${match[3]}-${match[4]}-${match[5]}`;
+  }
+  return phone;
 };

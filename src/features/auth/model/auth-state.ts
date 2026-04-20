@@ -1,5 +1,5 @@
 import { createEvent, createStore } from 'effector';
-export type TAuthState = 'locked' | 'unlocked' | 'setup';
+export type TAuthState = 'locked' | 'unlocked';
 export const changeAuthState = createEvent<TAuthState>();
 
 export const $authState = createStore<TAuthState>('locked').on(

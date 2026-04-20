@@ -35,6 +35,7 @@ export const AuthPhoneNumber = ({
 
           <View style={styles.forContainer}>
             <AuthInput
+              isLoading={isLoading}
               placeholder="Телефон"
               isError={isSubmitted && phoneNumberError}
               value={phoneNumber}

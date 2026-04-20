@@ -1,11 +1,12 @@
 import React from 'react';
 import { Alert, Linking } from 'react-native';
+import { formatValue } from 'utils/formatter';
+import { formatPhone } from 'utils/formatter';
 
 import { Card } from '@entities/payment-card/types';
 import { useCreatePayment } from '@entities/payments';
 import { TStatus } from '@entities/payments/types';
 import { PaymentConfirm } from '@pages/payment/payment-confirm';
-
 export type ConnectorProps = {
   goToStatus: (paymentId: string, status: TStatus) => void;
   payload: {
@@ -37,14 +38,20 @@ export const PaymentConfirmConnector = ({
   const cashback = selectedCard?.cashback || 0;
   const cashRaw = Number(cashback * payload.amount);
   const cashResult = Math.round(cashRaw * 100) / 100;
+  const formattedCash = formatValue(cashResult);
+  const formattedPhone = formatPhone(payload.phoneNumber);
   const mapData = [
     { value: `${selectedCard?.name}`, id: '6', label: 'Карта для оплаты' },
     { value: `${payload.serviceName}`, id: '2', label: 'Мобильный оператор' },
-    { value: `${payload.phoneNumber}`, id: '1', label: 'Телефон получателя' },
+    { value: `${formattedPhone}`, id: '1', label: 'Телефон получателя' },
     { value: 'Виталий Викторович Г.', id: '4', label: 'Имя получателя' },
-    { value: `${payload.amount}  ₽`, id: '3', label: 'Сумма платежа' },
     {
-      value: `${cashResult.toFixed(2)}  ₽`,
+      value: `${formatValue(payload.amount)}  ₽`,
+      id: '3',
+      label: 'Сумма платежа',
+    },
+    {
+      value: `${formattedCash}  ₽`,
       id: '5',
       label: 'Кешбек',
     },

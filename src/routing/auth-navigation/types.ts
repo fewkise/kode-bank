@@ -4,7 +4,9 @@ import { AuthConfirmResponse, OtpResponse } from '@entities/auth/types';
 import { HomeTabsParamsList } from '@routing/home-tabs-navigation';
 
 export type AuthStackParamsList = {
-  authSuccess: undefined;
+  authSuccess: {
+    pin?: string;
+  };
   authPassword: {
     result: AuthConfirmResponse;
   };
