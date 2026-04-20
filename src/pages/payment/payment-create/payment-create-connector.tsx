@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { formatValue } from 'utils/formatter';
 
 import { usePaymentCards } from '@entities/payment-card';
 import { Card } from '@entities/payment-card/types';
@@ -25,12 +26,13 @@ export const PaymentCreateConnector = ({
   const [isSubmited, setSubmited] = useState(false);
   const sumError = sum === null || sum === 0;
   const { data: cardData = [] } = usePaymentCards();
-  const phoneNumberError = phoneNumber.length < 10;
+  const phoneNumberError = phoneNumber.length < 11;
   const handleClear = () => {
     setPhoneNumber('');
   };
   const selectedCard = cardData.filter(item => item.id === selectedCardId);
   const cashback = makeCashback(cardData, sum, selectedCardId);
+  const formattedCashback = formatValue(Number(cashback.toFixed(2)));
   const handleContinue = () => {
     const payload: PaymentPayload = {
       phoneNumber,
@@ -52,7 +54,7 @@ export const PaymentCreateConnector = ({
       sumError={sumError}
       phoneNumberError={phoneNumberError}
       sum={sum}
-      cashback={cashback}
+      cashback={formattedCashback}
       cardData={selectedCard}
       serviceIcon={serviceIcon}
       handleClear={handleClear}

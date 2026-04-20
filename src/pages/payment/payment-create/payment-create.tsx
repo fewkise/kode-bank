@@ -22,7 +22,7 @@ type PaymentCreateProps = {
   onContinue: () => void;
   sumError: boolean;
   sum: number;
-  cashback: number;
+  cashback: string;
   paymentPrices: TPaymentPrices[];
   setSum: (val: number) => void;
   phoneNumberError: boolean;
@@ -91,7 +91,7 @@ export const PaymentCreate = ({
             {sum !== 0 || null ? (
               <View style={styles.captionContainer}>
                 <Typography color="secondary" variant="caption1">
-                  Ваш кешбек составит 10% - {cashback.toFixed(2)} ₽
+                  Ваш кешбек составит 10% - {cashback} ₽
                 </Typography>
               </View>
             ) : (

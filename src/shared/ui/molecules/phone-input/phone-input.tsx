@@ -1,10 +1,10 @@
 import React, {
-  TextInput,
   TextInputProps,
   Image,
   View,
   TouchableOpacity,
 } from 'react-native';
+import { MaskedTextInput } from 'react-native-mask-text';
 import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 
 import { IconClose } from '@shared/ui/icons';
@@ -28,13 +28,16 @@ export const PhoneInput = ({
   return (
     <View style={styles.container}>
       {photo && <Image style={styles.forImage} source={{ uri: photo }} />}
-      <TextInput
+      <MaskedTextInput
+        mask="+7 (999) 999-99-99"
         style={[styles.root, isError && styles.errorText]}
         value={value}
         keyboardAppearance={theme.name}
         keyboardType="phone-pad"
         {...rest}
-        onChangeText={onChangeText}
+        onChangeText={(text, rawText) => {
+          onChangeText?.(rawText);
+        }}
         placeholderTextColor={
           isError ? theme.palette.indicator.error : theme.palette.text.tertiary
         }

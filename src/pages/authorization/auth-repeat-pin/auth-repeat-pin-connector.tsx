@@ -1,24 +1,20 @@
-import { useUnit } from 'effector-react';
 import { useEffect, useState } from 'react';
-
-import { savePin } from '@features/pin/model/pin';
 
 import { AuthRepeatPin } from './auth-repeat-pin';
 type AuthRepeatPinConnectorProps = {
-  onPress: () => void;
   code: string;
   goBack: () => void;
+  goToSuccess: (pin: string) => void;
 };
 export const AuthRepeatPinConnector = ({
-  onPress,
   code,
   goBack,
+  goToSuccess,
 }: AuthRepeatPinConnectorProps) => {
   const firstPin = code;
   const [secondPin, setSecondPin] = useState('');
   const [error, setError] = useState(false);
   const pinLength = 5;
-  const onSavePin = useUnit(savePin);
   const onKeyPress = (val: string) => {
     setError(false);
     if (val === 'back') {
@@ -34,12 +30,11 @@ export const AuthRepeatPinConnector = ({
       return;
     }
     if (secondPin === firstPin) {
-      onSavePin(secondPin);
-      onPress();
+      goToSuccess(secondPin);
     } else {
       setError(true);
     }
-  }, [onPress, firstPin, secondPin, onSavePin]);
+  }, [firstPin, secondPin, goToSuccess]);
   const clearPinCode = () => {
     setSecondPin('');
     setError(false);

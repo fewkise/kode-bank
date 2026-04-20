@@ -25,13 +25,17 @@ export const AuthPhoneNumber = ({
   return (
     <KeyboardView>
       <SafeAreaView style={styles.forSafe}>
-        <View style={styles.logoContainer}>
-          <Icon color={theme.palette.text.primary} name="IconLogoMedium" />
-        </View>
+        <ScrollView
+          contentContainerStyle={styles.forGrow}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.logoContainer}>
+            <Icon color={theme.palette.text.primary} name="IconLogoMedium" />
+          </View>
 
-        <ScrollView contentContainerStyle={styles.forGrow}>
           <View style={styles.forContainer}>
             <AuthInput
+              isLoading={isLoading}
               placeholder="Телефон"
               isError={isSubmitted && phoneNumberError}
               value={phoneNumber}
@@ -39,13 +43,14 @@ export const AuthPhoneNumber = ({
               isPassword={false}
             />
           </View>
+
+          <View style={styles.forCenter} />
+          <View style={styles.buttonContainer}>
+            <PrimaryButton disabled={isLoading} onPress={onPress}>
+              Войти
+            </PrimaryButton>
+          </View>
         </ScrollView>
-        <View style={styles.forCenter} />
-        <View style={styles.buttonContainer}>
-          <PrimaryButton disabled={isLoading} onPress={onPress}>
-            Войти
-          </PrimaryButton>
-        </View>
       </SafeAreaView>
     </KeyboardView>
   );
@@ -69,7 +74,7 @@ const styles = StyleSheet.create(theme => ({
   },
   buttonContainer: {
     paddingHorizontal: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
+    paddingBottom: theme.spacing(1),
   },
   logoContainer: {
     alignItems: 'center',

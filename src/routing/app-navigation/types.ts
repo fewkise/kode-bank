@@ -29,7 +29,7 @@ export type RootStackParamsList = {
   };
   paymentStatus: {
     paymentId: string;
-    amount: number | string;
+    amount: number;
     status: TStatus;
   };
 };

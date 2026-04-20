@@ -1,12 +1,12 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { useUnit } from 'effector-react';
+import { useMemo } from 'react';
 
-import { $authStore } from '@features/auth/model/auth';
-import { $pinStore } from '@features/pin/model/pin';
+import { useAuthState } from '@features/auth/hooks/use-auth-state';
+import { useLoggedIn } from '@features/auth/hooks/use-logged-in';
 import { AuthNavigation } from '@routing/auth-navigation';
-import { AuthPinEnterScreen } from '@routing/auth-navigation/screens/auth-pin-enter-screen';
 import { HomeTabsNavigation } from '@routing/home-tabs-navigation';
 import { useDefaultStackScreenOptions } from '@routing/lib/hooks/use-default-stack-screen-options';
+import { getAppState } from '@routing/lib/utils/get-app-state';
 
 import { PaymentConfirmScreen } from './screens/payment-confirm-screen';
 import { PaymentCreateScreen } from './screens/payment-create-screen';
@@ -18,21 +18,24 @@ const RootStack = createStackNavigator<RootStackParamsList>();
 
 export const AppNavigation = () => {
   const screenOptions = useDefaultStackScreenOptions();
-  const { pin, isPinConfirmed } = useUnit($pinStore);
-  const { accessToken } = useUnit($authStore);
-  const isAuth = Boolean(accessToken);
-  return (
-    <RootStack.Navigator
-      initialRouteName={isAuth ? 'HomeTabs' : 'AuthNavigation'}
-      screenOptions={screenOptions}
-    >
-      {isAuth ? (
-        !isPinConfirmed && pin ? (
+  const { loggedIn } = useLoggedIn();
+  const authState = useAuthState();
+  const appState = getAppState({
+    authState,
+    loggedIn,
+  });
+  const flow = useMemo(() => {
+    switch (appState) {
+      case 'auth':
+        return (
           <RootStack.Screen
-            name="authPinEnter"
-            component={AuthPinEnterScreen}
+            name="AuthNavigation"
+            component={AuthNavigation}
+            options={{ headerShown: false }}
           />
-        ) : (
+        );
+      case 'unlocked':
+        return (
           <>
             <RootStack.Screen
               name="HomeTabs"
@@ -60,14 +63,25 @@ export const AppNavigation = () => {
               options={({ route }) => ({ headerTitle: route.params.title })}
             />
           </>
-        )
-      ) : (
-        <RootStack.Screen
-          name="AuthNavigation"
-          component={AuthNavigation}
-          options={{ headerShown: false }}
-        />
-      )}
+        );
+      default:
+        return (
+          <RootStack.Screen
+            name="AuthNavigation"
+            component={AuthNavigation}
+            options={{ headerShown: false }}
+          />
+        );
+    }
+  }, [appState]);
+  return (
+    <RootStack.Navigator
+      initialRouteName={
+        authState === 'unlocked' ? 'HomeTabs' : 'AuthNavigation'
+      }
+      screenOptions={screenOptions}
+    >
+      {flow}
     </RootStack.Navigator>
   );
 };

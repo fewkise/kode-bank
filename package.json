@@ -28,6 +28,7 @@
     "axios": "^1.13.2",
     "effector": "^23.4.4",
     "effector-react": "^23.3.0",
+    "effector-storage": "^8.0.0",
     "react": "19.2.3",
     "react-hook-form": "^7.72.0",
     "react-native": "0.83.1",

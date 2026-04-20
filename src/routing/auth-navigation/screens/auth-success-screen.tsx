@@ -8,9 +8,7 @@ export type AuthSuccessScreenProps = StackScreenProps<
   AuthStackParamsList,
   'authSuccess'
 >;
-export const AuthSuccessScreen = ({ navigation }: AuthSuccessScreenProps) => {
-  const onPress = () => {
-    navigation.navigate('HomeTabs', { screen: 'PaymentMain' });
-  };
-  return <AuthSuccessConnector onPress={onPress} />;
+export const AuthSuccessScreen = ({ route }: AuthSuccessScreenProps) => {
+  const { pin } = route.params;
+  return <AuthSuccessConnector pin={pin} />;
 };

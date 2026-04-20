@@ -4,7 +4,9 @@ import { AuthConfirmResponse, OtpResponse } from '@entities/auth/types';
 import { HomeTabsParamsList } from '@routing/home-tabs-navigation';
 
 export type AuthStackParamsList = {
-  authSuccess: undefined;
+  authSuccess: {
+    pin?: string;
+  };
   authPassword: {
     result: AuthConfirmResponse;
   };
@@ -18,5 +20,7 @@ export type AuthStackParamsList = {
   authRepeatPin: {
     code: string;
   };
+  authPinEnter: undefined;
   HomeTabs: NavigatorScreenParams<HomeTabsParamsList>;
 };
+export type TAuthNavigatorState = 'pin-create' | 'pin-auth' | 'auth' | 'setup';

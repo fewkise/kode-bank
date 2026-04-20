@@ -1,21 +1,21 @@
 import { useUnit } from 'effector-react';
 import { useEffect, useState } from 'react';
 
+import { changeAuthState } from '@features/auth/model/auth-state';
 import { $pinStore, checkPinSuccess, logoutPin } from '@features/pin/model/pin';
 
 import { AuthPinEnter } from './auth-pin-enter';
 
 type AuthPinEnterConnectorProps = {
-  onPress: () => void;
   resetSession: () => void;
 };
 export const AuthPinEnterConnector = ({
-  onPress,
   resetSession,
 }: AuthPinEnterConnectorProps) => {
   const [pin, setPin] = useState('');
   const [tries, setTries] = useState(5);
   const [error, setError] = useState(false);
+  const unlock = useUnit(changeAuthState);
   const errorMessage = `Неверный код. Осталось ${tries} попытки`;
   const pinLength = 5;
   const { pin: realPin } = useUnit($pinStore);
@@ -42,8 +42,8 @@ export const AuthPinEnterConnector = ({
   useEffect(() => {
     if (pin.length === pinLength) {
       if (pin === realPin) {
+        unlock('unlocked');
         onConfirm();
-        onPress();
       } else {
         setTries(prev => prev - 1);
         setError(true);
@@ -54,7 +54,7 @@ export const AuthPinEnterConnector = ({
         setPin('');
       }
     }
-  }, [pin, realPin, onConfirm, onPress]);
+  }, [pin, realPin, onConfirm, unlock]);
   const clearPinCode = () => {
     setPin('');
   };

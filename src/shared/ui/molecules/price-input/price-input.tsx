@@ -1,45 +1,31 @@
-import React, { TextInput as ReactTextInput, View } from 'react-native';
+import React, { View } from 'react-native';
+import { MaskedTextInput } from 'react-native-mask-text';
 import { StyleSheet, useUnistyles } from 'react-native-unistyles';
-import { formatAmount, parseRawAmount } from 'utils/formatter';
-
-import { Typography } from '@shared/ui/atoms';
-
 type Props = {
   isError: boolean;
   value: number;
   onChangeText: (value: number) => void;
 };
 export const PriceInput = ({ isError = false, onChangeText, value }: Props) => {
-  const handleChange = (text: string) => {
-    const formatted = formatAmount(text);
-    const rawFormat = parseRawAmount(formatted);
-    if (onChangeText) {
-      onChangeText(Number(rawFormat));
-    }
-  };
   const { theme } = useUnistyles();
-  const displayValue = formatAmount(value);
   return (
     <View style={styles.container}>
       <View style={styles.inputWrapper}>
-        <View style={styles.displayContainer} pointerEvents="none">
-          <Typography variant="title" color="primary">
-            {displayValue}
-          </Typography>
-          <Typography variant="title"> ₽</Typography>
-        </View>
-        <ReactTextInput
-          multiline={false}
-          scrollEnabled={false}
-          style={styles.hiddenInput}
+        <MaskedTextInput
+          type="currency"
+          value={String(value)}
+          options={{
+            prefix: '',
+            decimalSeparator: '.',
+            groupSeparator: ' ',
+            precision: 0,
+          }}
           keyboardAppearance={theme.name}
+          onChangeText={(text, rawText) => {
+            onChangeText(Number(rawText));
+          }}
+          style={[styles.input]}
           keyboardType="numeric"
-          selectionColor="transparent"
-          caretHidden
-          maxLength={12}
-          value={value === 0 ? '' : String(value)}
-          onChangeText={handleChange}
-          numberOfLines={1}
         />
       </View>
       <View style={[styles.underline, isError && styles.underlineError]} />
@@ -48,19 +34,9 @@ export const PriceInput = ({ isError = false, onChangeText, value }: Props) => {
 };
 
 const styles = StyleSheet.create(theme => ({
-  hiddenInput: {
-    ...StyleSheet.absoluteFillObject,
-    color: 'transparent',
-    fontSize: theme.typography.title.size,
-  },
   container: {
     width: '100%',
     alignItems: 'flex-start',
-  },
-  displayContainer: {
-    flexDirection: 'row',
-    paddingVertical: theme.spacing(2),
-    alignItems: 'baseline',
   },
   inputWrapper: {
     flexDirection: 'row',
@@ -79,5 +55,13 @@ const styles = StyleSheet.create(theme => ({
   },
   underlineError: {
     backgroundColor: theme.palette.indicator.error,
+  },
+  input: {
+    fontSize: theme.typography.title.size,
+    fontWeight: theme.typography.title.fontWeight,
+    padding: 0,
+    flex: 1,
+    color: theme.palette.text.primary,
+    paddingVertical: theme.spacing(2),
   },
 }));

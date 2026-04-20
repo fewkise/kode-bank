@@ -1,5 +1,4 @@
 import { ScrollView, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 
 import { Icon, Typography } from '@shared/ui/atoms';
@@ -26,35 +25,38 @@ export const AuthPassword = ({
   const { theme } = useUnistyles();
   return (
     <KeyboardView>
-      <SafeAreaView style={styles.forSafe}>
+      <ScrollView
+        contentContainerStyle={styles.forGrow}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={styles.logoContainer}>
           <Icon color={theme.palette.text.primary} name="IconLogoMedium" />
         </View>
 
-        <ScrollView contentContainerStyle={styles.forGrow}>
-          <View style={styles.forContainer}>
-            <Typography
-              color={isSubmitted && passwordError ? 'error' : 'primary'}
-              variant="body15Regular"
-            >
-              {message}
-            </Typography>
-            <AuthInput
-              placeholder="Пароль"
-              isError={isSubmitted && passwordError}
-              value={password}
-              onChangeText={setPassword}
-              isPassword={true}
-            />
-          </View>
-        </ScrollView>
+        <View style={styles.forContainer}>
+          <Typography
+            color={isSubmitted && passwordError ? 'error' : 'primary'}
+            variant="body15Regular"
+          >
+            {message}
+          </Typography>
+          <AuthInput
+            placeholder="Пароль"
+            isError={isSubmitted && passwordError}
+            value={password}
+            onChangeText={setPassword}
+            isPassword={true}
+            isLoading={isLoading}
+          />
+        </View>
+
         <View style={styles.forCenter} />
         <View style={styles.buttonContainer}>
           <PrimaryButton disabled={isLoading} onPress={onPress}>
             Войти
           </PrimaryButton>
         </View>
-      </SafeAreaView>
+      </ScrollView>
     </KeyboardView>
   );
 };
@@ -77,10 +79,9 @@ const styles = StyleSheet.create(theme => ({
   buttonContainer: {
     marginTop: 'auto',
     paddingHorizontal: theme.spacing(2),
-    paddingBottom: theme.spacing(2),
+    paddingBottom: theme.spacing(5),
   },
   logoContainer: {
     alignItems: 'center',
-    marginTop: theme.spacing(-10),
   },
 }));

@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native-unistyles';
 import { Typography } from '@shared/ui/atoms';
 type OtpInputProps = {
   code: string;
-  setCode: (code: string) => void;
+  setCode?: (code: string) => void;
   length?: number;
   isError: boolean;
 };
@@ -14,7 +14,7 @@ export const OtpInput = ({ code, length = 6, isError }: OtpInputProps) => {
   const middle = length / 2 - 1;
 
   return (
-    <View style={[styles.cellsRow, !isError && styles.cellRowError]}>
+    <View style={[styles.cellsRow]}>
       {Array.from({ length }).map((_, i) => {
         const isActive = i === code.length;
         return (
